@@ -1,37 +1,36 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { ThemeProvider, DefaultTheme } from "@react-navigation/native";
+import { useFonts } from 'expo-font'
+import { Stack } from "expo-router";
+import { Toaster } from 'sonner-native'
+import { SheetProvider } from 'react-native-actions-sheet'
+import { GestureHandlerRootView } from "react-native-gesture-handler"
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
+import "react-native-reanimated"
+import "@/global.css"
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+const queryClient = new QueryClient()
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
+    <QueryClientProvider client={queryClient}>
+      <SheetProvider>
+        <ThemeProvider value={DefaultTheme}>
+          <GestureHandlerRootView>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                animation: "simple_push",
+                contentStyle: {
+                  backgroundColor:"#202020"
+                }
+              }}
+            ></Stack>
+            <Toaster richColors position="bottom-center"/>
+          </GestureHandlerRootView>
+        </ThemeProvider>
+      </SheetProvider>
+    </QueryClientProvider>
+  )
+
 }

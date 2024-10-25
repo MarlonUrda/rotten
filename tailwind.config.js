@@ -1,0 +1,73 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./app/**/*.{html,js,jsx,ts,tsx}",
+    "./components/**/*.{html,js,jsx,ts,tsx,mdx}",
+    "./hooks/**/*.{html,js,jsx,ts,tsx,mdx}",
+  ],
+  presets: [require('nativewind/preset')],
+  theme: {
+    extend: {
+      colors: {
+        error: {
+          0: "rgb(var(--color-error-0)/<alpha-value>)",
+          50: "rgb(var(--color-error-50)/<alpha-value>)",
+          100: "rgb(var(--color-error-100)/<alpha-value>)",
+          200: "rgb(var(--color-error-200)/<alpha-value>)",
+          300: "rgb(var(--color-error-300)/<alpha-value>)",
+          400: "rgb(var(--color-error-400)/<alpha-value>)",
+          500: "rgb(var(--color-error-500)/<alpha-value>)",
+          600: "rgb(var(--color-error-600)/<alpha-value>)",
+          700: "rgb(var(--color-error-700)/<alpha-value>)",
+          800: "rgb(var(--color-error-800)/<alpha-value>)",
+          900: "rgb(var(--color-error-900)/<alpha-value>)",
+          950: "rgb(var(--color-error-950)/<alpha-value>)",
+        },
+        success: {
+          0: "rgb(var(--color-success-0)/<alpha-value>)",
+          50: "rgb(var(--color-success-50)/<alpha-value>)",
+          100: "rgb(var(--color-success-100)/<alpha-value>)",
+          200: "rgb(var(--color-success-200)/<alpha-value>)",
+          300: "rgb(var(--color-success-300)/<alpha-value>)",
+          400: "rgb(var(--color-success-400)/<alpha-value>)",
+          500: "rgb(var(--color-success-500)/<alpha-value>)",
+          600: "rgb(var(--color-success-600)/<alpha-value>)",
+          700: "rgb(var(--color-success-700)/<alpha-value>)",
+          800: "rgb(var(--color-success-800)/<alpha-value>)",
+          900: "rgb(var(--color-success-900)/<alpha-value>)",
+          950: "rgb(var(--color-success-950)/<alpha-value>)",
+        },
+        warning: {
+          0: "rgb(var(--color-warning-0)/<alpha-value>)",
+          50: "rgb(var(--color-warning-50)/<alpha-value>)",
+          100: "rgb(var(--color-warning-100)/<alpha-value>)",
+          200: "rgb(var(--color-warning-200)/<alpha-value>)",
+          300: "rgb(var(--color-warning-300)/<alpha-value>)",
+          400: "rgb(var(--color-warning-400)/<alpha-value>)",
+          500: "rgb(var(--color-warning-500)/<alpha-value>)",
+          600: "rgb(var(--color-warning-600)/<alpha-value>)",
+          700: "rgb(var(--color-warning-700)/<alpha-value>)",
+          800: "rgb(var(--color-warning-800)/<alpha-value>)",
+          900: "rgb(var(--color-warning-900)/<alpha-value>)",
+          950: "rgb(var(--color-warning-950)/<alpha-value>)",
+        },
+        info: {
+          0: "rgb(var(--color-info-0)/<alpha-value>)",
+          50: "rgb(var(--color-info-50)/<alpha-value>)",
+          100: "rgb(var(--color-info-100)/<alpha-value>)",
+          200: "rgb(var(--color-info-200)/<alpha-value>)",
+          300: "rgb(var(--color-info-300)/<alpha-value>)",
+          400: "rgb(var(--color-info-400)/<alpha-value>)",
+          500: "rgb(var(--color-info-500)/<alpha-value>)",
+          600: "rgb(var(--color-info-600)/<alpha-value>)",
+          700: "rgb(var(--color-info-700)/<alpha-value>)",
+          800: "rgb(var(--color-info-800)/<alpha-value>)",
+          900: "rgb(var(--color-info-900)/<alpha-value>)",
+          950: "rgb(var(--color-info-950)/<alpha-value>)",
+        },
+      }
+    },
+  },
+  plugins: [],
+}
+
