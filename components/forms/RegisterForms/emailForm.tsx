@@ -11,6 +11,9 @@ import { useMutation } from "@tanstack/react-query";
 import AuthController from "@/api/controllers/AuthController";
 import myToast from "@/components/toast";
 import { Link } from "expo-router";
+import { formStyles } from "@/styles/formStyleSheet";
+import { Button } from "react-native-elements";
+import { Text, View } from "react-native";
 
 interface EmailFormProps {
   setTab: (tab: 0 | 1) => void;
@@ -45,5 +48,43 @@ export function EmailForm({ setTab, fullForm }: EmailFormProps) {
     setTab(1)
   }
 
-  
+  return (
+    <View style={formStyles.container}>
+      <FormTextInput 
+        name="email"
+        control={form.control}
+        label="Correo Electronico"
+        placeholder="tucorreo@gmail.com"
+        error={form.formState.errors.email}
+      />
+      <View>
+        <Button 
+          onPress={form.handleSubmit(onSubmit)}
+          title="Siguiente"
+          buttonStyle={formStyles.button} 
+          // loading={verifyEmailMutation.isPending}
+          // disabled={form.formState.isSubmitting || verifyEmailMutation.isPending}
+        />
+      </View>
+      <View>
+        <Link href="/" style={formStyles.sideText}>
+          Volver al inicio de sesion
+        </Link>
+      </View>
+    </View>
+    // <View style={formStyles.container}>
+    //   <Text>EmailForm</Text>
+    //    <FormTextInput 
+    //     name="email"
+    //     control={form.control}
+    //     label="Correo Electronico"
+    //     placeholder="tucorreo@gmail.com"
+    //     error={form.formState.errors.email}
+    //   />
+    //   <Button
+    //     title="Siguiente"
+    //     onPress={form.handleSubmit(onSubmit)}
+    //   />
+    // </View>
+  )
 }

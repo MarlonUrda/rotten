@@ -3,7 +3,8 @@ import { StyleSheet } from "react-native";
 export const generic = StyleSheet.create({
   safeArea: {
     flex: 1,
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   headerContainer: {
     flexDirection: "column",
@@ -22,5 +23,12 @@ export const generic = StyleSheet.create({
     fontSize: 16,
     fontWeight: "medium",
     marginBottom: 4
+  },
+  formwrapper: {
+    height: "50%",
+    padding: 16,
+    borderRadius: 8,
+    backgroundColor: "#2d2d2d",
+    width: "100%"
   }
 })

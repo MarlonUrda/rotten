@@ -35,7 +35,7 @@ export function FormTextInput ({
   const [focus, setFocus] = useState(false)
 
   return (
-    <Animated.View layout={LinearTransition} className={"flex flex-col gap-2"}>
+    <Animated.View layout={LinearTransition} style={formStyles.inputContainer}>
       {label && <FormLabel label={label}/>}
       <Controller 
         name={name}

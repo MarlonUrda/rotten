@@ -1,3 +1,4 @@
+import { formStyles } from "@/styles/formStyleSheet";
 import type { FieldError } from "react-hook-form";
 import { Text, StyleSheet } from "react-native";
 import Animated, {
@@ -19,7 +20,7 @@ export function FormError({ error }: FormErrorProps) {
           exiting={FadeOut}
           layout={LinearTransition}
         >
-          <Text className="text-red-500 text-xl">{error.message}</Text>
+          <Text style={formStyles.error}>{error.message}</Text>
         </Animated.View>
       )}
     </>

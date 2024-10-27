@@ -1,3 +1,4 @@
+import { formStyles } from "@/styles/formStyleSheet";
 import { Text } from "react-native";
 
 interface FormLabelProps {
@@ -10,7 +11,7 @@ export function FormLabel(
     }: FormLabelProps
 ) {
     return (
-        <Text className="block text-xl font-medium text-white">
+        <Text style={formStyles.inputLabel}>
             {label}
         </Text>
     )

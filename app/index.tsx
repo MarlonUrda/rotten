@@ -14,7 +14,7 @@ export default function Screen() {
         </Text>
       </View>
 
-      <View className=" h-[50%] p-4 rounded-md bg-gray-800 shadow-md w-full">
+      <View style={generic.formwrapper}>
         <LoginForm />
       </View>
     </SafeAreaView>

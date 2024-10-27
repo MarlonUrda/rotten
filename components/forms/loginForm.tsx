@@ -11,7 +11,6 @@ import { FormTextInput, UnstyledFormTextInput } from "./formsUtils/FormTextInput
 import { Button } from "react-native-elements"
 import { verifyInstallation } from "nativewind"
 import { formStyles } from "@/styles/formStyleSheet";
-import { loginStyles } from "@/styles/loginStyleSheet";
 
 const loginFormSchema = z.object({
   email: z
@@ -74,10 +73,10 @@ export default function LoginForm() {
         placeholder=""
         error={form.formState.errors.password}
       />
-      <Animated.View layout={LinearTransition} style={loginStyles.container}>
+      <Animated.View layout={LinearTransition} style={formStyles.sideText}>
         <Link
           href={"/auth/sendResetPage"}
-          style={loginStyles.text}
+          style={formStyles.text}
         >
           Olvidé mi contraseña
         </Link>
@@ -85,16 +84,17 @@ export default function LoginForm() {
       <Animated.View layout={LinearTransition}>
         <Button 
           onPress={form.handleSubmit(onSubmit)}
-          className="bg-blue-500 text-center"
+          style={formStyles.button}
           loading={loginMutation.isPending}
+          disabled={loginMutation.isPending}
           title="Iniciar Sesion"
         >
         </Button>
       </Animated.View>
-      <Animated.View layout={LinearTransition} style={loginStyles.container}>
+      <Animated.View layout={LinearTransition} style={formStyles.sideText}>
         <Link
           href={"/auth/registerPage"}
-          style={loginStyles.text}
+          style={formStyles.text}
         >
           Crea una cuenta aqui
         </Link>
