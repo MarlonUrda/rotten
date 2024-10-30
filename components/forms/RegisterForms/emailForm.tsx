@@ -14,6 +14,7 @@ import { Link } from "expo-router";
 import { formStyles } from "@/styles/formStyleSheet";
 import { Button } from "react-native-elements";
 import { Text, View } from "react-native";
+import { useFonts } from "expo-font";
 
 interface EmailFormProps {
   setTab: (tab: 0 | 1) => void;
@@ -21,6 +22,15 @@ interface EmailFormProps {
 }
 
 export function EmailForm({ setTab, fullForm }: EmailFormProps) {
+
+  const fontLoaded = useFonts({
+    "Poppins": require("../../../assets/fonts/Poppins-Regular.ttf"),
+  })
+
+  if(!fontLoaded) {
+    console.log("No font loaded");
+  }
+
   const form = useForm<EmailSchema>({
     resolver: zodResolver(emailSchema),
     defaultValues: {

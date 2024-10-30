@@ -7,10 +7,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FullSchema, fullSchema } from "./registerSchemas";
 import { StyleSheet } from "react-native";
+import { useFonts } from "expo-font";
 
 type TabNumber = 0 | 1 | 2
 
 export default function RegisterForm() {
+
+  const fontLoaded = useFonts({
+    "Poppins": require("../../../assets/fonts/Poppins-Regular.ttf"),
+  })
+
+  if(!fontLoaded) {
+    console.log("No font loaded");
+  }
+
   const form = useForm<FullSchema>({
     resolver: zodResolver(fullSchema),
     defaultValues: {

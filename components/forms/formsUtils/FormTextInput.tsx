@@ -7,9 +7,9 @@ import { FormLabel } from "./FormLabel";
 import { StyleProp } from "react-native";
 import { ViewStyle } from "@expo/html-elements/build/primitives/View";
 import { TextInput } from "react-native-gesture-handler";
-import { cssInterop } from "nativewind";
 import React, { Ref, useState } from "react";
 import { formStyles } from "@/styles/formStyleSheet";
+import { Shadow } from "react-native-shadow-2"
 
 interface FormTextInputProps {
   placeholder?: string;
@@ -42,25 +42,27 @@ export function FormTextInput ({
         control={control}
         render={({ field: { onChange, onBlur, value }}) => (
           <Animated.View>
-            <Input
-              style={[
-                formStyles.input,
-                focus && formStyles.inputFocus
-              ]} 
-              placeholder={placeholder}
-              placeholderTextColor={"#fff"}
-              placeholderClassName=""
-              onBlur={() => {
-                setFocus(false)
-                onBlur()
-              }}
-              onFocus={() => setFocus(true)}
-              onChangeText={onChange}
-              value={value}
-              secureTextEntry={type === "password"}
-              maxLength={100}
-            >
-            </Input>
+            <Shadow stretch offset={[5, 4]} paintInside startColor="#000" endColor="#000" distance={2}>
+              <Input
+                style={[
+                  formStyles.input,
+                  focus && formStyles.inputFocus
+                ]} 
+                placeholder={placeholder}
+                placeholderTextColor={"#000"}
+                placeholderClassName=""
+                onBlur={() => {
+                  setFocus(false)
+                  onBlur()
+                }}
+                onFocus={() => setFocus(true)}
+                onChangeText={onChange}
+                value={value}
+                secureTextEntry={type === "password"}
+                maxLength={100}
+              >
+              </Input>
+            </Shadow>
           </Animated.View>
         )} 
       />
@@ -86,24 +88,26 @@ export function UnstyledFormTextInput({
         name={name}
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <Input
-            style={[
-              formStyles.input,
-              focus && formStyles.inputFocus
-            ]} 
-            placeholder={placeholder}
-            placeholderClassName="text-gray-200"
-            value={value}
-            onChangeText={onChange}
-            onBlur={() => {
-              setFocus(false)
-              onBlur()
-            }}
-            onFocus={() => setFocus(true)}
-            secureTextEntry={type === "password"}
-            autoFocus={autofocus}
-            maxLength={100}
-          />
+          <Shadow stretch offset={[5, 4]} startColor="#000" endColor="#000" distance={2}>
+            <Input
+              style={[
+                formStyles.input,
+                focus && formStyles.inputFocus
+              ]} 
+              placeholder={placeholder}
+              placeholderClassName="text-gray-200"
+              value={value}
+              onChangeText={onChange}
+              onBlur={() => {
+                setFocus(false)
+                onBlur()
+              }}
+              onFocus={() => setFocus(true)}
+              secureTextEntry={type === "password"}
+              autoFocus={autofocus}
+              maxLength={100}
+            />
+          </Shadow>
         )}
       />
       <FormError error={error} />

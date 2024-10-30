@@ -10,6 +10,7 @@ import { useRouter } from "expo-router";
 import { RegisterRequest } from "@/types/api/Register";
 import myToast from "@/components/toast";
 import { formStyles } from "@/styles/formStyleSheet";
+import { useFonts } from "expo-font";
 
 interface PasswordFormProps {
   setTab: (tabs: 0 | 1 | 2) => void;
@@ -18,6 +19,14 @@ interface PasswordFormProps {
 
 export function PasswordForm({ setTab, fullForm }: PasswordFormProps) {
   const router = useRouter()
+
+  const fontLoaded = useFonts({
+    "Poppins": require("../../../assets/fonts/Poppins-Regular.ttf"),
+  })
+
+  if(!fontLoaded) {
+    console.log("No font loaded");
+  }
 
   const form = useForm<PasswordSchema>({
     resolver: zodResolver(passwordSchema),

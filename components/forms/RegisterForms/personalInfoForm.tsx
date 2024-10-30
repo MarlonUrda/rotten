@@ -5,6 +5,7 @@ import { personalInfoSchema, PersonalInfoSchema, FullSchema } from "./registerSc
 import Animated, { LinearTransition, SlideInRight, SlideOutLeft } from "react-native-reanimated";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formStyles } from "@/styles/formStyleSheet";
+import { useFonts } from "expo-font";
 
 interface PersonalInfoFormProps {
   setTab: (tab: 0 | 1 | 2) => void;
@@ -15,6 +16,15 @@ export function PersonalInfoForm({
   setTab,
   fullForm
 }: PersonalInfoFormProps){
+
+  const fontLoaded = useFonts({
+    "Poppins": require("../../../assets/fonts/Poppins-Regular.ttf"),
+  })
+
+  if(!fontLoaded) {
+    console.log("No font loaded");
+  }
+
   const form = useForm<PersonalInfoSchema>({
     resolver: zodResolver(personalInfoSchema),
     defaultValues: {

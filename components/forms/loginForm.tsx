@@ -11,6 +11,7 @@ import { FormTextInput, UnstyledFormTextInput } from "./formsUtils/FormTextInput
 import { Button } from "react-native-elements"
 import { verifyInstallation } from "nativewind"
 import { formStyles } from "@/styles/formStyleSheet";
+import { Shadow } from "react-native-shadow-2";
 
 const loginFormSchema = z.object({
   email: z
@@ -29,8 +30,6 @@ const loginFormSchema = z.object({
 
 export default function LoginForm() {
   const router = useRouter();
-
-  verifyInstallation()
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -82,14 +81,16 @@ export default function LoginForm() {
         </Link>
       </Animated.View>
       <Animated.View layout={LinearTransition}>
-        <Button 
-          onPress={form.handleSubmit(onSubmit)}
-          style={formStyles.button}
-          loading={loginMutation.isPending}
-          disabled={loginMutation.isPending}
-          title="Iniciar Sesion"
-        >
-        </Button>
+        <Shadow stretch startColor="#000" endColor="#000" style={{borderRadius: 16}} distance={2} offset={[5, 4]}>
+          <Button 
+            onPress={form.handleSubmit(onSubmit)}
+            buttonStyle={formStyles.button}
+            loading={loginMutation.isPending}
+            disabled={loginMutation.isPending}
+            title="Iniciar Sesion"
+          >
+          </Button>
+        </Shadow>
       </Animated.View>
       <Animated.View layout={LinearTransition} style={formStyles.sideText}>
         <Link

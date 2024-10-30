@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import "react-native-reanimated"
 import "@/global.css"
+import LightTheme from "@/assets/theme/LightTheme";
 
 const queryClient = new QueryClient()
 
@@ -15,14 +16,14 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SheetProvider>
-        <ThemeProvider value={DefaultTheme}>
+        <ThemeProvider value={LightTheme}>
           <GestureHandlerRootView>
             <Stack
               screenOptions={{
                 headerShown: false,
                 animation: "simple_push",
                 contentStyle: {
-                  backgroundColor:"#202020"
+                  backgroundColor:"#68fa48"
                 }
               }}
             ></Stack>

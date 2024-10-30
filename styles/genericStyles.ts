@@ -28,7 +28,7 @@ export const generic = StyleSheet.create({
     height: "50%",
     padding: 16,
     borderRadius: 8,
-    backgroundColor: "#2d2d2d",
+    // backgroundColor: "#2d2d2d",
     width: "100%"
   }
 })
