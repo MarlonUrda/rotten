@@ -1,23 +1,18 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, SafeAreaView } from "react-native";
+import { Text } from "@/components/ui/text";
 import LoginForm from "@/components/forms/loginForm";
 import { generic } from "@/styles/genericStyles";
 import { useFonts } from "expo-font";
+import styleValues from "@/styles/styleValues";
 
 export default function Screen() {
-
-  const fontLoaded = useFonts({
-    "poppins": require("../assets/fonts/Poppins-Regular.ttf"),
-    "poppinsBold": require("../assets/fonts/Poppins-Bold.ttf")
-  })
-
-  if(!fontLoaded) {
-    console.log("No font loaded");
-  }
 
   return (
     <SafeAreaView style={generic.safeArea}>
       <View style={generic.headerContainer}>
-        <Text style={generic.h1}>
+        <Text style={[generic.h1, {
+          fontFamily: styleValues.fontFamily.sansBlack
+        }]}>
           Rotten Minds
         </Text>
         <Text style={generic.h3}>

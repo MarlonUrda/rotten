@@ -1,42 +1,42 @@
 import { StyleSheet } from "react-native";
+import styleValues from "./styleValues";
 
 export const formStyles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: styleValues.pixels.full,
     flexDirection: "column",
-    gap: 16,
-    padding: 32,
+    gap: styleValues.pixels[4],
+    padding: styleValues.pixels[4],
     backgroundColor: "transparent",
-    borderRadius: 8,  
+    borderRadius: styleValues.borderRadius.base,  
   },
   inputContainer: {
     display: "flex",
     flexDirection: "column",
-    gap: 6
+    gap: styleValues.pixels[2],
   },
   inputLabel: {
-    fontSize: 20,
+    fontSize: styleValues.font.base,
     fontWeight: "500",
     fontFamily: "poppinsBold",
-    color: "#000"
+    color: "#000",
   },
   input: {
-    color: "#fff",
+    color: "#000",
     backgroundColor: "#D3D3D3",
-    height: 40,
-    padding: 4,
-    borderWidth: 2,
-    borderRadius: 8, 
-    fontFamily: "poppins"
+    height: styleValues.pixels[10],
+    padding: styleValues.pixels[1],
+    borderWidth: styleValues.borderWidth[2],
+    borderRadius: styleValues.borderRadius.base, 
+    fontFamily: styleValues.fontFamily.sans
   },
   inputFocus: {
-    shadowColor: "rgba(0,0,0,1)",
-    borderWidth: 3,
-    backgroundColor: "#FFA6F6"
+    borderWidth: styleValues.borderWidth[4],
+    backgroundColor: styleValues.colors.purple[100]
   },
   button: {
-    backgroundColor: "#3e45c2",
-    borderRadius: 16,
+    backgroundColor: styleValues.colors.blue[500],
+    borderRadius: styleValues.borderRadius.base,
     borderWidth: 3,
     borderColor: "#000",   
     padding: 10,
@@ -44,7 +44,7 @@ export const formStyles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     width: "100%",
-    fontFamily: "poppins",
+    fontFamily: styleValues.fontFamily.sans,
   },
   buttonSecondary: {
     backgroundColor: "none",
@@ -55,24 +55,32 @@ export const formStyles = StyleSheet.create({
     textAlign: "center",
     width: "100%",
     marginTop: 16,
-    fontFamily: "poppins",
+    fontFamily: styleValues.fontFamily.sans,
   },
   sideText: {
     width: "100%", 
     display: "flex", 
     alignItems: "flex-end", 
-    borderColor: "#3b82f6", 
+    borderColor: styleValues.colors.purple[500], 
     color: "#3b82f6", 
-    fontFamily: "poppins"
+    fontFamily: styleValues.fontFamily.sans
   },
   text: {
     textAlign: "center",
-    color: "#3b82f6",
-    fontFamily: "poppins" 
+    color: styleValues.colors.purple[500],
+    fontFamily: styleValues.fontFamily.sans 
   },
   error: {
-    color: "#ef4444",
-    fontSize: 14,
-    fontFamily: "poppins"
+    color: styleValues.colors.red[500],
+    fontSize: styleValues.font.base,
+    fontFamily: styleValues.fontFamily.sans,
+  }
+})
+
+export const genericStyles = StyleSheet.create({
+  columnContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: styleValues.pixels[4],
   }
 })

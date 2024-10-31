@@ -1,7 +1,7 @@
 import { TextInput as Input } from "react-native";
 import { Controller } from "react-hook-form";
 import type { Control, FieldError } from "react-hook-form";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import Animated, { LinearTransition, useSharedValue } from "react-native-reanimated";
 import { FormError } from "./FormError";
 import { FormLabel } from "./FormLabel";
 import { StyleProp } from "react-native";
@@ -10,6 +10,7 @@ import { TextInput } from "react-native-gesture-handler";
 import React, { Ref, useState } from "react";
 import { formStyles } from "@/styles/formStyleSheet";
 import { Shadow } from "react-native-shadow-2"
+import styleValues from "@/styles/styleValues";
 
 interface FormTextInputProps {
   placeholder?: string;
@@ -42,7 +43,9 @@ export function FormTextInput ({
         control={control}
         render={({ field: { onChange, onBlur, value }}) => (
           <Animated.View>
-            <Shadow stretch offset={[5, 4]} paintInside startColor="#000" endColor="#000" distance={2}>
+            <Shadow 
+              {...styleValues.shadow.md}
+            >
               <Input
                 style={[
                   formStyles.input,

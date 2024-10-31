@@ -12,6 +12,7 @@ import { Button } from "react-native-elements"
 import { verifyInstallation } from "nativewind"
 import { formStyles } from "@/styles/formStyleSheet";
 import { Shadow } from "react-native-shadow-2";
+import styleValues from "@/styles/styleValues";
 
 const loginFormSchema = z.object({
   email: z
@@ -64,7 +65,7 @@ export default function LoginForm() {
         placeholder="example123@gmail.com"
         error={form.formState.errors.email}
       />
-      <UnstyledFormTextInput 
+      <FormTextInput 
         name="password"
         type="password"
         control={form.control}
@@ -81,7 +82,7 @@ export default function LoginForm() {
         </Link>
       </Animated.View>
       <Animated.View layout={LinearTransition}>
-        <Shadow stretch startColor="#000" endColor="#000" style={{borderRadius: 16}} distance={2} offset={[5, 4]}>
+        <Shadow {...styleValues.shadow.md}>
           <Button 
             onPress={form.handleSubmit(onSubmit)}
             buttonStyle={formStyles.button}
