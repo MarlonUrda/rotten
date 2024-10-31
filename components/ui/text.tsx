@@ -1,5 +1,5 @@
 import { Text as RNText, TextProps } from "react-native";
-import styleValues from "@/styles/styleValues";
+import s from "@/styles/styleValues";
 
 interface CustomTextProps extends TextProps {
     weight?: "bold" | "black" | "normal";
@@ -15,7 +15,7 @@ export function Text(
     <RNText
       style={{
         ...(typeof props.style === 'object' ? props.style : {}),
-        fontFamily: styleValues.fontFamily.sans,
+        fontFamily: s.fontFamily.sans,
       }}
       {...props}
     />

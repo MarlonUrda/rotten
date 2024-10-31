@@ -10,7 +10,7 @@ import { TextInput } from "react-native-gesture-handler";
 import React, { Ref, useState } from "react";
 import { formStyles } from "@/styles/formStyleSheet";
 import { Shadow } from "react-native-shadow-2"
-import styleValues from "@/styles/styleValues";
+import s from "@/styles/styleValues";
 
 interface FormTextInputProps {
   placeholder?: string;
@@ -44,7 +44,7 @@ export function FormTextInput ({
         render={({ field: { onChange, onBlur, value }}) => (
           <Animated.View>
             <Shadow 
-              {...styleValues.shadow.md}
+              {...s.shadow.md}
             >
               <Input
                 style={[

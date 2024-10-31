@@ -1,5 +1,5 @@
 import { DimensionValue } from "react-native";
-const styleValues = {
+const s = {
   pixels: {
     1: 4,
     2: 8,
@@ -207,7 +207,12 @@ const styleValues = {
       distance: 2,
       offset: [5, 4] as [number, number],
     }
+  },
+  timing: {
+    fast: 100,
+    base: 400,
+    slow: 600,
   }
-};
+} as const;
 
-export default styleValues;
+export default s;

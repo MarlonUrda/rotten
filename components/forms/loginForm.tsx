@@ -7,12 +7,11 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter, Link } from "expo-router";
 import myToast from "../toast";
 import AuthController from "@/api/controllers/AuthController";
-import { FormTextInput, UnstyledFormTextInput } from "./formsUtils/FormTextInput";
-import { Button } from "react-native-elements"
-import { verifyInstallation } from "nativewind"
+import { FormTextInput } from "./formsUtils/FormTextInput";
 import { formStyles } from "@/styles/formStyleSheet";
 import { Shadow } from "react-native-shadow-2";
-import styleValues from "@/styles/styleValues";
+import s from "@/styles/styleValues";
+import { Button } from "../ui/button";
 
 const loginFormSchema = z.object({
   email: z
@@ -82,14 +81,12 @@ export default function LoginForm() {
         </Link>
       </Animated.View>
       <Animated.View layout={LinearTransition}>
-        <Shadow {...styleValues.shadow.md}>
+        <Shadow {...s.shadow.md}>
           <Button 
             onPress={form.handleSubmit(onSubmit)}
-            buttonStyle={formStyles.button}
-            loading={loginMutation.isPending}
             disabled={loginMutation.isPending}
-            title="Iniciar Sesion"
           >
+            <Text></Text>
           </Button>
         </Shadow>
       </Animated.View>

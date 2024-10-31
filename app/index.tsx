@@ -3,7 +3,7 @@ import { Text } from "@/components/ui/text";
 import LoginForm from "@/components/forms/loginForm";
 import { generic } from "@/styles/genericStyles";
 import { useFonts } from "expo-font";
-import styleValues from "@/styles/styleValues";
+import s from "@/styles/styleValues";
 
 export default function Screen() {
 
@@ -11,7 +11,7 @@ export default function Screen() {
     <SafeAreaView style={generic.safeArea}>
       <View style={generic.headerContainer}>
         <Text style={[generic.h1, {
-          fontFamily: styleValues.fontFamily.sansBlack
+          fontFamily: s.fontFamily.sansBlack,
         }]}>
           Rotten Minds
         </Text>

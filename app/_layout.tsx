@@ -20,6 +20,8 @@ import {
   Lexend_800ExtraBold,
   Lexend_900Black,
 } from '@expo-google-fonts/lexend';
+import { View } from "react-native";
+import { Text } from "@/components/ui/text";
 
 const queryClient = new QueryClient()
 
@@ -38,7 +40,10 @@ export default function RootLayout() {
   });
 
   if (!fontsLoaded){
-    console.log("aiujsdfgioasdhiopas")
+    console.log("Fonts not loaded")
+    return <View>
+      <Text>Loading...</Text>
+    </View>
   }
 
 

@@ -1,5 +1,5 @@
 import { formStyles } from "@/styles/formStyleSheet";
-import { Text } from "react-native";
+import { Text } from "@/components/ui/text";
 
 interface FormLabelProps {
     label: string;
