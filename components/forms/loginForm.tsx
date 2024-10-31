@@ -1,6 +1,6 @@
 import Animated, { LinearTransition } from "react-native-reanimated";
 import z from "zod"
-import { ActivityIndicator, StyleSheet, Text } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import { formStyles } from "@/styles/formStyleSheet";
 import { Shadow } from "react-native-shadow-2";
 import s from "@/styles/styleValues";
 import { Button } from "../ui/button";
+import { Text } from "../ui/text";
 
 const loginFormSchema = z.object({
   email: z
@@ -81,14 +82,17 @@ export default function LoginForm() {
         </Link>
       </Animated.View>
       <Animated.View layout={LinearTransition}>
-        <Shadow {...s.shadow.md}>
           <Button 
             onPress={form.handleSubmit(onSubmit)}
             disabled={loginMutation.isPending}
           >
-            <Text></Text>
+            <Text
+              weight="bold"
+              size="lg"
+            >
+              Iniciar sesión
+            </Text>
           </Button>
-        </Shadow>
       </Animated.View>
       <Animated.View layout={LinearTransition} style={formStyles.sideText}>
         <Link

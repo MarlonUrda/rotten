@@ -58,7 +58,7 @@ export default function RootLayout() {
                 headerShown: false,
                 animation: "simple_push",
                 contentStyle: {
-                  backgroundColor:"#68fa48"
+                  backgroundColor:"white"
                 }
               }}
             ></Stack>
