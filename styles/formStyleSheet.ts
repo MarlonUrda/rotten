@@ -22,10 +22,6 @@ export const formStyles = StyleSheet.create({
     color: "#000",
   },
   input: {
-    color: "#000",
-    padding: s.pixels[1],
-    borderWidth: s.borderWidth[2],
-    borderRadius: s.borderRadius.base, 
     fontFamily: s.fontFamily.sans
   },
   inputFocus: {

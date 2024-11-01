@@ -8,11 +8,9 @@ import { useRouter, Link } from "expo-router";
 import myToast from "../toast";
 import AuthController from "@/api/controllers/AuthController";
 import { FormTextInput } from "./formsUtils/FormTextInput";
-import { formStyles, mtForm } from "@/styles/formStyleSheet";
+import {  mtForm } from "@/styles/formStyleSheet";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import mt from "@/styles/mtWind";
-import s from "@/styles/styleValues";
 
 const loginFormSchema = z.object({
   email: z
@@ -88,7 +86,6 @@ export default function LoginForm() {
           >
             <Text
               weight="bold"
-              size="md"
             >
               Iniciar sesión
             </Text>
@@ -106,13 +103,3 @@ export default function LoginForm() {
   )
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    padding: 16, // p-4 in Tailwind
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16, // gap-4 in Tailwind
-  },
-});

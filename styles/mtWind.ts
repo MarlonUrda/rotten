@@ -59,6 +59,9 @@ const mt = {
     display: "flex",
     flexDirection: "row"
   },
+  flex1: {
+    flex: 1
+  },
   p: (value: AbsolutePixels) => ({
     padding: s.pixels[value]
   }),
@@ -77,7 +80,7 @@ const mt = {
   fontSize: (value: FontSize) => ({
     fontSize: s.font[value]
   }),
-  fontWeight: (value: "bold" | "black") => ({
+  fontWeight: (value: "bold" | "black" | "normal") => ({
     fontWeight: s.font[value]
   }),
   items: (value: "center" | "flex-start" | "flex-end") => ({
@@ -100,6 +103,12 @@ const mt = {
   },
   fontSans: {
     fontFamily: s.fontFamily.sans
+  },
+  italics: {
+    fontStyle: "italic"
+  },
+  underline: {
+    textDecorationLine: "underline"
   },
   shadow: s.shadow
 } as const;

@@ -213,7 +213,7 @@ const s = {
       startColor: "#000",
       endColor: "#000",
       style: { borderRadius: 8 },
-      distance: 2,
+      distance: 1,
       offset: [5, 4] as [number, number],
     }
   },

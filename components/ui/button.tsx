@@ -24,7 +24,6 @@ interface ButtonProps extends PressableProps {
   loading?: boolean;
   children: React.ReactNode
 }
-
 export function Button({ ...props }: ButtonProps) {
   const [pressed, setPressed] = React.useState(false);
   const translateStyle = useAnimatedStyle(() => {
@@ -43,11 +42,9 @@ export function Button({ ...props }: ButtonProps) {
   return (
     <Shadow {...s.shadow.md}>
       <View>
-
-      
       <Animated.View style={[translateStyle]}>
         <AnimatedPressable
-          style={[buttonStyles(props.variant).button, props.style, props.disabled ? { opacity: 0.5 } : {}]}
+          style={[buttonStyles(props.variant).button, props.style, props.disabled ? { opacity: 0.8 } : {}]}
           {...props}
           onPressIn={(e) => {
             setPressed(true);
