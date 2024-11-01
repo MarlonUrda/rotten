@@ -11,6 +11,7 @@ import React, { Ref, useState } from "react";
 import { formStyles } from "@/styles/formStyleSheet";
 import { Shadow } from "react-native-shadow-2"
 import s from "@/styles/styleValues";
+import mt from "@/styles/mtWind";
 
 interface FormTextInputProps {
   placeholder?: string;
@@ -36,7 +37,7 @@ export function FormTextInput ({
   const [focus, setFocus] = useState(false)
 
   return (
-    <Animated.View layout={LinearTransition} style={formStyles.inputContainer}>
+    <Animated.View layout={LinearTransition} style={[mt.flexCol, mt.gap(2)]}>
       {label && <FormLabel label={label}/>}
       <Controller 
         name={name}
@@ -48,9 +49,11 @@ export function FormTextInput ({
             >
               <Input
                 style={[
-                  formStyles.input,
-                  focus && formStyles.inputFocus
+                  formStyles.input, mt.backgroundColor("gray"),mt.h(10),mt.p(1), 
+                  focus && mt.backgroundColor("purple", 200)
                 ]} 
+
+                selectionColor={"#000"}
                 placeholder={placeholder}
                 placeholderTextColor={"#000"}
                 placeholderClassName=""

@@ -10,17 +10,19 @@ import { Shadow } from "react-native-shadow-2";
 import s from "@/styles/styleValues";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
   withTiming,
   
 } from "react-native-reanimated";
-import React, { useEffect } from "react";
+import React from "react";
+import { ActivityIndicator } from "react-native";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface ButtonProps extends PressableProps {
   variant?: "primary" | "secondary" | "error" | "success";
   style?: StyleProp<ViewStyle>;
+  loading?: boolean;
+  children: React.ReactNode
 }
 
 export function Button({ ...props }: ButtonProps) {
@@ -45,7 +47,7 @@ export function Button({ ...props }: ButtonProps) {
       
       <Animated.View style={[translateStyle]}>
         <AnimatedPressable
-          style={[buttonStyles(props.variant).button, props.style]}
+          style={[buttonStyles(props.variant).button, props.style, props.disabled ? { opacity: 0.5 } : {}]}
           {...props}
           onPressIn={(e) => {
             setPressed(true);
@@ -56,9 +58,9 @@ export function Button({ ...props }: ButtonProps) {
             props.onPressOut?.(e);
           }}
         >
-          {typeof props.children === 'function'
-            ? (props.children as (state: any) => React.ReactNode)({})
-            : props.children}
+            {props.loading ? (
+            <ActivityIndicator color={s.colors.white} />
+            ) : props.children}
         </AnimatedPressable>
       </Animated.View>
       </View>

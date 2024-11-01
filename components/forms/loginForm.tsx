@@ -12,6 +12,7 @@ import { formStyles, mtForm } from "@/styles/formStyleSheet";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
 import mt from "@/styles/mtWind";
+import s from "@/styles/styleValues";
 
 const loginFormSchema = z.object({
   email: z
@@ -46,6 +47,7 @@ export default function LoginForm() {
     },
     onSuccess: (data) => {
       myToast(true, `Bienvenido ${data.user.firstName}`)
+      form.reset()
       router.push("/movies")
     }
   })
@@ -70,10 +72,10 @@ export default function LoginForm() {
         placeholder=""
         error={form.formState.errors.password}
       />
-      <Animated.View layout={LinearTransition} style={formStyles.sideText}>
+      <Animated.View layout={LinearTransition} style={mtForm.sideText}>
         <Link
           href={"/auth/sendResetPage"}
-          style={formStyles.text}
+          style={mtForm.text}
         >
           Olvidé mi contraseña
         </Link>
@@ -82,19 +84,20 @@ export default function LoginForm() {
           <Button 
             onPress={form.handleSubmit(onSubmit)}
             disabled={loginMutation.isPending}
+            loading={loginMutation.isPending}
           >
             <Text
               weight="bold"
-              size="lg"
+              size="md"
             >
               Iniciar sesión
             </Text>
           </Button>
       </Animated.View>
-      <Animated.View layout={LinearTransition} style={formStyles.sideText}>
+      <Animated.View layout={LinearTransition} style={mtForm.sideText}>
         <Link
           href={"/auth/registerPage"}
-          style={formStyles.text}
+          style={mtForm.text}
         >
           Crea una cuenta aqui
         </Link>

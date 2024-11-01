@@ -1,5 +1,4 @@
 import { ThemeProvider, DefaultTheme } from "@react-navigation/native";
-import { useFonts } from 'expo-font'
 import { Stack } from "expo-router";
 import { Toaster } from 'sonner-native'
 import { SheetProvider } from 'react-native-actions-sheet'
@@ -27,7 +26,7 @@ const queryClient = new QueryClient()
 
 export default function RootLayout() {
 
-  let [fontsLoaded] = useFonts({
+  let [fontsLoaded] = useLexend({
     Lexend_100Thin,
     Lexend_200ExtraLight,
     Lexend_300Light,
