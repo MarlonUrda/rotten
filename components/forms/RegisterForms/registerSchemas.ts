@@ -1,22 +1,17 @@
 import z from "zod";
 
-export const emailSchema = z.object({
+export const infoSchema = z.object({
   email: z
     .string()
     .min(1, "Se debe ingresar un email.")
     .max(50, "El email es muy largo.")
     .email("Email invalido.")
     .toLowerCase(),
+  firstName: z.string({message: "Ingresa un nombre"}).min(1, "Se debe ingresar un nombre."),
+  lastName: z.string({message: "Ingresa un apellido"}).min(1, "Se debe ingresar un apellido."),
 });
 
-export type EmailSchema = z.infer<typeof emailSchema>;
-
-export const personalInfoSchema = z.object({
-  firstName: z.string().min(1, "Se debe ingresar un nombre."),
-  lastName: z.string().min(1, "Se debe ingresar un apellido."),
-});
-
-export type PersonalInfoSchema = z.infer<typeof personalInfoSchema>;
+export type InfoSchema = z.infer<typeof infoSchema>;
 
 export const passwordSchema = z
   .object({
@@ -38,8 +33,7 @@ export const passwordSchema = z
 export type PasswordSchema = z.infer<typeof passwordSchema>;
 
 export const fullSchema = z.object({
-  email: emailSchema,
-  personalInfo: personalInfoSchema,
+  info: infoSchema,
   password: passwordSchema,
 });
 

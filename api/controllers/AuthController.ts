@@ -68,12 +68,12 @@ export default class AuthController {
       const res = await superFetch<
         VerifyEmailAvailability,
         VerifyEmailAvailabilityResponse,
-        "emailAvilable"
+        "checkEmail"
       >({
         options: {
           method: "POST",
         },
-        route: "emailAvilable",
+        route: "checkEmail",
         routeParams: [],
         responseSchema: VerifyEmailAvailabilityResponseSchema,
         payload: payload,

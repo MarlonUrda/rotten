@@ -11,11 +11,14 @@ export default function Screen() {
     <SafeAreaView style={generic.safeArea}>
       <View style={generic.headerContainer}>
         <Text style={[generic.h1, {
-          fontFamily: s.fontFamily.sansBlack,
+          fontFamily: s.fontFamily.sans,
+          fontWeight: "900"
         }]}>
           Rotten Minds
         </Text>
-        <Text style={generic.h3}>
+        <Text style={[generic.h3, {
+          fontFamily: s.fontFamily.sans,
+        }]}>
           Inicio de sesion
         </Text>
       </View>

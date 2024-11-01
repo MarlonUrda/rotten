@@ -67,6 +67,7 @@ const s = {
     "5xl": 48,
     "6xl": 52,
     bold: "500" as "500",
+    black: "900" as "900",
     normal: "normal",
     italic: "italic",
   },
@@ -203,6 +204,8 @@ const s = {
     black: "#000",
     blackOpacity: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     transparent: "transparent",
+    gray: "#D3D3D3",
+    grayOpacity: (opacity = 1) => `rgba(211, 211, 211, ${opacity})`,
   },
   shadow: {
     md: {
@@ -210,7 +213,7 @@ const s = {
       startColor: "#000",
       endColor: "#000",
       style: { borderRadius: 8 },
-      distance: 2,
+      distance: 1,
       offset: [5, 4] as [number, number],
     }
   },

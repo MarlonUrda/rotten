@@ -8,10 +8,9 @@ import { useRouter, Link } from "expo-router";
 import myToast from "../toast";
 import AuthController from "@/api/controllers/AuthController";
 import { FormTextInput } from "./formsUtils/FormTextInput";
-import { formStyles, mtForm } from "@/styles/formStyleSheet";
+import {  mtForm } from "@/styles/formStyleSheet";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import mt from "@/styles/mtWind";
 
 const loginFormSchema = z.object({
   email: z
@@ -46,6 +45,7 @@ export default function LoginForm() {
     },
     onSuccess: (data) => {
       myToast(true, `Bienvenido ${data.user.firstName}`)
+      form.reset()
       router.push("/movies")
     }
   })
@@ -70,10 +70,10 @@ export default function LoginForm() {
         placeholder=""
         error={form.formState.errors.password}
       />
-      <Animated.View layout={LinearTransition} style={formStyles.sideText}>
+      <Animated.View layout={LinearTransition} style={mtForm.sideText}>
         <Link
           href={"/auth/sendResetPage"}
-          style={formStyles.text}
+          style={mtForm.text}
         >
           Olvidé mi contraseña
         </Link>
@@ -82,19 +82,19 @@ export default function LoginForm() {
           <Button 
             onPress={form.handleSubmit(onSubmit)}
             disabled={loginMutation.isPending}
+            loading={loginMutation.isPending}
           >
             <Text
               weight="bold"
-              size="lg"
             >
               Iniciar sesión
             </Text>
           </Button>
       </Animated.View>
-      <Animated.View layout={LinearTransition} style={formStyles.sideText}>
+      <Animated.View layout={LinearTransition} style={mtForm.sideText}>
         <Link
           href={"/auth/registerPage"}
-          style={formStyles.text}
+          style={mtForm.text}
         >
           Crea una cuenta aqui
         </Link>
@@ -103,13 +103,3 @@ export default function LoginForm() {
   )
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    padding: 16, // p-4 in Tailwind
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16, // gap-4 in Tailwind
-  },
-});

@@ -22,16 +22,9 @@ export const formStyles = StyleSheet.create({
     color: "#000",
   },
   input: {
-    color: "#000",
-    backgroundColor: "#D3D3D3",
-    height: s.pixels[10],
-    padding: s.pixels[1],
-    borderWidth: s.borderWidth[2],
-    borderRadius: s.borderRadius.base, 
     fontFamily: s.fontFamily.sans
   },
   inputFocus: {
-    borderWidth: s.borderWidth[4],
     backgroundColor: s.colors.purple[100]
   },
   button: {
@@ -78,7 +71,9 @@ export const formStyles = StyleSheet.create({
 })
 
 export const mtForm = {
-  container: [mt.w("full"), mt.flexCol, mt.gap(4), mt.padding(4)]
+  container: [mt.w("full"), mt.flexCol, mt.gap(4), mt.p(4)],
+  sideText: [mt.w("full"), mt.flexRow, mt.justify("flex-end")],
+  text: [mt.color("purple"), mt.fontSans],
 }
 
 export const genericStyles = StyleSheet.create({
