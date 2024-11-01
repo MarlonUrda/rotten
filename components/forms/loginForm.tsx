@@ -8,20 +8,19 @@ import { useRouter, Link } from "expo-router";
 import myToast from "../toast";
 import AuthController from "@/api/controllers/AuthController";
 import { FormTextInput } from "./formsUtils/FormTextInput";
-import { formStyles } from "@/styles/formStyleSheet";
-import { Shadow } from "react-native-shadow-2";
-import s from "@/styles/styleValues";
+import { formStyles, mtForm } from "@/styles/formStyleSheet";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
+import mt from "@/styles/mtWind";
 
 const loginFormSchema = z.object({
   email: z
     .string()
+    .trim()
     .min(1, "Se debe ingresar un email.")
     .max(50, "El email es muy largo.")
     .email("Email invalido.")
-    .toLowerCase()
-    .trim(),
+    .toLowerCase(),
 
   password: z
     .string()
@@ -52,12 +51,10 @@ export default function LoginForm() {
   })
 
   const onSubmit = (data: z.infer<typeof loginFormSchema>) => {
-    //loginMutation.mutate(data)
-    console.log(data);
-    router.push("/movies")
+    loginMutation.mutate(data)
   }
   return (
-    <Animated.View style={formStyles.container}>
+    <Animated.View style={mtForm.container}>
       <FormTextInput 
         name="email"
         control={form.control}

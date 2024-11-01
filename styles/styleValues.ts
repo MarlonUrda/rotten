@@ -1,4 +1,7 @@
 import { DimensionValue } from "react-native";
+
+export type ColorShade = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+
 const s = {
   pixels: {
     1: 4,
@@ -199,6 +202,7 @@ const s = {
     whiteOpacity: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     black: "#000",
     blackOpacity: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    transparent: "transparent",
   },
   shadow: {
     md: {

@@ -1,7 +1,7 @@
 import { View, SafeAreaView } from "react-native";
 import { Text } from "@/components/ui/text";
 import LoginForm from "@/components/forms/loginForm";
-import { generic } from "@/styles/genericStyles";
+import { generic } from "@/styles/mtWind";
 import { useFonts } from "expo-font";
 import s from "@/styles/styleValues";
 

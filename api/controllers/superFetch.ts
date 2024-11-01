@@ -17,21 +17,22 @@ interface SuperFetchOptions {
     includeCredentials?: boolean;
 }
 
-interface SuperFetchParams<Request, Response, Route extends ApiRoute = ApiRoute> {
+interface SuperFetchParams<Request, Response, Route extends ApiRoute = ApiRoute, QueryParams extends undefined | Record<string, any> = undefined> {
     options: SuperFetchOptions;
     route: Route;
-    params?: ApiRouteParams<Route>;
+    routeParams?: ApiRouteParams<Route>;
+    queryParams?: QueryParams;
     responseSchema: z.ZodType<Response>;
     payload?: Request;
 }
 
-export async function superFetch<Request, Response, Route extends ApiRoute = ApiRoute>(
-    { options, route, params, responseSchema, payload }: SuperFetchParams<Request, Response, Route>
+export async function superFetch<Request, Response, Route extends ApiRoute = ApiRoute, QueryParams extends Record<string, any> | undefined = undefined>(
+    { options, route, routeParams, queryParams, responseSchema, payload }: SuperFetchParams<Request, Response, Route, QueryParams>
 ): Promise<Response> {
     console.log("executing superFetch");
 
-    if (params === undefined) {
-        params = [] as ApiRouteParams<Route>;
+    if (routeParams === undefined) {
+        routeParams = [] as ApiRouteParams<Route>;
     }
 
     const headers = new Headers();
@@ -49,8 +50,19 @@ export async function superFetch<Request, Response, Route extends ApiRoute = Api
     }
 
     // @ts-ignore
-    const realRoute = apiRoutes[route](...params); 
-    console.log("fetching3", realRoute);
+    let realRoute = apiRoutes[route](...routeParams); 
+
+    if (queryParams) {
+        const query = new URLSearchParams();
+        Object.entries(queryParams).forEach(([key, value]) => {
+            query.append(key, value);
+        });
+        realRoute += `?${query.toString()}`;
+    }
+
+
+    console.log(`${options.method} \ ${realRoute}`);
+
 
     
     const response = await fetch(realRoute, {
@@ -65,7 +77,6 @@ export async function superFetch<Request, Response, Route extends ApiRoute = Api
         try {
             return responseSchema.parse(data);
         } catch (error) {
-            // if is zod error print the error
             if (error instanceof z.ZodError) {
                 console.log(error.errors);
             }
@@ -78,63 +89,4 @@ export async function superFetch<Request, Response, Route extends ApiRoute = Api
         throw new SuperFetchError(data.error ?? "Ocurrió un error", response.status);
         }
     
-}
-
-export async function superXMLHTTPRequest<Request, Response>(
-    options: SuperFetchOptions, 
-    route: ApiRoute, 
-    responseSchema: z.ZodType<Response>,
-    payload?: Request
-): Promise<Response> {
-    const headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-
-    if (options.includeCredentials) {
-        const token = await AsyncStorage.getItem('token');
-        if (token) {
-            headers.set('Authorization', `Bearer ${token}`);
-        } else {
-            throw new Error("No token found");
-        }
-    }
-
-    return new Promise<Response>((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        // @ts-ignore
-        const realRoute = apiRoutes[route](...params); 
-        xhr.open(options.method, realRoute, true);
-
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        if (options.includeCredentials) {
-            xhr.withCredentials = true;
-        }
-
-        headers.forEach((value: string, key: string) => {
-            xhr.setRequestHeader(key, value);
-        });
-
-        xhr.onload = () => {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                try {
-                    const data = JSON.parse(xhr.responseText);
-                    resolve(responseSchema.parse(data));
-                } catch (error) {
-                    reject(new SuperFetchError("El servidor envió una respuesta inesperada", xhr.status));
-                }
-            } else {
-                try {
-                    const data = JSON.parse(xhr.responseText);
-                    reject(new SuperFetchError(data.error ?? "Ocurrió un error", xhr.status));
-                } catch (error) {
-                    reject(new SuperFetchError("Ocurrió un error", xhr.status));
-                }
-            }
-        };
-
-        xhr.onerror = () => {
-            reject(new SuperFetchError("Ocurrió un error de red", xhr.status));
-        };
-
-        xhr.send(payload ? JSON.stringify(payload) : null);
-    });
 }

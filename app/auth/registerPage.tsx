@@ -1,6 +1,6 @@
 import { View, SafeAreaView, Text } from "react-native";
 import RegisterForm from "@/components/forms/RegisterForms/registerForm";
-import { generic } from "@/styles/genericStyles";
+import { generic } from "@/styles/mtWind";
 import { useFonts } from "expo-font";
 
 export default function RegisterPage() {

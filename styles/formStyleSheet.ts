@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import s from "./styleValues";
+import mt from "./mtWind";
 
 export const formStyles = StyleSheet.create({
   container: {
@@ -75,6 +76,10 @@ export const formStyles = StyleSheet.create({
     fontFamily: s.fontFamily.sans,
   }
 })
+
+export const mtForm = {
+  container: [mt.w("full"), mt.flexCol, mt.gap(4), mt.padding(4)]
+}
 
 export const genericStyles = StyleSheet.create({
   columnContainer: {

@@ -12,7 +12,7 @@ export default class UserController {
           includeCredentials: true,
         },
         route: "user",
-        params: [],
+        routeParams: [],
         responseSchema: UserUpdateSchema,
         payload,
       });
@@ -39,7 +39,7 @@ export default class UserController {
           includeCredentials: true,
         },
         route: "user/[id]",
-        params: [payload._id],
+        routeParams: [payload._id],
         responseSchema: UserDeleteSchema,
         payload,
       });

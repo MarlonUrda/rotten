@@ -40,7 +40,7 @@ export default class AuthController {
           method: "POST",
         },
         route: "login",
-        params: [],
+        routeParams: [],
         responseSchema: LoginResponseSchema,
         payload: payload,
       });
@@ -74,7 +74,7 @@ export default class AuthController {
           method: "POST",
         },
         route: "emailAvilable",
-        params: [],
+        routeParams: [],
         responseSchema: VerifyEmailAvailabilityResponseSchema,
         payload: payload,
       });
@@ -97,7 +97,7 @@ export default class AuthController {
           method: "POST",
         },
         route: "register",
-        params: [],
+        routeParams: [],
         responseSchema: RegisterResponseSchema,
         payload: payload,
       });
@@ -125,7 +125,7 @@ export default class AuthController {
           method: "POST",
         },
         route: "sendReset",
-        params: [],
+        routeParams: [],
         responseSchema: SendEmailResetResponseSchema,
         payload: payload,
       });
@@ -148,7 +148,7 @@ export default class AuthController {
           method: "POST",
         },
         route: "resetPassword",
-        params: [],
+        routeParams: [],
         responseSchema: PasswordResetResponseSchema,
         payload: payload,
       });
@@ -171,7 +171,7 @@ export default class AuthController {
           method: "POST",
         },
         route: "verifyCode",
-        params: [],
+        routeParams: [],
         responseSchema: VerifyCodeResponseSchema,
         payload: payload,
       });
