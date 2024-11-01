@@ -21,6 +21,7 @@ export const generic = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 8
   },
+
   h3: {
     fontSize: 16,
     fontWeight: "medium",
@@ -41,8 +42,13 @@ export const generic = StyleSheet.create({
   //
 })
 
+
+
 type Pixels = keyof typeof s.pixels;
 type AbsolutePixels = Exclude<Pixels, "full" | "half" | "third">;
+type Font = keyof typeof s.font;
+type FontWeight = "bold" | "medium" | "light" | "black";
+type FontSize = Exclude<Font, "bold" | "medium" | "light" | "black" | "normal" | "italic">;
 
 const mt = {
   flexCol: {
@@ -53,26 +59,26 @@ const mt = {
     display: "flex",
     flexDirection: "row"
   },
-  padding: (value: AbsolutePixels) => ({
+  p: (value: AbsolutePixels) => ({
     padding: s.pixels[value]
   }),
-  margin: (value: AbsolutePixels) => ({
+  m: (value: AbsolutePixels) => ({
     margin: s.pixels[value]
   }),
   gap: (value: AbsolutePixels) => ({
     gap: s.pixels[value]
   }),
-  borderRadius: (value: keyof typeof s.borderRadius) => ({
+  rounded: (value: keyof typeof s.borderRadius) => ({
     borderRadius: s.borderRadius[value]
   }),
-  borderWidth: (value: keyof typeof s.borderWidth) => ({
+  border: (value: keyof typeof s.borderWidth) => ({
     borderWidth: s.borderWidth[value]
   }),
-  fontSize: (value: keyof typeof s.font) => ({
+  fontSize: (value: FontSize) => ({
     fontSize: s.font[value]
   }),
-  fontWeight: (value: "bold" | "medium" | "light" | "black") => ({
-    fontWeight: value
+  fontWeight: (value: "bold" | "black") => ({
+    fontWeight: s.font[value]
   }),
   items: (value: "center" | "flex-start" | "flex-end") => ({
     alignItems: value
@@ -91,6 +97,9 @@ const mt = {
   },
   color: (value: keyof typeof s.colors, shade: ColorShade = 500, opacity: number = 1) => {
     return handleColor(value, shade, opacity, "color")
+  },
+  fontSans: {
+    fontFamily: s.fontFamily.sans
   },
   shadow: s.shadow
 } as const;
