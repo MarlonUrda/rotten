@@ -15,7 +15,7 @@ export default function Movies() {
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: "gray" },
+          contentStyle: { backgroundColor: "white" },
           animation: "fade_from_bottom"
         }}
       ></Stack>

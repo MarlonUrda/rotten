@@ -1,7 +1,8 @@
 import { useForm, UseFormReturn } from "react-hook-form";
 import { FormTextInput } from "../formsUtils/FormTextInput";
-import { Button } from "react-native-elements";
 import { personalInfoSchema, PersonalInfoSchema, FullSchema } from "./registerSchemas";
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
 import Animated, { LinearTransition, SlideInRight, SlideOutLeft } from "react-native-reanimated";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formStyles } from "@/styles/formStyleSheet";
@@ -35,6 +36,7 @@ export function PersonalInfoForm({
 
   function onSubmit(data: PersonalInfoSchema){
     console.log(data);
+    fullForm.setValue("personalInfo", data)
     setTab(2)
   }
 
@@ -56,17 +58,28 @@ export function PersonalInfoForm({
       />
       <Animated.View layout={LinearTransition}>
         <Button 
-          title={"Siguiente"}
           onPress={form.handleSubmit(onSubmit)}
-          style={formStyles.button}
-        />
+        >
+          <Text
+            weight="bold"
+            size="lg"
+          >
+            Siguiente
+          </Text>
+        </Button>
       </Animated.View>
       <Animated.View layout={LinearTransition}>
         <Button 
-          title={"Volver"}
           onPress={() => setTab(0)}
-          style={formStyles.buttonSecondary}
-        />
+          variant="secondary"
+        >
+          <Text
+            weight="normal"
+            size="lg"
+          >
+            Volver
+          </Text>
+        </Button>
       </Animated.View>
     </Animated.View>
   )

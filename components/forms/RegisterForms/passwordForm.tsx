@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { FormTextInput } from "../formsUtils/FormTextInput";
-import { Button } from "react-native-elements";
 import Animated, { LinearTransition, SlideInRight, SlideOutLeft } from "react-native-reanimated";
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
 import { PasswordSchema, passwordSchema, FullSchema } from "./registerSchemas";
 import AuthController from "@/api/controllers/AuthController";
 import { useMutation } from "@tanstack/react-query";
@@ -74,19 +75,30 @@ export function PasswordForm({ setTab, fullForm }: PasswordFormProps) {
       />
       <Animated.View layout={LinearTransition}>
         <Button 
-          title="Registrate"
-          style={formStyles.button}
           onPress={form.handleSubmit(onSubmit)}
-          loading={registerMutation.isPending}
-          disabled={form.formState.isSubmitting || registerMutation.isPending}
-        />
+          variant="success"
+          disabled={registerMutation.isPending}
+        >
+          <Text
+            weight="bold"
+            size="lg"
+          >
+            {registerMutation.isPending ? "Registrando...":"Registrate"}
+          </Text>
+        </Button>
       </Animated.View>
       <Animated.View layout={LinearTransition}>
         <Button 
-          title="Volver"
-          style={formStyles.buttonSecondary}
           onPress={() => setTab(1)}
-        />
+          variant="secondary"
+        >
+          <Text
+            weight="normal"
+            size="lg"
+          >
+            Volver
+          </Text>
+        </Button>
       </Animated.View>
     </Animated.View>
   )

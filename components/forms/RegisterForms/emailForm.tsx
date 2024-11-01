@@ -6,14 +6,15 @@ import Animated, {
   SlideInRight,
   SlideOutLeft,
 } from "react-native-reanimated";
+import { Text } from "@/components/ui/text";
 import { EmailSchema, emailSchema, FullSchema } from "./registerSchemas";
 import { useMutation } from "@tanstack/react-query";
 import AuthController from "@/api/controllers/AuthController";
 import myToast from "@/components/toast";
 import { Link } from "expo-router";
 import { formStyles } from "@/styles/formStyleSheet";
-import { Button } from "react-native-elements";
-import { Text, View } from "react-native";
+import { Button } from "@/components/ui/button";
+import { View } from "react-native";
 import { useFonts } from "expo-font";
 
 interface EmailFormProps {
@@ -55,6 +56,7 @@ export function EmailForm({ setTab, fullForm }: EmailFormProps) {
 
   const onSubmit = (data: EmailSchema) => {
     console.log(data);
+    fullForm.setValue("email", data)
     setTab(1)
   }
 
@@ -70,11 +72,15 @@ export function EmailForm({ setTab, fullForm }: EmailFormProps) {
       <View>
         <Button 
           onPress={form.handleSubmit(onSubmit)}
-          title="Siguiente"
-          buttonStyle={formStyles.button} 
-          // loading={verifyEmailMutation.isPending}
-          // disabled={form.formState.isSubmitting || verifyEmailMutation.isPending}
-        />
+          disabled={verifyEmailMutation.isPending}
+        >
+          <Text
+            weight="bold"
+            size="lg"
+          >
+            Siguiente
+          </Text>
+        </Button>
       </View>
       <View>
         <Link href="/" style={formStyles.sideText}>
@@ -82,19 +88,5 @@ export function EmailForm({ setTab, fullForm }: EmailFormProps) {
         </Link>
       </View>
     </View>
-    // <View style={formStyles.container}>
-    //   <Text>EmailForm</Text>
-    //    <FormTextInput 
-    //     name="email"
-    //     control={form.control}
-    //     label="Correo Electronico"
-    //     placeholder="tucorreo@gmail.com"
-    //     error={form.formState.errors.email}
-    //   />
-    //   <Button
-    //     title="Siguiente"
-    //     onPress={form.handleSubmit(onSubmit)}
-    //   />
-    // </View>
   )
 }

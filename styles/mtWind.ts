@@ -77,7 +77,7 @@ const mt = {
   items: (value: "center" | "flex-start" | "flex-end") => ({
     alignItems: value
   }),
-  justify: (value: "center" | "flex-start" | "flex-end") => ({
+  justify: (value: "center" | "flex-start" | "flex-end" | "space-between") => ({
     justifyContent: value
   }),
   w: (value: Pixels) => ({
