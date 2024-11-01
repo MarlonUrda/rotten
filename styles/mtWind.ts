@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
+import { ImageStyle, StyleSheet, TextStyle } from "react-native";
 import s, { ColorShade } from "./styleValues";
+import { ViewStyle } from "@expo/html-elements/build/primitives/View";
 
 export const generic = StyleSheet.create({
   safeArea: {
@@ -37,10 +38,11 @@ export const generic = StyleSheet.create({
     flexDirection: "column",
     gap: s.pixels[4],
   }
-
   //
 })
 
+type Pixels = keyof typeof s.pixels;
+type AbsolutePixels = Exclude<Pixels, "full" | "half" | "third">;
 
 const mt = {
   flexCol: {
@@ -51,15 +53,15 @@ const mt = {
     display: "flex",
     flexDirection: "row"
   },
-  padding: (value: keyof typeof s.pixels) => ({
+  padding: (value: AbsolutePixels) => ({
     padding: s.pixels[value]
   }),
-  margin: (value: keyof typeof s.pixels) => ({
+  margin: (value: AbsolutePixels) => ({
     margin: s.pixels[value]
   }),
-  gap: (value: keyof typeof s.pixels) => ({
+  gap: (value: AbsolutePixels) => ({
     gap: s.pixels[value]
-  } as { gap: number }),
+  }),
   borderRadius: (value: keyof typeof s.borderRadius) => ({
     borderRadius: s.borderRadius[value]
   }),
@@ -78,10 +80,10 @@ const mt = {
   justify: (value: "center" | "flex-start" | "flex-end") => ({
     justifyContent: value
   }),
-  w: (value: keyof typeof s.pixels) => ({
+  w: (value: Pixels) => ({
     width: s.pixels[value]
   }),
-  h: (value: keyof typeof s.pixels) => ({
+  h: (value: Pixels) => ({
     height: s.pixels[value]
   }),
   backgroundColor: (value: keyof typeof s.colors, shade: ColorShade = 500, opacity: number = 1) => {
