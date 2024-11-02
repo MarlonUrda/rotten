@@ -22,24 +22,35 @@ const testMovies = [
   { title: "Splatoon" },
   { title: "Fire Emblem" },
   { title: "Pikmin" },
-  { title: "Xenoblade Chronicles" }
+  { title: "Xenoblade Chronicles" },
 ];
 
 const MovieScroll = ({ title }: MovieScrollerProps) => {
   return (
     <View>
-      <Text style={[mt.p(4), mt.fontSize("lg"), mt.fontWeight("bold")]}>{title}</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[mt.flexRow, mt.gap(5)]}>
-      {testMovies.map(({ title }) => (
-            <Shadow {...s.shadow.md} >
-              <View key={title} style={[mt.overflow("hidden"), mt.rounded("base")]}>
-                <MoviePreview title={title}/>
-              </View>
-            </Shadow>
+      <Text style={[mt.p(4)]} size="xl" weight="black">
+        {title}
+      </Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={[
+          mt.flexRow,
+          mt.gap(5),
+          mt.overflow("hidden"),
+          mt.p(4)
+        ]}
+        style={[
+        ]}
+      >
+        {testMovies.map(({ title }) => (
+          <Shadow {...mt.shadow.md}>
+            <MoviePreview title={title} key={title} />
+          </Shadow>
         ))}
       </ScrollView>
     </View>
-  )
-}
+  );
+};
 
 export default MovieScroll;

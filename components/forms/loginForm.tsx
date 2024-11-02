@@ -51,7 +51,8 @@ export default function LoginForm() {
   })
 
   const onSubmit = (data: z.infer<typeof loginFormSchema>) => {
-    loginMutation.mutate(data)
+    // loginMutation.mutate(data)
+    router.push("/movies")
   }
   return (
     <Animated.View style={mtForm.container}>
