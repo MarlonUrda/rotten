@@ -12,7 +12,7 @@ interface MovieScrollerProps {
 //This array its for the showcase tomorrow dont freak out
 const testMovies = [
   { title: "Mario Kart" },
-  { title: "The Legend of Zelda" },
+  { title: "The Legend o..." },
   { title: "Super Mario Bros" },
   { title: "Metroid" },
   { title: "Donkey Kong" },
@@ -28,11 +28,11 @@ const testMovies = [
 const MovieScroll = ({ title }: MovieScrollerProps) => {
   return (
     <View>
-      <Text style={generic.h3}>{title}</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[mt.flexRow, mt.gap(4)]}>
-        {testMovies.map(({ title }) => (
-            <Shadow {...s.shadow.md}>
-              <View key={title} style={[mt.gap(4)]}>
+      <Text style={[mt.p(4), mt.fontSize("lg"), mt.fontWeight("bold")]}>{title}</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[mt.flexRow, mt.gap(5)]}>
+      {testMovies.map(({ title }) => (
+            <Shadow {...s.shadow.md} >
+              <View key={title} style={[mt.overflow("hidden"), mt.rounded("base")]}>
                 <MoviePreview title={title}/>
               </View>
             </Shadow>

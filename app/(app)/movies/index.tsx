@@ -4,7 +4,7 @@ import { View, Text } from "react-native"
 
 export default function MoviesScreen() {
   return (
-    <View style={generic.safeArea}>
+    <View style={[mt.pt(12), mt.p(2)]}>
       <MovieScroll title="Popular"/>
     </View>
   )

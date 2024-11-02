@@ -5,11 +5,14 @@ import Animated, {
   FadeOut,
   LinearTransition,
 } from "react-native-reanimated";
-import { View, Image } from "react-native";
+import { View } from "react-native";
+import { Image } from "react-native-elements"
 import mt from "@/styles/mtWind";
 import { Shadow } from "react-native-shadow-2";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import s from "@/styles/styleValues";
+import { ActivityIndicator } from "react-native";
+import { useState } from "react";
 
 interface MoviePreviewProps {
   title: string;
@@ -19,36 +22,39 @@ interface MoviePreviewProps {
 }
 
 export function MoviePreview({ title }: MoviePreviewProps) {
+  const [imageLoaded, setImageLoaded] = useState(false)
   return (
     <View
       style={[
         mt.flexCol,
         mt.gap(4),
-        mt.borderRadius("base"),
-        mt.borderWidth(2),
-        mt.backgroundColor("white")
+        mt.rounded("base"),
+        mt.border(2),
+        mt.backgroundColor("white"),
+        mt.w(48),
+        mt.p(4),
       ]}
     >
       <TouchableOpacity>
         <View>
           <Image
-            source={{ uri: "../../assets/images/react-logo@2x.png" }}
+            source={require("../../assets/images/adaptive-icon.png")}
             style={{ height: 200, width: "100%", resizeMode: "cover" }}
           />
         </View>
       </TouchableOpacity>
       <View style={[mt.flexRow, mt.justify("space-between")]}>
-        <View style={[mt.flexRow]}>
+        <View style={[mt.flexRow, mt.gap(1)]}>
           <Image
-            source={{ uri: "../../assets/images/icon1.png" }}
-            style={{ height: 24, width: 24, resizeMode: "contain" }}
+            source={require("../../assets/images/icon1.png")}
+            style={{ height: 16, width: 16, resizeMode: "contain", marginTop: 3 }}
           />
           <Text weight="bold">87%</Text>
         </View>
-        <View style={[mt.flexRow]}>
+        <View style={[mt.flexRow, mt.gap(1)]}>
           <Image
-            source={{ uri: "../../assets/images/icon2.png" }}
-            style={{ height: 24, width: 24, resizeMode: "contain" }}
+            source={require("../../assets/images/icon2.png")}
+            style={{ height: 16, width: 16, resizeMode: "contain", marginTop: 3}}
           />
           <Text weight="bold">76%</Text>
         </View>
@@ -58,9 +64,9 @@ export function MoviePreview({ title }: MoviePreviewProps) {
       </Text>
 
       <View>
-        <Button variant="primary" onPress={() => console.log("Hola")} style={[mt.w("half")]}>
+        <Button variant="primary" onPress={() => console.log(`Pelicula ${title} agregada`)} >
           <Text weight="bold" size="md">
-            Agregar a tu Lista
+            Agregar
           </Text>
         </Button>
       </View>

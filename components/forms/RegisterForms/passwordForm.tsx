@@ -91,7 +91,7 @@ export function PasswordForm({ setTab, fullForm }: PasswordFormProps) {
         <Button
           onPress={form.handleSubmit(onSubmit)}
           loading={registerMutation.isPending}
-          disabled={form.formState.isSubmitting || registerMutation.isPending}
+          disabled={registerMutation.isPending}
         >
           <Text>Registrarse</Text>
         </Button>

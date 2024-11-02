@@ -21,7 +21,11 @@ export const generic = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 8
   },
-
+  h2: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 6
+  },
   h3: {
     fontSize: 16,
     fontWeight: "medium",
@@ -65,6 +69,15 @@ const mt = {
   p: (value: AbsolutePixels) => ({
     padding: s.pixels[value]
   }),
+  pt: (value: AbsolutePixels) => ({
+    paddingTop: s.pixels[value]
+  }),
+  pb: (value: AbsolutePixels) => ({
+    paddingBottom: s.pixels[value]
+  }),
+  pv: (value: AbsolutePixels) => ({
+    paddingVertical: s.pixels[value]
+  }),
   m: (value: AbsolutePixels) => ({
     margin: s.pixels[value]
   }),
@@ -94,6 +107,9 @@ const mt = {
   }),
   h: (value: Pixels) => ({
     height: s.pixels[value]
+  }),
+  overflow: (value: "hidden" | "scroll" | "visible") => ({
+    overflow: value
   }),
   backgroundColor: (value: keyof typeof s.colors, shade: ColorShade = 500, opacity: number = 1) => {
     return handleColor(value, shade, opacity, "backgroundColor")
