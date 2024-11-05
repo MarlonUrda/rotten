@@ -55,6 +55,9 @@ type FontWeight = "bold" | "medium" | "light" | "black";
 type FontSize = Exclude<Font, "bold" | "medium" | "light" | "black" | "normal" | "italic">;
 
 const mt = {
+  flex: {
+    display: "flex"
+  },
   flexCol: {
     display: "flex",
     flexDirection: "column"
@@ -66,6 +69,9 @@ const mt = {
   flex1: {
     flex: 1
   },
+  align: (value: "center" | "left" | "right" | "auto") => ({
+    textAlign: value
+  }),
   p: (value: AbsolutePixels) => ({
     padding: s.pixels[value]
   }),

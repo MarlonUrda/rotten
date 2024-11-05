@@ -1,20 +1,16 @@
-import { useFonts } from "expo-font";
-import { View, Text } from "react-native";
+import { View, SafeAreaView } from "react-native";
+import { Text } from "@/components/ui/text";
+import { Button } from "@/components/ui/button";
+import { FormTextInput } from "@/components/forms/formsUtils/FormTextInput";
+import mt from "@/styles/mtWind";
 
 export default function ChangePasswordPage() {
 
-  const fontLoaded = useFonts({
-    "poppins": require("../../assets/fonts/Poppins-Regular.ttf"),
-    "poppinsBold": require("../../assets/fonts/Poppins-Bold.ttf")
-  })
-
-  if(!fontLoaded) {
-    console.log("No font loaded");
-  }
-
   return (
-    <View>
-      <Text>Change Password Page</Text>
-    </View>
+    <SafeAreaView style={[mt.flex1, mt.justify("flex-start")]}>
+      <View style={[mt.flexCol, mt.gap(4), mt.w("full"), mt.items("center"), mt.pt(20)]}>
+        
+      </View>
+    </SafeAreaView>
   );
 }
