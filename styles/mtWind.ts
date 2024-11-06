@@ -69,8 +69,14 @@ const mt = {
   flex1: {
     flex: 1
   },
+  flexWrap: {
+    flexWrap: "wrap"
+  },
   align: (value: "center" | "left" | "right" | "auto") => ({
     textAlign: value
+  }),
+  bottom: (value: Pixels) => ({
+    bottom: s.pixels[value]
   }),
   p: (value: AbsolutePixels) => ({
     padding: s.pixels[value]
@@ -81,14 +87,47 @@ const mt = {
   pb: (value: AbsolutePixels) => ({
     paddingBottom: s.pixels[value]
   }),
+  pl: (value: AbsolutePixels) => ({
+    paddingLeft: s.pixels[value]
+  }),
+  pr: (value: AbsolutePixels) => ({
+    paddingRight: s.pixels[value]
+  }),
+  position: (value: "absolute" | "relative") => ({
+    position: value
+  }),
   pv: (value: AbsolutePixels) => ({
     paddingVertical: s.pixels[value]
+  }),
+  top: (value: Pixels) => ({
+    top: s.pixels[value]
+  }),
+  left: (value: Pixels) => ({
+    left: s.pixels[value]
+  }),
+  right: (value: Pixels) => ({
+    right: s.pixels[value]
   }),
   m: (value: AbsolutePixels) => ({
     margin: s.pixels[value]
   }),
+  mt: (value: AbsolutePixels) => ({
+    marginTop: s.pixels[value]
+  }),
+  mb: (value: AbsolutePixels) => ({
+    marginBottom: s.pixels[value]
+  }),
+  ml: (value: AbsolutePixels) => ({
+    marginLeft: s.pixels[value]
+  }),
+  mr: (value: AbsolutePixels) => ({
+    marginRight: s.pixels[value]
+  }),
   gap: (value: AbsolutePixels) => ({
     gap: s.pixels[value]
+  }),
+  resize: (value: "contain" | "center" | "cover" | "repeat" | "stretch") => ({
+    resizeMode: value
   }),
   rounded: (value: keyof typeof s.borderRadius) => ({
     borderRadius: s.borderRadius[value]

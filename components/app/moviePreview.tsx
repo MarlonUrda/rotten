@@ -13,12 +13,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import s from "@/styles/styleValues";
 import { ActivityIndicator } from "react-native";
 import { useState } from "react";
+import { MoviePreview as MP} from "@/types/MoviePreview";
+import { router } from "expo-router";
 
 interface MoviePreviewProps {
   title: string;
-  //   posterUrl: string;
-  //   critiqueRating: number;
-  //   publicRating: number;
+  // movie: MoviePreview
 }
 
 export function MoviePreview({ title }: MoviePreviewProps) {
@@ -34,7 +34,7 @@ export function MoviePreview({ title }: MoviePreviewProps) {
         mt.p(4),
       ]}
     >
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => router.push("movies/1")}>
         <View>
           <Image
             source={require("../../assets/images/adaptive-icon.png")}

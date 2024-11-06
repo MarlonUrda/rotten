@@ -4,6 +4,7 @@ export type ColorShade = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 90
 
 const s = {
   pixels: {
+    0: 0,
     1: 4,
     2: 8,
     3: 12,
@@ -198,6 +199,30 @@ const s = {
       700: (opacity = 1) => `rgba(153, 108, 40, ${opacity})`,
       800: (opacity = 1) => `rgba(115, 81, 30, ${opacity})`,
       900: (opacity = 1) => `rgba(77, 54, 20, ${opacity})`,
+    },
+    yellow: {
+      50: "rgba(255, 247, 230, 1)",
+      100: "rgba(255, 237, 204, 1)",
+      200: "rgba(255, 217, 153, 1)",
+      300: "rgba(255, 197, 102, 1)",
+      400: "rgba(255, 178, 51, 1)",
+      500: "rgba(255, 159, 0, 1)",
+      600: "rgba(230, 143, 0, 1)",
+      700: "rgba(204, 127, 0, 1)",
+      800: "rgba(153, 95, 0, 1)",
+      900: "rgba(102, 63, 0, 1)",
+    },
+    yellowOpacity: {
+      50: (opacity = 1) => `rgba(255, 247, 230, ${opacity})`,
+      100: (opacity = 1) => `rgba(255, 237, 204, ${opacity})`,
+      200: (opacity = 1) => `rgba(255, 217, 153, ${opacity})`,
+      300: (opacity = 1) => `rgba(255, 197, 102, ${opacity})`,
+      400: (opacity = 1) => `rgba(255, 178, 51, ${opacity})`,
+      500: (opacity = 1) => `rgba(255, 159, 0, ${opacity})`,
+      600: (opacity = 1) => `rgba(230, 143, 0, ${opacity})`,
+      700: (opacity = 1) => `rgba(204, 127, 0, ${opacity})`,
+      800: (opacity = 1) => `rgba(153, 95, 0, ${opacity})`,
+      900: (opacity = 1) => `rgba(102, 63, 0, ${opacity})`
     },
     white: "#fff",
     whiteOpacity: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
