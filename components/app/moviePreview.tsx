@@ -22,7 +22,6 @@ interface MoviePreviewProps {
 }
 
 export function MoviePreview({ title }: MoviePreviewProps) {
-  const [imageLoaded, setImageLoaded] = useState(false)
   return (
     <View
       style={[

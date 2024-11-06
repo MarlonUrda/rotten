@@ -21,6 +21,7 @@ import {
 } from '@expo-google-fonts/lexend';
 import { View } from "react-native";
 import { Text } from "@/components/ui/text";
+import s from "@/styles/styleValues";
 
 const queryClient = new QueryClient()
 
@@ -57,7 +58,7 @@ export default function RootLayout() {
                 headerShown: false,
                 animation: "simple_push",
                 contentStyle: {
-                  backgroundColor:"white"
+                  backgroundColor:s.colors.background
                 }
               }}
             ></Stack>

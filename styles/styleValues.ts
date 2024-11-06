@@ -72,7 +72,7 @@ const s = {
     italic: "italic",
   },
   fontFamily: {
-    sans: "Lexend_400Regular",
+    sans: "Lexend_500Medium",
     sansBold: "Lexend_700Bold",
     sansBlack: "Lexend_900Black",
   },
@@ -206,6 +206,7 @@ const s = {
     transparent: "transparent",
     gray: "#D3D3D3",
     grayOpacity: (opacity = 1) => `rgba(211, 211, 211, ${opacity})`,
+    background: "#fee9ce",
   },
   shadow: {
     md: {
@@ -215,13 +216,13 @@ const s = {
       style: { borderRadius: 8 },
       distance: 1,
       offset: [5, 4] as [number, number],
-    }
+    },
   },
   timing: {
     fast: 100,
     base: 400,
     slow: 600,
-  }
+  },
 } as const;
 
 export default s;

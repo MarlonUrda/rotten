@@ -28,9 +28,14 @@ const testMovies = [
 const MovieScroll = ({ title }: MovieScrollerProps) => {
   return (
     <View>
-      <Text style={[mt.p(4)]} size="xl" weight="black">
-        {title}
-      </Text>
+      <View
+        style={[mt.p(4), mt.pb(2)]}
+      >
+
+        <Text size="xl" weight="black">
+          {title}
+        </Text>
+      </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -44,7 +49,7 @@ const MovieScroll = ({ title }: MovieScrollerProps) => {
         ]}
       >
         {testMovies.map(({ title }) => (
-          <Shadow {...mt.shadow.md}>
+          <Shadow {...mt.shadow.md} key={title}>
             <MoviePreview title={title} key={title} />
           </Shadow>
         ))}
