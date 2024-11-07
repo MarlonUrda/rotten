@@ -4,8 +4,19 @@ import LoginForm from "@/components/forms/loginForm";
 import { generic } from "@/styles/mtWind";
 import { useFonts } from "expo-font";
 import s from "@/styles/styleValues";
+import { Redirect } from "expo-router";
+
 
 export default function Screen() {
+
+  const isLocal = process.env.NODE_ENV === "development";
+
+  if (isLocal) {
+    return <Redirect href="/games" />
+  }
+
+
+
 
   return (
     <SafeAreaView style={generic.safeArea}>
@@ -14,7 +25,7 @@ export default function Screen() {
           fontFamily: s.fontFamily.sans,
           fontWeight: "900"
         }]}>
-          Rotten Minds
+          Rotten Minds 
         </Text>
         <Text style={[generic.h3, {
           fontFamily: s.fontFamily.sans,
