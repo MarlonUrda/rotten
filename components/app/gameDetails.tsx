@@ -1,4 +1,10 @@
-import Animated, {LinearTransition, SlideInRight, SlideOutLeft} from "react-native-reanimated";{}
+import Animated, {
+  LinearTransition,
+  SlideInRight,
+  SlideOutLeft,
+} from "react-native-reanimated";
+{
+}
 import { View } from "react-native";
 import { Text } from "../ui/text";
 import { Button } from "../ui/button";
@@ -7,13 +13,18 @@ import mt, { generic } from "@/styles/mtWind";
 import { MovieInfo } from "./movieInfo";
 import { ButtonWrapper } from "./buttonWrapper";
 
-interface MovieDetailsProps {
+interface GameDetailsProps {
   //movie: Movie;
 }
 
-export function MovieDetails(){
+export function GameDetails() {
   return (
-    <Animated.View layout={LinearTransition} entering={SlideInRight} exiting={SlideOutLeft} style={[mt.flexCol, mt.gap(4), mt.justify("center")]}>
+    <Animated.View
+      layout={LinearTransition}
+      entering={SlideInRight}
+      exiting={SlideOutLeft}
+      style={[mt.flexCol, mt.gap(4), mt.justify("center")]}
+    >
       <View style={[mt.pt(10), mt.mb(20)]}>
         <View style={[mt.position("relative")]}>
           <Image
@@ -31,12 +42,23 @@ export function MovieDetails(){
           </View>
         </View>
       </View>
-      <Animated.View layout={LinearTransition} style={[mt.w("full"), mt.backgroundColor("blueOpacity", 900, 0.6), mt.rounded("base"), mt.flexRow, mt.justify("space-between"),  mt.gap(4), mt.p(3)]}>
+      <Animated.View
+        layout={LinearTransition}
+        style={[
+          mt.w("full"),
+          mt.backgroundColor("blueOpacity", 900, 0.6),
+          mt.rounded("base"),
+          mt.flexRow,
+          mt.justify("space-between"),
+          mt.gap(4),
+          mt.p(3),
+        ]}
+      >
         <MovieInfo />
       </Animated.View>
       <Animated.View>
         <ButtonWrapper />
       </Animated.View>
     </Animated.View>
-  )
+  );
 }

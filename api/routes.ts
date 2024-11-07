@@ -6,8 +6,11 @@ export const apiRoutes = {
     "sendReset": () => `${server}/auth/send-reset-email`,
     "resetPassword": () => `${server}/auth/reset-password`,
     "verifyCode": () => `${server}/auth/verify-reset-code`,
-    "user": () => `${server}/resource/user`,
-    "user/[id]": (id: string) => `${server}/resource/user/${id}`,   
+    "user": () => `${server}/user`,
+    "user/[id]": (id: string) => `${server}/user/${id}`,   
+
+    // Games
+    "popular": () => `${server}/games/popular`,
 };
 
 
