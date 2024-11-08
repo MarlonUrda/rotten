@@ -1,22 +1,15 @@
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import Animated, {
-  FadeIn,
-  FadeOut,
-  LinearTransition,
-} from "react-native-reanimated";
 import { View } from "react-native";
 import { Image } from "react-native-elements";
 import mt from "@/styles/mtWind";
 import { Shadow } from "react-native-shadow-2";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import s from "@/styles/styleValues";
-import { ActivityIndicator } from "react-native";
-import { useMemo, useState } from "react";
-import { MoviePreview as MP } from "@/types/MoviePreview";
+import { useMemo } from "react";
 import { router } from "expo-router";
 import type { GamePreview } from "@/types/api/games/gamePreview";
-import { hasSubscribers } from "diagnostics_channel";
+import s from "@/styles/styleValues";
+import { ESRBChip } from "./ESRBChip";
 
 interface GamePreviewProps {
   title: string;
@@ -25,75 +18,204 @@ interface GamePreviewProps {
 
 export function GamePreview({ title, game }: GamePreviewProps) {
   const gameName = useMemo(() => {
-    return game.name.length > 20 ? game.name.slice(0, 18) + "..." : game.name;
+    return (
+      game.name.length > 22 ? game.name.slice(0, 20) + "..." : game.name
+    ).toUpperCase().replace(/-/g, " ");
   }, [game.name]);
   return (
     <Shadow {...mt.shadow.md}>
-      <View
-        style={[
-          mt.flexCol,
-          mt.gap(4),
-          mt.rounded("base"),
-          mt.border(2),
-          mt.backgroundColor("white"),
-          mt.w(48),
-          mt.p(4),
-        ]}
-      >
-        <TouchableOpacity onPress={() => router.push(`/games/${game.id}`)}>
+      <TouchableOpacity onPress={() => router.push(`/games/${game.id}`)}>
+        <View
+          style={[
+            mt.flexCol,
+            mt.gap(4),
+            mt.rounded("base"),
+            mt.border(4),
+            mt.backgroundColor("white"),
+            mt.w(56),
+            mt.h(96),
+            mt.p(4),
+            mt.backgroundColor("yellow"),
+          ]}
+        >
+          <View
+            style={[
+              mt.flexRow,
+              mt.gap(2),
+              mt.items("center"),
+              mt.justify("center"),
+            ]}
+          >
+            <Text
+              size="md"
+              weight="black"
+              style={[mt.fontWeight("black"), mt.flex1]}
+            >
+              {gameName}
+            </Text>
+
+            <View
+              style={[
+                mt.justify("center"),
+                mt.items("center"),
+                mt.flex,
+                // mt.rotate(7),
+              ]}
+            >
+              <ESRBChip
+                rating={game.esrb_rating}
+                style={[mt.h(14), mt.w(10)]}
+              />
+            </View>
+          </View>
           <View>
             <Image
               source={{ uri: game.background_image }}
-              style={[
-                mt.h(40),
-                mt.w("full"),
-                mt.rounded("md"),
-                mt.border(2),
-              ]}
+              style={[mt.h(32), mt.w("full"), mt.border(4)]}
             />
           </View>
-        </TouchableOpacity>
-        <View style={[mt.flexRow, mt.justify("space-between")]}>
-          <View style={[mt.flexRow, mt.gap(1)]}>
-            <Image
-              source={require("../../assets/images/icon1.png")}
-              style={{
-                height: 16,
-                width: 16,
-                resizeMode: "contain",
-                marginTop: 3,
-              }}
-            />
-            <Text weight="bold">{game.metacritic}%</Text>
-          </View>
-          <View style={[mt.flexRow, mt.gap(1)]}>
-            <Image
-              source={require("../../assets/images/icon2.png")}
-              style={{
-                height: 16,
-                width: 16,
-                resizeMode: "contain",
-                marginTop: 3,
-              }}
-            />
-            <Text weight="bold">76%</Text>
-          </View>
-        </View>
-        <Text size="md" weight="normal">
-          {gameName}
-        </Text>
+          <ReleaseDate released={game.released} />
 
-        <View>
-          <Button
-            variant="primary"
-            onPress={() => console.log(`Pelicula ${title} agregada`)}
-          >
-            <Text weight="bold" size="md">
-              Agregar
-            </Text>
-          </Button>
+          <Scores
+            score={{
+              audience: game.metacritic,
+              critic: game.metacritic,
+            }}
+          />
+        </View>
+      </TouchableOpacity>
+    </Shadow>
+  );
+}
+function ReleaseDate({ released }: { released: string }) {
+  return (
+    <View
+      style={[
+        mt.flexRow,
+        mt.w("full"),
+        mt.items("center"),
+        mt.justify("center"),
+      ]}
+    >
+      <View
+        style={[
+          mt.border(2),
+          mt.p(1),
+          mt.rotate(-3),
+          mt.backgroundColor("white"),
+        ]}
+      >
+        <Text size="sm">RELEASED</Text>
+      </View>
+      <View
+        style={[
+          mt.border(2),
+          mt.p(1),
+          mt.rotate(3),
+          mt.backgroundColor("white"),
+        ]}
+      >
+        <Text size="lg" weight="black">
+          {released}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+
+
+
+const getColor = (score: number): "red" | "orange" | "green" => {
+  if (score < 50) return "red";
+  if (score < 75) return "orange";
+  return "green";
+}
+
+function Scores({
+  score,
+}: {
+  score: {
+    audience: number;
+    critic: number;
+  };
+}) {
+  return (
+    <View
+      style={[mt.flexRow, mt.items("center"), mt.justify("center"), mt.gap(2)]}
+    >
+      <View
+        style={[
+          mt.flexCol,
+          mt.gap(1),
+          mt.items("flex-start"),
+          mt.justify("center"),
+        ]}
+      >
+        <View
+          style={[
+            mt.border(2),
+            mt.p(1),
+            mt.rotate(-3),
+            mt.backgroundColor("white"),
+          ]}
+        >
+          <Text size="sm">USER SCORE</Text>
+        </View>
+        <View
+          style={[
+            mt.border(2),
+            mt.p(2),
+            mt.backgroundColor(getColor(score.audience)),
+            mt.w(14),
+            mt.h(14),
+            mt.flexCol,
+            mt.items("center"),
+            mt.justify("center"),
+          ]}
+        >
+          <Text size="lg" weight="black">
+            {score.audience}
+          </Text>
         </View>
       </View>
-    </Shadow>
+
+      <View
+        style={[
+          mt.flexCol,
+          mt.gap(1),
+          mt.items("flex-start"),
+          mt.justify("center"),
+        ]}
+      >
+        <View
+          style={[
+            mt.border(2),
+            mt.p(1),
+            mt.rotate(3),
+            mt.backgroundColor("white"),
+          ]}
+        >
+          <Text size="sm">CRITIC SCORE</Text>
+        </View>
+
+        <View
+          style={[
+            mt.border(2),
+            mt.p(2),
+            mt.backgroundColor(getColor(score.audience)),
+            mt.w(14),
+            mt.h(14),
+            mt.flexCol,
+            mt.items("center"),
+            mt.justify("center"),
+          ]}
+        >
+          <Text size="lg" weight="black">
+            {score.audience}
+          </Text>
+        </View>
+      </View>
+    </View>
   );
 }

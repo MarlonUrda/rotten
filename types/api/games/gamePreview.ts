@@ -7,8 +7,8 @@ export const screenShot = z.object({
 
 export const esrbRating = z.object({
   id: z.number(),
-  slug: z.string(),
-  name: z.string(),
+  slug: z.enum(["everyone", "everyone-10-plus", "teen", "mature", "adults-only", "rating-pending"]),
+  name: z.enum(["Everyone", "Everyone 10+", "Teen", "Mature", "Adults Only", "Rating Pending"]),
 });
 
 export const platform = z.object({

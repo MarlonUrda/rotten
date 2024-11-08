@@ -96,8 +96,11 @@ const mt = {
   position: (value: "absolute" | "relative") => ({
     position: value
   }),
-  pv: (value: AbsolutePixels) => ({
+  py: (value: AbsolutePixels) => ({
     paddingVertical: s.pixels[value]
+  }),
+  px: (value: AbsolutePixels) => ({
+    paddingHorizontal: s.pixels[value]
   }),
   top: (value: Pixels) => ({
     top: s.pixels[value]
@@ -138,9 +141,26 @@ const mt = {
   fontSize: (value: FontSize) => ({
     fontSize: s.font[value]
   }),
-  fontWeight: (value: "bold" | "black" | "normal") => ({
-    fontWeight: s.font[value]
+  fontWeight: (value: "bold" | "black" | "normal") => {
+    switch (value) {
+      case "bold":
+        return {
+          fontFamily: s.fontFamily.sansBold
+        }
+      case "black":
+        return {
+          fontFamily: s.fontFamily.sansBlack
+        }
+      default:
+        return {
+          fontFamily: s.fontFamily.sans
+        }
+    }
+  },
+  rotate: (value: number) => ({
+    transform: [{ rotate: `${value}deg` }]
   }),
+
   items: (value: "center" | "flex-start" | "flex-end") => ({
     alignItems: value
   }),
