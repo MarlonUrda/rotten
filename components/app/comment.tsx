@@ -14,8 +14,8 @@ interface CommentProps {
 
 export function Comment({ writer, date, content }: CommentProps) {
   return (
-    <Animated.View style={[mt.w("full"), mt.flexCol, mt.gap(4), mt.p(4)]} layout={LinearTransition} entering={FadeIn} exiting={FadeOut}>
-      <View style={[mt.flexRow, mt.justify("space-between"), mt.items("center"), mt.p(4)]}>
+    <Animated.View style={[mt.w("full"), mt.flexCol, mt.gap(4), mt.p(4), mt.backgroundColor("background"), mt.rounded("base")]} layout={LinearTransition} entering={FadeIn} exiting={FadeOut}>
+      <View style={[mt.flexRow, mt.justify("space-between"), mt.p(4)]}>
         <View style={[mt.flexCol, mt.gap(2)]}>
           <Text size="md" weight="bold">
             {writer}
@@ -24,11 +24,11 @@ export function Comment({ writer, date, content }: CommentProps) {
             {date}
           </Text>
         </View>
-        <Shadow {...s.shadow.md}>
-          <TouchableOpacity style={[mt.w(10), mt.h(12), mt.backgroundColor("purple")]}>
+        {/* <Shadow {...s.shadow.md}>
+          <TouchableOpacity style={[mt.w(6), mt.h(6), mt.backgroundColor("purple"), mt.rounded("base")]}>
             <CommentMenu />
           </TouchableOpacity>
-        </Shadow>
+        </Shadow> */}
       </View>
       <View style={[mt.pl(4), mt.pr(2)]}>
         <Text size="md" weight="normal">

@@ -64,7 +64,7 @@ export function GamePreview({ title, game }: GamePreviewProps) {
                 marginTop: 3,
               }}
             />
-            <Text weight="bold">87%</Text>
+            <Text weight="bold">{game.metacritic}%</Text>
           </View>
           <View style={[mt.flexRow, mt.gap(1)]}>
             <Image

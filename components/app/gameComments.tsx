@@ -1,6 +1,9 @@
+import React from 'react';
+import { View, FlatList } from 'react-native';
 import mt from "@/styles/mtWind";
 import { Comment } from "./comment";
-import { View, ScrollView } from "react-native";
+import { Shadow } from "react-native-shadow-2";
+import s from "@/styles/styleValues";
 
 const comments = [
   { writer: "User123", date: "12/12/12", content: "Este juego es muy bueno y entretenido" },
@@ -19,10 +22,17 @@ const comments = [
 
 export default function CommentList() {
   return (
-    <ScrollView style={[mt.backgroundColor("blueOpacity", 200, 0.3)]}>
-      {comments.map((comment, index) => (
-        <Comment key={index} writer={comment.writer} date={comment.date} content={comment.content} />
-      ))}
-    </ScrollView>
+    <FlatList
+      data={comments}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item }) => (
+        <View style={[mt.p(4), mt.rounded("base")]}>
+          <Shadow {...s.shadow.md}>
+            <Comment writer={item.writer} date={item.date} content={item.content} />
+          </Shadow>
+        </View>
+      )}
+      contentContainerStyle={[mt.backgroundColor("blueOpacity", 200, 0.3), mt.gap(4), mt.p(5)]}
+    />
   );
 }

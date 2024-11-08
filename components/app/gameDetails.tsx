@@ -12,7 +12,7 @@ import { Image } from "react-native-elements";
 import mt, { generic } from "@/styles/mtWind";
 import { GameInfo } from "./gameInfo";
 import { ButtonWrapper } from "./buttonWrapper";
-import CommentList from "./gameComments";
+import "../util/sheet"
 
 interface GameDetailsProps {
   //movie: Movie;
@@ -54,9 +54,6 @@ export function GameDetails() {
       </Animated.View>
       <Animated.View>
         <ButtonWrapper />
-      </Animated.View>
-      <Animated.View>
-        <CommentList />
       </Animated.View>
     </Animated.View>
   );
