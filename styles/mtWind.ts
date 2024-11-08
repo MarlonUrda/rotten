@@ -141,6 +141,9 @@ const mt = {
   fontSize: (value: FontSize) => ({
     fontSize: s.font[value]
   }),
+  z: (value: AbsolutePixels) => ({
+    zIndex: s.pixels[value]
+  }),
   fontWeight: (value: "bold" | "black" | "normal") => {
     switch (value) {
       case "bold":

@@ -76,7 +76,7 @@ const buttonStyles = (variant: ButtonProps["variant"]) => {
       break;
     case "error":
       backgroundColor = s.colors.red[500];
-
+      textColor = s.colors.black;
       break;
     case "success":
       backgroundColor = s.colors.green[500];
