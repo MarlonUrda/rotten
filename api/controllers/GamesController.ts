@@ -12,6 +12,8 @@ export class GamesController {
         responseSchema: standardGameResponse,
       });
 
+      console.log("result");
+
       return result;
     } catch (error) {
       const sfError = error as SuperFetchError;

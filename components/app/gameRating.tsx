@@ -6,14 +6,14 @@ import mt from "@/styles/mtWind";
 
 const star = require("../../assets/images/rating.png")
 
-interface MovieRatingProps {
+interface GameRatingProps {
   rating: number;
   onChange?: (rating: number) => void;
   size?: number;
   color?: string;
 }
 
-export function MovieRating({ rating, onChange, size }: MovieRatingProps){
+export function GameRating({ rating, onChange, size }: GameRatingProps){
   return (
     <Rating 
       size={size}
@@ -29,7 +29,7 @@ export function MovieRating({ rating, onChange, size }: MovieRatingProps){
   )
 }
 
-export function MovieRatingDisplay({ rating, size, color }: MovieRatingProps) {
+export function GameRatingDisplay({ rating, size, color }: GameRatingProps) {
   const starStyle = useAnimatedStyle(() => {
     return {
       tintColor: withTiming(color ?? s.colors.yellow[50]),

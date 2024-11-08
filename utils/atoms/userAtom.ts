@@ -12,7 +12,7 @@ const storage = createJSONStorage<{
 const isLocal = process.env.NODE_ENV === "development";
 
 const localUser: User = {
-  _id: "672b6271784664875cb46cae",
+  _id: "672d2f92d4d345bd19553688",
   email: "tomasymarlon@tm.com",
   firstName: "Tomas",
   lastName: "Marlon",

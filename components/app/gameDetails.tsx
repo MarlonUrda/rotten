@@ -10,8 +10,9 @@ import { Text } from "../ui/text";
 import { Button } from "../ui/button";
 import { Image } from "react-native-elements";
 import mt, { generic } from "@/styles/mtWind";
-import { MovieInfo } from "./movieInfo";
+import { GameInfo } from "./gameInfo";
 import { ButtonWrapper } from "./buttonWrapper";
+import CommentList from "./gameComments";
 
 interface GameDetailsProps {
   //movie: Movie;
@@ -26,20 +27,15 @@ export function GameDetails() {
       style={[mt.flexCol, mt.gap(4), mt.justify("center")]}
     >
       <View style={[mt.pt(10), mt.mb(20)]}>
-        <View style={[mt.position("relative")]}>
+        <View>
           <Image
             source={require("../../assets/images/adaptive-icon.png")}
             style={[mt.w("full"), mt.h(72), mt.resize("cover")]}
           />
-          <View style={[mt.position("absolute"), mt.top(16), mt.left(32)]}>
-            <Image
-              source={require("../../assets/images/adaptive-icon.png")}
-              style={[mt.w(36), mt.h(64), mt.resize("cover"), mt.border(4)]}
-            />
-            <Text weight="black" size="2xl">
+    
+          <Text weight="black" size="2xl">
               I'm a Poop
             </Text>
-          </View>
         </View>
       </View>
       <Animated.View
@@ -54,10 +50,13 @@ export function GameDetails() {
           mt.p(3),
         ]}
       >
-        <MovieInfo />
+        <GameInfo />
       </Animated.View>
       <Animated.View>
         <ButtonWrapper />
+      </Animated.View>
+      <Animated.View>
+        <CommentList />
       </Animated.View>
     </Animated.View>
   );

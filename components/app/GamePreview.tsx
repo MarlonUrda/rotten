@@ -40,7 +40,7 @@ export function GamePreview({ title, game }: GamePreviewProps) {
           mt.p(4),
         ]}
       >
-        <TouchableOpacity onPress={() => router.push("games/1")}>
+        <TouchableOpacity onPress={() => router.push(`/games/${game.id}`)}>
           <View>
             <Image
               source={{ uri: game.background_image }}

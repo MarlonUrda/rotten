@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { Button } from "../ui/button";
-import { MovieRating } from "./movieRating";
+import { GameRating } from "./gameRating";
 import { Text } from "../ui/text";
 import mt from "@/styles/mtWind";
 
@@ -11,7 +11,7 @@ export function ButtonWrapper() {
         <Text style={[mt.align("center")]}>
           Que tal te parecio?
         </Text>
-        <MovieRating rating={0} onChange={(rating) => console.log(Math.round(rating))}/>
+        <GameRating rating={0} onChange={(rating) => console.log(Math.round(rating))}/>
         <Button variant="secondary">
           <Text style={[mt.align("center"), mt.w("full")]}>
             Puntuar

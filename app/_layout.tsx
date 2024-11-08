@@ -3,6 +3,8 @@ import { Stack } from "expo-router";
 import { Toaster } from 'sonner-native'
 import { SheetProvider } from 'react-native-actions-sheet'
 import { GestureHandlerRootView } from "react-native-gesture-handler"
+import { HoldMenuProvider } from "react-native-hold-menu"
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import "react-native-reanimated"
 import "@/global.css"
@@ -26,7 +28,7 @@ import s from "@/styles/styleValues";
 const queryClient = new QueryClient()
 
 export default function RootLayout() {
-
+  const insets = useSafeAreaInsets()
   let [fontsLoaded] = useLexend({
     Lexend_100Thin,
     Lexend_200ExtraLight,
@@ -52,18 +54,20 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <SheetProvider>
         <ThemeProvider value={LightTheme}>
-          <GestureHandlerRootView>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                animation: "simple_push",
-                contentStyle: {
-                  backgroundColor:s.colors.background
-                }
-              }}
-            ></Stack>
-            <Toaster richColors position="bottom-center"/>
-          </GestureHandlerRootView>
+          <HoldMenuProvider theme="light" safeAreaInsets={insets}>  
+            <GestureHandlerRootView>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  animation: "simple_push",
+                  contentStyle: {
+                    backgroundColor:s.colors.background
+                  }
+                }}
+              ></Stack>
+              <Toaster richColors position="bottom-center"/>
+            </GestureHandlerRootView>
+          </HoldMenuProvider>
         </ThemeProvider>
       </SheetProvider>
     </QueryClientProvider>
