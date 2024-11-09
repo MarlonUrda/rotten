@@ -13,12 +13,13 @@ import mt, { generic } from "@/styles/mtWind";
 import { GameInfo } from "./gameInfo";
 import { ButtonWrapper } from "./buttonWrapper";
 import "../util/sheet"
+import { type GameDetails } from "@/types/api/games/gameDetails";
 
 interface GameDetailsProps {
-  //movie: Movie;
+  game: GameDetails
 }
 
-export function GameDetails() {
+export function GameDetails({ game }: GameDetailsProps) {
   return (
     <Animated.View
       layout={LinearTransition}
@@ -29,13 +30,13 @@ export function GameDetails() {
       <View style={[mt.pt(10), mt.mb(20)]}>
         <View>
           <Image
-            source={require("../../assets/images/adaptive-icon.png")}
+            source={{ uri: game.background_image }}
             style={[mt.w("full"), mt.h(72), mt.resize("cover")]}
           />
     
-          <Text weight="black" size="2xl">
-              I'm a Poop
-            </Text>
+          <Text weight="black" size="2xl" style={[mt.align("center")]}>
+            {game.name}
+          </Text>
         </View>
       </View>
       <Animated.View
@@ -50,7 +51,7 @@ export function GameDetails() {
           mt.p(3),
         ]}
       >
-        <GameInfo />
+        <GameInfo game={game}/>
       </Animated.View>
       <Animated.View>
         <ButtonWrapper />

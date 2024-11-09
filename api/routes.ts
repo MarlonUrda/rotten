@@ -11,6 +11,7 @@ export const apiRoutes = {
 
     // Games
     "popular": () => `${server}/games/popular`,
+    "game/:id": (id: number) => `${server}/games/${id}`,
 };
 
 

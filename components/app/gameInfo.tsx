@@ -2,25 +2,49 @@ import mt from "@/styles/mtWind";
 import { View } from "react-native";
 import { Image } from "react-native-elements";
 import { Text } from "../ui/text";
+import { GameDetails } from "@/types/api/games/gameDetails";
 
-export function GameInfo() {
+interface GameInfoProps {
+  game: GameDetails
+}
+
+export function GameInfo({ game }: GameInfoProps) {
+
+  const dev = game.developers.map(dev => dev.name).join(", ")
+  const genres = game.genres.map(genre => genre.name).join(", ")
+  const platforms = game.platforms.map(platform => platform.platform.name).join(", ")
+
+  const cutDescription = (description: string, word: string) => {
+    const index = description.indexOf(word)
+    if (index !== -1){
+      return description.slice(index + word.length).trim()
+    }
+
+    return description
+  }
+
+  const description = cutDescription(game.description_raw, "Español")
+
   return (
     <>
       <View style={[mt.flexCol, mt.justify("center"), mt.gap(2), mt.pl(3), mt.pr(3)]}>
         <Text weight="bold">
-          Fecha de lanzamiento: <Text>10/11/2024</Text>
+          Fecha de lanzamiento: <Text>{game.released}</Text>
         </Text>
         <Text weight="bold">
-          Estatus: <Text>Por estrenar</Text>
+          Tiempo de juego: <Text>{game.playtime}h</Text>
         </Text>
         <Text weight="bold">
-          Desarrollador: <Text>MT Entertainment</Text>
+          Plataformas: <Text>{platforms}</Text>
+        </Text>
+        <Text weight="bold">
+          Desarrollador: <Text>{dev}</Text>
         </Text>
         <Text weight="bold" >
-          Generos: <Text>Accion, Comedia, Misterio</Text>
+          Generos: <Text>{genres}</Text>
         </Text>
         <Text weight="bold" >
-          Sinopsis: <Text>iuygdwbehcnsjiushwyegtcsbhuwsqihedycsgtwbhenciuhyegwtuhnjskewmhuyfdwjnuyducsjewuy4educsbjebfygrt4efhbdjseb</Text>
+          Sinopsis: <Text>{description}</Text>
         </Text>
       </View>
     </>
