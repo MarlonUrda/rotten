@@ -5,11 +5,15 @@ import { Text } from "../ui/text";
 import { SheetManager } from "react-native-actions-sheet";
 import mt from "@/styles/mtWind";
 
-export function ButtonWrapper() {
+interface ButtonWrapperProps {
+  gameId: number;
+}
+
+export function ButtonWrapper({ gameId }: ButtonWrapperProps) {
 
   const showSheet = () => {
-    console.log("jola");
-    SheetManager.show("commentSheet")
+    console.log(gameId);
+    SheetManager.show("commentSheet", { payload: { gameId } })
   }
 
   return (

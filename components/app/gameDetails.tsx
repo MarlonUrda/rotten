@@ -54,7 +54,7 @@ export function GameDetails({ game }: GameDetailsProps) {
         <GameInfo game={game}/>
       </Animated.View>
       <Animated.View>
-        <ButtonWrapper />
+        <ButtonWrapper gameId={game.id}/>
       </Animated.View>
     </Animated.View>
   );

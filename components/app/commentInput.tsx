@@ -6,8 +6,13 @@ import { SendHorizontal } from "lucide-react-native"
 import mt from "@/styles/mtWind";
 import { formStyles } from "@/styles/formStyleSheet";
 import { SimpleInput } from "../forms/formsUtils/SimpleInput";
+import { CommentController } from "@/api/controllers/CommentsController";
 
-export function CommentInput() {
+interface CommentInputProps {
+  gameId: number;
+}
+
+export function CommentInput({ gameId }: CommentInputProps) {
   return (
     <View style={[mt.flexRow, mt.gap(8), mt.items("center")]}>
       <SimpleInput placeholder="Agrega tu reseña..." inputStyle={[mt.w(60)]} multiline/>
