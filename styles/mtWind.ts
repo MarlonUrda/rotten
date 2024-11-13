@@ -53,6 +53,16 @@ type AbsolutePixels = Exclude<Pixels, "full" | "half" | "third">;
 type Font = keyof typeof s.font;
 type FontWeight = "bold" | "medium" | "light" | "black";
 type FontSize = Exclude<Font, "bold" | "medium" | "light" | "black" | "normal" | "italic">;
+type Color = keyof typeof s.colors;
+
+export type MTTypes = {
+  Color: Color;
+  Pixels: Pixels;
+  AbsolutePixels: AbsolutePixels;
+  Font: Font;
+  FontWeight: FontWeight;
+  FontSize: FontSize;
+}
 
 const mt = {
   flex: {
@@ -138,11 +148,14 @@ const mt = {
   border: (value: keyof typeof s.borderWidth) => ({
     borderWidth: s.borderWidth[value]
   }),
+  borderBottom: (value: keyof typeof s.borderWidth) => ({
+    borderBottomWidth: s.borderWidth[value]
+  }),
   fontSize: (value: FontSize) => ({
     fontSize: s.font[value]
   }),
-  z: (value: AbsolutePixels) => ({
-    zIndex: s.pixels[value]
+  z: (value: number) => ({
+    zIndex: value
   }),
   fontWeight: (value: "bold" | "black" | "normal") => {
     switch (value) {
@@ -173,8 +186,14 @@ const mt = {
   w: (value: Pixels) => ({
     width: s.pixels[value]
   }),
+  pxw: (value: number) => ({
+    width: value
+  }),
   h: (value: Pixels) => ({
     height: s.pixels[value]
+  }),
+  pxh: (value: number) => ({
+    height: value
   }),
   overflow: (value: "hidden" | "scroll" | "visible") => ({
     overflow: value
@@ -194,6 +213,12 @@ const mt = {
   underline: {
     textDecorationLine: "underline"
   },
+  inset: (value: Pixels) => ({
+    top: s.pixels[value],
+    left: s.pixels[value],
+    right: s.pixels[value],
+    bottom: s.pixels[value]
+  }),
   shadow: s.shadow
 } as const;
 

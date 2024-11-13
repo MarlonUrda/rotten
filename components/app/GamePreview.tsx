@@ -105,7 +105,9 @@ function ReleaseDate({ released }: { released: string }) {
           mt.backgroundColor("white"),
         ]}
       >
-        <Text size="sm">RELEASED</Text>
+        <Text size="sm"
+          style={[mt.fontWeight("bold")]}
+        >LANZADO</Text>
       </View>
       <View
         style={[
@@ -115,7 +117,9 @@ function ReleaseDate({ released }: { released: string }) {
           mt.backgroundColor("white"),
         ]}
       >
-        <Text size="lg" weight="black">
+        <Text size="lg" weight="black"
+          style={[mt.fontWeight("black")]}
+        >
           {released}
         </Text>
       </View>
@@ -160,7 +164,9 @@ function Scores({
             mt.backgroundColor("white"),
           ]}
         >
-          <Text size="sm">USER SCORE</Text>
+          <Text size="sm"
+            style={[mt.fontWeight("bold")]}
+          >USER SCORE</Text>
         </View>
         <View
           style={[
@@ -174,7 +180,9 @@ function Scores({
             mt.justify("center"),
           ]}
         >
-          <Text size="lg" weight="black">
+          <Text size="lg" weight="black"
+            style={[mt.fontWeight("black")]}
+          >
             {score.audience}
           </Text>
         </View>
@@ -196,7 +204,9 @@ function Scores({
             mt.backgroundColor("white"),
           ]}
         >
-          <Text size="sm">CRITIC SCORE</Text>
+          <Text size="sm"
+            style={[mt.fontWeight("bold")]}
+          >CRITIC SCORE</Text>
         </View>
 
         <View
@@ -211,7 +221,9 @@ function Scores({
             mt.justify("center"),
           ]}
         >
-          <Text size="lg" weight="black">
+          <Text size="lg" weight="black"
+            style={[mt.fontWeight("black")]}
+          >
             {score.audience}
           </Text>
         </View>

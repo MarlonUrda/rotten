@@ -18,7 +18,7 @@ export default function Index() {
 
   return (
     <View style={[mt.pt(12), mt.p(2)]}>
-      <GamesScroll title="Popular"
+      <GamesScroll title="Juegos Populares"
         gamesQuery={popularGamesQuery}
       />
     </View>

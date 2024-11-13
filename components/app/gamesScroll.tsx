@@ -16,10 +16,22 @@ interface GamesScrollerProps {
 const GamesScroll = ({ title, gamesQuery }: GamesScrollerProps) => {
   return (
     <View>
-      <View style={[mt.p(4), mt.pb(2)]}>
-        <Text size="xl" weight="black">
-          {title}
-        </Text>
+      <View style={[mt.p(4), mt.flexRow]}>
+        <View
+          style={[
+            mt.p(1),
+            mt.border(4),
+            mt.rotate(-3),
+            mt.backgroundColor("white")
+          ]}
+        >
+
+          <Text size="xl" weight="black"
+            style={[mt.fontWeight("black")]}
+          >
+            {title}
+          </Text>
+        </View>
       </View>
       <ScrollView
         horizontal
@@ -29,6 +41,7 @@ const GamesScroll = ({ title, gamesQuery }: GamesScrollerProps) => {
           mt.gap(5),
           mt.overflow("hidden"),
           mt.p(4),
+          mt.pt(0),
         ]}
         style={[]}
       >
