@@ -8,7 +8,7 @@ import s from "@/styles/styleValues";
 
 interface CommentProps {
   writer: string;
-  date: Date;
+  date: string;
   content: string;
 }
 
@@ -21,7 +21,7 @@ export function Comment({ writer, date, content }: CommentProps) {
             {writer}
           </Text>
           <Text size="sm">
-            {date.toString()}
+            {date}
           </Text>
         </View>
         {/* <Shadow {...s.shadow.md}>

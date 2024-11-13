@@ -10,8 +10,7 @@ export const GetCommentsResponseSchema = z.array(CommentSchema).optional()
 
 export type CreateCommentRequest = {
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
+  rating: number | 0;
   gameId: number;
   userId: string;
 }

@@ -46,7 +46,7 @@ export default function LoginForm() {
     onSuccess: (data) => {
       myToast(true, `Bienvenido ${data.user.firstName}`)
       form.reset()
-      router.push("/movies")
+      router.push("/games")
     }
   })
 

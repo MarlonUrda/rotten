@@ -9,6 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { CommentController } from "@/api/controllers/CommentsController";
 import { useEffect } from "react";
+import { Text } from "../ui/text";
+import { EmptyCommentsSplash } from "./emptyComentariesSplash";
 
 interface Payload {
   gameId: number
@@ -46,7 +48,12 @@ export function CommentSheet({ payload }: CommentProps) {
             <X size={24} color="#000"/>
           </Button>
         </View>
-        <CommentList comments={getCommentQuery.data ?? []}/>
+        {!getCommentQuery.isLoading && getCommentQuery.data && getCommentQuery.data.length > 0 ? (
+          <CommentList comments={getCommentQuery.data ?? []}/>
+        ):(
+          <EmptyCommentsSplash />
+        )}
+        
       </View>
       <View style={[mt.position("absolute"), mt.bottom(0), mt.left(0), mt.right(0), mt.w("full"), mt.items("center"), mt.backgroundColor("green"), mt.pt(4), mt.pb(4)]}>
         <CommentInput gameId={gameId}/>
