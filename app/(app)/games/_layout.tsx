@@ -16,7 +16,7 @@ export default function Movies() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: "white" },
-          animation: "fade_from_bottom"
+          animation: "slide_from_right"
         }}
       ></Stack>
     </SafeAreaView>
