@@ -33,7 +33,7 @@ export default function CommentList({ comments }: ListProps) {
       renderItem={({ item }) => (
         <View style={[mt.p(2), mt.rounded("base")]}>
           <Shadow {...s.shadow.md}>
-            <Comment writer={item.userId.firstName} date={item.createdAt.toString()} content={item.content} />
+            <Comment comment={item}/>
           </Shadow>
         </View>
       )}
