@@ -65,7 +65,7 @@ export default function RootLayout() {
                   }
                 }}
               ></Stack>
-              <Toaster richColors position="bottom-center"/>
+              <Toaster richColors position="top-center"/>
             </GestureHandlerRootView>
           </HoldMenuProvider>
         </ThemeProvider>

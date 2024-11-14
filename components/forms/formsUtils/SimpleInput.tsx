@@ -1,4 +1,4 @@
-import { StyleProp, TextInput as Input, TextStyle, ViewStyle } from "react-native";
+import { StyleProp, TextInput as Input, TextStyle, ViewStyle, TextInputProps } from "react-native";
 import Animated, {
   LinearTransition,
   useSharedValue,
@@ -13,7 +13,7 @@ import { useState } from "react";
 import s from "@/styles/styleValues";
 import { View } from "react-native";
 
-interface SimpleInputProps {
+interface SimpleInputProps extends TextInputProps {
   placeholder?: string;
   multiline?: boolean;
   inputStyle?: StyleProp<TextStyle>;
@@ -25,6 +25,8 @@ export function SimpleInput({
   multiline,
   inputStyle,
   viewStyle,
+  onChangeText,
+  ...props
 }: SimpleInputProps) {
   const [focus, setFocus] = useState(false);
   const translateStyle = useAnimatedStyle(() => {
@@ -62,6 +64,8 @@ export function SimpleInput({
             selectionColor={"#000"}
             onBlur={() => setFocus(false)}
             onFocus={() => setFocus(true)}
+            onChangeText={onChangeText}
+            {...props}
           >
           </Input>
         </Animated.View>

@@ -31,13 +31,13 @@ export default function CommentList({ comments }: ListProps) {
       data={comments}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => (
-        <View style={[mt.p(4), mt.rounded("base")]}>
+        <View style={[mt.p(2), mt.rounded("base")]}>
           <Shadow {...s.shadow.md}>
-            <Comment writer={item.userId} date={item.createdAt} content={item.content} />
+            <Comment writer={item.userId.firstName} date={item.createdAt.toString()} content={item.content} />
           </Shadow>
         </View>
       )}
-      contentContainerStyle={[mt.backgroundColor("blueOpacity", 200, 0.3), mt.gap(4), mt.p(5)]}
+      contentContainerStyle={[mt.backgroundColor("blueOpacity", 200, 0.3), mt.gap(4), mt.p(2), mt.mb(14), mt.pb(7)]}
     />
   );
 }
