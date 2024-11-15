@@ -24,6 +24,7 @@ export default function DetailsScreen() {
     queryFn: () => GamesController.getGame({ id: numberId }),
   });
 
+
   useEffect(() => {
     console.log(getGameQuery.data);
   }, [getGameQuery]);
