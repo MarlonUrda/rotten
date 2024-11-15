@@ -13,6 +13,7 @@ import Carousel from "react-native-reanimated-carousel";
 import Loader from "../ui/loader";
 import { useEffect } from "react";
 import s from "@/styles/styleValues";
+import { Title } from "../ui/Title";
 
 interface GameInfoProps {
   game: GameDetails;
@@ -101,23 +102,7 @@ export function GameInfo({ game }: GameInfoProps) {
   );
 }
 
-function Title({ title, color }: { title: string; color: MTTypes["Color"] }) {
-  return (
-    <View
-      style={[
-        mt.p(1),
-        mt.px(2),
-        mt.border(2),
-        mt.backgroundColor(color),
-        mt.rotate(-3),
-      ]}
-    >
-      <Text size="lg" weight="black" style={[mt.fontWeight("bold")]}>
-        {title}
-      </Text>
-    </View>
-  );
-}
+
 
 function PlatformChip({ id }: { id: number }) {
   const platform = platforms.find((platform) => platform.id === id);

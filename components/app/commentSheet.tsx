@@ -1,5 +1,5 @@
 import ActionSheet, { SheetManager } from "react-native-actions-sheet";
-import { TextInput, View } from "react-native";
+import { TextInput, View, Dimensions } from "react-native";
 import CommentList from "./gameComments";
 import mt from "@/styles/mtWind";
 import { CommentInput } from "./commentInput";
@@ -11,6 +11,7 @@ import { CommentController } from "@/api/controllers/CommentsController";
 import { useEffect } from "react";
 import { Text } from "../ui/text";
 import { EmptyCommentsSplash } from "./emptyComentariesSplash";
+import { Title } from "../ui/Title";
 
 interface Payload {
   gameId: number
@@ -21,7 +22,7 @@ interface CommentProps {
 }
 
 export function CommentSheet({ payload }: CommentProps) {
-
+  const {height} = Dimensions.get("window")
   const { gameId } = payload
 
   const getCommentQuery = useQuery({
@@ -40,24 +41,47 @@ export function CommentSheet({ payload }: CommentProps) {
     SheetManager.hide("commentSheet")
   }
 
-  return(
+  return (
     <ActionSheet id="commentSheet">
-      <View style={[mt.pr(4), mt.pl(4), mt.pt(4)]}>
-        <View style={[mt.w(10), mt.h(10), mt.position("absolute"), mt.top(5), mt.right(5), mt.z(1)]}>
+      <View
+        style={[
+          mt.flexCol,
+          mt.justify("flex-start"),
+          mt.items("center"),
+          mt.pxh(height - 100),
+          mt.w("full"),
+          mt.p(4),
+        ]}
+      >
+        <View
+          style={[
+            mt.flexRow,
+            mt.justify("space-between"),
+            mt.items("center"),
+            mt.p(4),
+            mt.w("full"),
+          ]}
+        >
+          <Title title="Comentarios" color="red" size="2xl" shadow />
+
           <Button onPress={closeSheet} variant="error">
-            <X size={24} color="#000"/>
+            <X size={24} color="#000" />
           </Button>
         </View>
-        {!getCommentQuery.isLoading && getCommentQuery.data && getCommentQuery.data.length > 0 ? (
-          <CommentList comments={getCommentQuery.data ?? []}/>
-        ):(
+      <View style={[mt.flexCol, mt.flex1]}>
+        {
+        getCommentQuery.data &&
+        getCommentQuery.data.length > 0 ? (
+          <CommentList comments={getCommentQuery.data ?? []} />
+        ) : (
           <EmptyCommentsSplash />
         )}
-        
       </View>
-      <View style={[mt.position("absolute"), mt.bottom(0), mt.left(0), mt.right(0), mt.w("full"), mt.items("center"), mt.backgroundColor("green"), mt.pt(4), mt.pb(4)]}>
-        <CommentInput gameId={gameId}/>
+      <View>
+        <CommentInput gameId={gameId} />
       </View>
+      </View>
+      
     </ActionSheet>
-  )
+  );
 }

@@ -1,10 +1,10 @@
 import { Text as RNText, TextProps } from "react-native";
 import s from "@/styles/styleValues";
-import mt from "@/styles/mtWind";
+import mt, { MTTypes } from "@/styles/mtWind";
 
 interface CustomTextProps extends TextProps {
     weight?: "bold" | "black" | "normal";
-    size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl";
+    size?: MTTypes["FontSize"];
 }
 
 export function Text(
