@@ -46,30 +46,27 @@ export function GameInfo({ game }: GameInfoProps) {
             mt.w("full"),
           ]}
         >
-          <Title title={"Informacion del juego"} color="yellow"></Title>
+          <Title title={"Game Info"} color="yellow"></Title>
           <View style={[mt.border(2), mt.p(2)]}>
             <Text weight="bold">
-              Fecha de lanzamiento: <Text>{game.released}</Text>
+              Release date: <Text>{game.released}</Text>
             </Text>
             <Text weight="bold">
-              Desarrollador: <Text>{dev}</Text>
+              Developers: <Text>{dev}</Text>
             </Text>
-            {/* <Text weight="bold">
-              Generos: <Text>{genres}</Text>
-            </Text> */}
             <Text weight="bold">
-              Tiempo de juego: <Text>{game.playtime}h</Text>
+              Playtime: <Text>{game.playtime}h</Text>
             </Text>
           </View>
         </Animated.View>
 
         <Animated.View style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}>
-          <Title title={"Capturas"} color="blue"></Title>
-          <ImageCarousel id={game.id}></ImageCarousel>
+          <Title title={"Screenshots"} color="blue"></Title>
+          <ImageCarousel external_id={game.external_id}></ImageCarousel>
         </Animated.View>
 
         <Animated.View style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}>
-          <Title title={"Plataformas"} color="green"></Title>
+          <Title title={"Platforms"} color="green"></Title>
           <View style={[mt.flexRow, mt.gap(2), mt.flexWrap]}>
             {game.platforms
               .sort((a, b) => a.platform.name.localeCompare(b.platform.name))
@@ -90,7 +87,7 @@ export function GameInfo({ game }: GameInfoProps) {
             mt.items("flex-start"),
           ]}
         >
-          <Title title={"Sinopsis"} color="red"></Title>
+          <Title title={"Synopsis"} color="purple"></Title>
           <View style={[mt.border(2), mt.p(2)]}>
             <Text weight="bold">
               <Text>{description}</Text>
@@ -140,17 +137,12 @@ function ImageFrame({ image }: { image: string }) {
   );
 }
 
-function ImageCarousel({ id }: { id: number }) {
+function ImageCarousel({ external_id: id }: { external_id: number }) {
   const width = Dimensions.get("window").width;
   const gameScreenshotsQuery = useQuery({
     queryKey: ["game", "screenshots", id],
-    queryFn: () => GamesController.getGameScreenshots({ id }),
+    queryFn: () => GamesController.getGameScreenshots({ external_id: id }),
   });
-  // console.log(gameScreenshotsQuery.data);
-
-  useEffect(() => {
-    console.log(gameScreenshotsQuery.data);
-  }, [gameScreenshotsQuery]);
 
   return (
     <Animated.View style={[mt.w("full"), mt.h(72), mt.overflow("visible")]}>

@@ -3,7 +3,7 @@ import {
   StandardGameResponse,
   standardGameResponse,
 } from "@/types/api/games/standardGameResponse";
-import { GetGameRequest } from "@/types/api/games/getGameRequest";
+import { GetGameRequest, GetGameScreenshotsRequest } from "@/types/api/games/getGameRequest";
 import { getGameScreenshotsResponse } from "@/types/api/games/gameScreenshots";
 import type { GetGameScreenshotsResponse } from "@/types/api/games/gameScreenshots";
 import { GameDetails, gameDetails } from "@/types/api/games/gameDetails";
@@ -18,6 +18,7 @@ export class GamesController {
       >({
         options: {
           method: "GET",
+          includeCredentials: true,
         },
         route: "popular",
         responseSchema: standardGameResponse,
@@ -39,6 +40,7 @@ export class GamesController {
       const result = await superFetch<GetGameRequest, GameDetails, "game/:id">({
         options: {
           method: "GET",
+          includeCredentials: true,
         },
         route: "game/:id",
         routeParams: [payload.id],
@@ -55,7 +57,7 @@ export class GamesController {
     }
   }
 
-  static async getGameScreenshots(payload: GetGameRequest) {
+  static async getGameScreenshots(payload: GetGameScreenshotsRequest) {
     try {
       const result = await superFetch<
         GetGameRequest,
@@ -64,9 +66,10 @@ export class GamesController {
       >({
         options: {
           method: "GET",
+          includeCredentials: true,
         },
         route: "game/:id/screenshots",
-        routeParams: [payload.id],
+        routeParams: [payload.external_id],
         responseSchema: getGameScreenshotsResponse,
       });
 

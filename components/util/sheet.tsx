@@ -1,10 +1,10 @@
 import { registerSheet } from "react-native-actions-sheet";
-import { CommentSheet } from "../app/commentSheet";
+import { ReviewSheet } from "../app/reviews/reviewSheet";
 
-registerSheet("commentSheet", CommentSheet);
+registerSheet("commentSheet", ReviewSheet);
 
 declare module "react-native-actions-sheet" {
-  interface Sheets{
-    "commentSheet": typeof CommentSheet;
+  interface Sheets {
+    commentSheet: typeof ReviewSheet;
   }
 }

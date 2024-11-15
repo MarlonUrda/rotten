@@ -8,7 +8,7 @@ const MenuItems = [
   { text: "Borrar comentario", icon: "trash", isDestructive: true, onPress: () => {console.log("Eliminar comentario")} }
 ]
 
-export function CommentMenu(){
+export function ReviewMenu(){
   return (
     <View>
       <HoldItem items={MenuItems}>

@@ -9,15 +9,6 @@ import { Redirect } from "expo-router";
 
 export default function Screen() {
 
-  const isLocal = process.env.NODE_ENV === "development";
-
-  if (isLocal) {
-    return <Redirect href="/games" />
-  }
-
-
-
-
   return (
     <SafeAreaView style={generic.safeArea}>
       <View style={generic.headerContainer}>

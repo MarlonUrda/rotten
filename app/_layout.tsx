@@ -1,13 +1,14 @@
 import { ThemeProvider, DefaultTheme } from "@react-navigation/native";
 import { Stack } from "expo-router";
-import { Toaster } from 'sonner-native'
-import { SheetProvider } from 'react-native-actions-sheet'
-import { GestureHandlerRootView } from "react-native-gesture-handler"
-import { HoldMenuProvider } from "react-native-hold-menu"
+import { Toaster } from "sonner-native";
+import { SheetProvider } from "react-native-actions-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { HoldMenuProvider } from "react-native-hold-menu";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
-import "react-native-reanimated"
-import "@/global.css"
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+import "react-native-reanimated";
+import "@/global.css";
 import LightTheme from "@/assets/theme/LightTheme";
 import {
   useFonts as useLexend,
@@ -20,15 +21,15 @@ import {
   Lexend_700Bold,
   Lexend_800ExtraBold,
   Lexend_900Black,
-} from '@expo-google-fonts/lexend';
+} from "@expo-google-fonts/lexend";
 import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import s from "@/styles/styleValues";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const insets = useSafeAreaInsets()
+  const insets = useSafeAreaInsets();
   let [fontsLoaded] = useLexend({
     Lexend_100Thin,
     Lexend_200ExtraLight,
@@ -41,36 +42,35 @@ export default function RootLayout() {
     Lexend_900Black,
   });
 
-  if (!fontsLoaded){
-    console.log("Fonts not loaded")
-    return <View>
-      <Text>Loading...</Text>
-    </View>
+  if (!fontsLoaded) {
+    console.log("Fonts not loaded");
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
-
-
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SheetProvider>
-        <ThemeProvider value={LightTheme}>
-          <HoldMenuProvider theme="light" safeAreaInsets={insets}>  
-            <GestureHandlerRootView>
+      <GestureHandlerRootView>
+        <SheetProvider>
+          <ThemeProvider value={LightTheme}>
+            <HoldMenuProvider theme="light" safeAreaInsets={insets}>
               <Stack
                 screenOptions={{
                   headerShown: false,
                   animation: "simple_push",
                   contentStyle: {
-                    backgroundColor:s.colors.background
-                  }
+                    backgroundColor: s.colors.background,
+                  },
                 }}
               ></Stack>
-              <Toaster richColors position="top-center"/>
-            </GestureHandlerRootView>
-          </HoldMenuProvider>
-        </ThemeProvider>
-      </SheetProvider>
+              <Toaster richColors position="top-center" />
+            </HoldMenuProvider>
+          </ThemeProvider>
+        </SheetProvider>
+      </GestureHandlerRootView>
     </QueryClientProvider>
-  )
-
+  );
 }

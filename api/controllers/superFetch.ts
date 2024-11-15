@@ -61,10 +61,8 @@ export async function superFetch<Request, Response, Route extends ApiRoute = Api
     }
 
 
-    console.log(`${options.method} \ ${realRoute}`);
+    console.log(`${options.method} / ${realRoute}`);
 
-
-    
     const response = await fetch(realRoute, {
         method: options.method,
         headers: headers,
