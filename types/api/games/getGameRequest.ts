@@ -1,3 +1,3 @@
-export interface getGameRequest {
+export interface GetGameRequest {
   id: number;
 }
