@@ -89,7 +89,7 @@ const s = {
       700: "rgba(133, 75, 153, 1)",
       800: "rgba(99, 56, 115, 1)",
       900: "rgba(66, 38, 77, 1)",
-    },
+    } as const,
     purpleOpacity: {
       50: (opacity = 1) => `rgba(253, 249, 255, ${opacity})`,
       100: (opacity = 1) => `rgba(252, 242, 255, ${opacity})`,

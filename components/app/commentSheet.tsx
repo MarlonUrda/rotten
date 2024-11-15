@@ -1,54 +1,57 @@
-import ActionSheet, { SheetManager } from "react-native-actions-sheet";
-import { TextInput, View, Dimensions } from "react-native";
+import ActionSheet, {
+  ActionSheetRef,
+  SheetManager,
+} from "react-native-actions-sheet";
+import { View, Dimensions } from "react-native";
 import CommentList from "./gameComments";
 import mt from "@/styles/mtWind";
-import { CommentInput } from "./commentInput";
 import { Button } from "../ui/button";
 import { X } from "lucide-react-native";
-import { useMutation } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
-import { CommentController } from "@/api/controllers/CommentsController";
-import { useEffect } from "react";
-import { Text } from "../ui/text";
+import { UseQueryResult } from "@tanstack/react-query";
+import { RefObject } from "react";
 import { EmptyCommentsSplash } from "./emptyComentariesSplash";
 import { Title } from "../ui/Title";
+import Loader from "../ui/loader";
+import { GetCommentsResponse } from "@/types/api/Comments";
+import s from "@/styles/styleValues";
+import { CommentInput } from "./commentInput";
 
 interface Payload {
-  gameId: number
+  commentQueryResult: UseQueryResult<GetCommentsResponse>;
+  gameId: number;
 }
 
 interface CommentProps {
-  payload: Payload
+  payload: Payload;
+  ref: RefObject<ActionSheetRef>;
 }
 
-export function CommentSheet({ payload }: CommentProps) {
-  const {height} = Dimensions.get("window")
-  const { gameId } = payload
+export function CommentSheet({ payload, ref }: CommentProps) {
+  const { height } = Dimensions.get("window");
+  const { commentQueryResult, gameId } = payload;
 
-  const getCommentQuery = useQuery({
-    queryKey: ["comments", gameId],
-    queryFn: () => CommentController.getComments(gameId),
 
-  })
-
-  useEffect(() => {
-    console.log(getCommentQuery.data)
-  }, [getCommentQuery])
-  
 
   const closeSheet = () => {
     console.log("jola");
-    SheetManager.hide("commentSheet")
-  }
+    SheetManager.hide("commentSheet");
+  };
 
   return (
-    <ActionSheet id="commentSheet">
+    <ActionSheet gestureEnabled ref={ref}
+      containerStyle={{
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderTopWidth: s.borderWidth[4]
+      }}
+      indicatorStyle={{ borderRadius: 0, backgroundColor: "#000" }}
+    >
       <View
         style={[
           mt.flexCol,
           mt.justify("flex-start"),
           mt.items("center"),
-          mt.pxh(height - 100),
+          mt.pxh(height - 50),
           mt.w("full"),
           mt.p(4),
         ]}
@@ -62,26 +65,26 @@ export function CommentSheet({ payload }: CommentProps) {
             mt.w("full"),
           ]}
         >
-          <Title title="Comentarios" color="red" size="2xl" shadow />
+          <Title title="Reviews" color="red" size="2xl" shadow />
 
           <Button onPress={closeSheet} variant="error">
             <X size={24} color="#000" />
           </Button>
         </View>
-      <View style={[mt.flexCol, mt.flex1]}>
-        {
-        getCommentQuery.data &&
-        getCommentQuery.data.length > 0 ? (
-          <CommentList comments={getCommentQuery.data ?? []} />
-        ) : (
-          <EmptyCommentsSplash />
-        )}
+        <View style={[mt.flexCol, mt.flex1]}>
+
+            {commentQueryResult.isLoading && <Loader />}
+            {commentQueryResult.data && commentQueryResult.data.length > 0 ? (
+              <CommentList comments={commentQueryResult.data} />
+            ) : (
+              <EmptyCommentsSplash />
+            )}
+
+        </View>
+        <View>
+          <CommentInput gameId={gameId} />
+        </View>
       </View>
-      <View>
-        <CommentInput gameId={gameId} />
-      </View>
-      </View>
-      
     </ActionSheet>
   );
 }

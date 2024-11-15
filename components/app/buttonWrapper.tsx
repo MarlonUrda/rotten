@@ -2,19 +2,16 @@ import { View } from "react-native";
 import { Button } from "../ui/button";
 import { GameRating } from "./gameRating";
 import { Text } from "../ui/text";
-import { SheetManager } from "react-native-actions-sheet";
+import { ActionSheetRef, SheetManager } from "react-native-actions-sheet";
 import mt from "@/styles/mtWind";
 
 interface ButtonWrapperProps {
   gameId: number;
 }
 
-export function ButtonWrapper({ gameId }: ButtonWrapperProps) {
+export function ButtonWrapper({ gameId}: ButtonWrapperProps) {
 
-  const showSheet = () => {
-    console.log(gameId);
-    SheetManager.show("commentSheet", { payload: { gameId } })
-  }
+
 
   return (
     <View style={[mt.flexRow, mt.justify("space-between"), mt.p(4), mt.items("center")]}>
@@ -29,7 +26,7 @@ export function ButtonWrapper({ gameId }: ButtonWrapperProps) {
         </Button>
       </View>
       <View style={[mt.flexCol, mt.gap(10), mt.justify("center")]}>
-        <Button onPress={showSheet}>
+        <Button >
           <Text style={[mt.align("center")]}>
             Ver reseñas
           </Text>

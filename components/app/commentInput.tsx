@@ -9,7 +9,7 @@ import { SimpleInput } from "../forms/formsUtils/SimpleInput";
 import { CommentController } from "@/api/controllers/CommentsController";
 import { useState } from "react";
 import { userAtom } from "@/utils/atoms/userAtom";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateCommentRequest } from "@/types/api/Comments";
 import myToast from "../toast";
@@ -23,7 +23,8 @@ export function CommentInput({ gameId }: CommentInputProps) {
 
   const commentQuery = useQueryClient()
 
-  const [currentUser] = useAtom(userAtom)
+  // const [currentUser] = useAtom(userAtom)
+  // const user = useAtomValue(userAtom)
   const [comment, setComment] = useState("")
   const [rating, setRating] = useState(0)
 
@@ -31,45 +32,45 @@ export function CommentInput({ gameId }: CommentInputProps) {
     setComment(value)
   }
 
-  const sendMutate = useMutation({
-    mutationFn: (payload: CreateCommentRequest) => CommentController.createComment(payload, gameId),
-    onSuccess: () => {
-      myToast({ type: "success", message: "Comment added!" })
-      setComment("")
+  // const sendMutate = useMutation({
+  //   mutationFn: (payload: CreateCommentRequest) => CommentController.createComment(payload, gameId),
+  //   onSuccess: () => {
+  //     myToast({ type: "success", message: "Comment added!" })
+  //     setComment("")
 
-      commentQuery.invalidateQueries({ queryKey: ["comments"] })
-    },
-    onError: (error) => {
-      myToast({ type:"info", message:error.message})
-    }
-  })
+  //     commentQuery.invalidateQueries({ queryKey: ["comments"] })
+  //   },
+  //   onError: (error) => {
+  //     myToast({ type:"info", message:error.message})
+  //   }
+  // })
 
-  const submitComment = () => {
-    if (!currentUser) {
-      return;
-    }
-    if (comment.trim() === "") {
-      return
-    }
-    console.log(rating)
-    const payload = {
-      content: comment,
-      rating: rating,
-      gameId,
-      userId: currentUser._id
-    }
-    sendMutate.mutate(payload)
-  }
+  // const submitComment = () => {
+  //   if (!currentUser) {
+  //     return;
+  //   }
+  //   if (comment.trim() === "") {
+  //     return
+  //   }
+  //   console.log(rating)
+  //   const payload = {
+  //     content: comment,
+  //     rating: rating,
+  //     gameId,
+  //     userId: currentUser._id
+  //   }
+  //   sendMutate.mutate(payload)
+  // }
 
   return (
     <View style={[mt.flexCol, mt.gap(4)]}>
       <View style={[mt.flexRow, mt.gap(8), mt.items("center")]}>
-        <SimpleInput placeholder="Agrega tu reseña..." inputStyle={[mt.w(60)]} multiline onChangeText={onChange}/>
-        <Button variant="primary" onPress={submitComment}>
+        <SimpleInput placeholder="Agrega tu reseña..." inputStyle={[mt.w(60)]} multiline />
+        <Button variant="primary">
           <SendHorizontal size={24} color="#000" />
         </Button>
       </View>
-      <GameRating rating={0} onChange={(rating) => setRating(Math.round(rating))}/>
+      <GameRating rating={rating} onChange={(rating) => setRating(Math.round(rating))}/>
     </View>
   )
 }

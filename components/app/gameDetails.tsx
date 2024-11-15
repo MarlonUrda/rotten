@@ -16,12 +16,22 @@ import "../util/sheet";
 import { type GameDetails } from "@/types/api/games/gameDetails";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Shadow } from "react-native-shadow-2";
+import { CommentSheet } from "./commentSheet";
+import { ActionSheetRef, SheetManager } from "react-native-actions-sheet";
+import React from "react";
+import { CommentController } from "@/api/controllers/CommentsController";
+import { useQuery } from "@tanstack/react-query";
 
 interface GameDetailsProps {
   game: GameDetails;
 }
 
 export function GameDetails({ game }: GameDetailsProps) {
+  const getCommentQuery = useQuery({
+    queryKey: ["comments", game.id],
+    queryFn: () => CommentController.getComments(game.id),
+  });
+
   return (
     <Animated.View
       layout={LinearTransition}
@@ -38,33 +48,43 @@ export function GameDetails({ game }: GameDetailsProps) {
       </Animated.View>
       <Animated.View>
         <ButtonWrapper gameId={game.id} />
+        <Button
+          variant="secondary"
+          onPress={() => {
+            SheetManager.show("commentSheet", {
+              payload: { gameId: game.id, commentQueryResult: getCommentQuery },
+            });
+          }}
+        >
+          <Text>Ver comentarios</Text>
+        </Button>
       </Animated.View>
     </Animated.View>
   );
 }
 
-function GameHeader({title, image} : {title: string, image: string}) {
-  return <View>
-    <View
-      style={[
-        mt.w("full"),
-        mt.h(72),
-        mt.position("relative"),
-        mt.borderBottom(4),
-        mt.flexCol,
-        mt.justify("flex-end"),
-        mt.items("flex-end"),
-        mt.p(4),
-      ]}
-    >
-      <View style={[mt.position("absolute"), mt.inset(0)]}>
-        <Image
-          source={{ uri: image }}
-          style={[mt.w("full"), mt.h("full")]} />
+function GameHeader({ title, image }: { title: string; image: string }) {
+  return (
+    <View>
+      <View
+        style={[
+          mt.w("full"),
+          mt.h(72),
+          mt.position("relative"),
+          mt.borderBottom(4),
+          mt.flexCol,
+          mt.justify("flex-end"),
+          mt.items("flex-end"),
+          mt.p(4),
+        ]}
+      >
+        <View style={[mt.position("absolute"), mt.inset(0)]}>
+          <Image source={{ uri: image }} style={[mt.w("full"), mt.h("full")]} />
+        </View>
+        <GameTitle title={title} />
       </View>
-      <GameTitle title={title} />
     </View>
-  </View>;
+  );
 }
 
 function GameTitle({ title }: { title: string }) {

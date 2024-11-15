@@ -26,7 +26,7 @@ export function GameInfo({ game }: GameInfoProps) {
   const cutDescription = (description: string, word: string) => {
     const index = description.indexOf(word);
     if (index !== -1) {
-      return description.slice(index + word.length).trim();
+      return description.slice(0, index).trim();
     }
 
     return description;
