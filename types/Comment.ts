@@ -3,7 +3,7 @@ import z from "zod"
 export const CommentSchema = z.object({
   _id: z.string(),
   content: z.string(),
-  rating: z.number().optional(),
+  rating: z.number(),
   createdAt: z.date({ coerce: true }),
   updatedAt: z.date({ coerce: true }),
   gameId: z.number(),

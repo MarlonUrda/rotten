@@ -22,7 +22,6 @@ export function ButtonWrapper({ gameId }: ButtonWrapperProps) {
         <Text style={[mt.align("center")]}>
           Que tal te parecio?
         </Text>
-        <GameRating rating={0} onChange={(rating) => console.log(Math.round(rating))}/>
         <Button variant="secondary">
           <Text style={[mt.align("center"), mt.w("full")]}>
             Puntuar
@@ -30,7 +29,6 @@ export function ButtonWrapper({ gameId }: ButtonWrapperProps) {
         </Button>
       </View>
       <View style={[mt.flexCol, mt.gap(10), mt.justify("center")]}>
-
         <Button onPress={showSheet}>
           <Text style={[mt.align("center")]}>
             Ver reseñas

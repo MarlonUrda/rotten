@@ -1,12 +1,26 @@
 import mt from "@/styles/mtWind";
 import { toast } from "sonner-native";
 
-const myToast = (succes: boolean, message: string) => {
-  if (succes) {
-    return toast.success(message, { duration: 3000, style: { borderWidth: 3, borderColor: "#000", zIndex: 99 } });
-  }
+interface ToastProps {
+  type: "success" | "error" | "info" | "warning";
+  message: string;
+}
 
-  return toast.error(message, { duration: 3000, style: { borderWidth: 3, borderColor: "#000", zIndex: 99 } });
+const myToast = ({ type, message }: ToastProps) => {
+  const toastOptions = { duration: 3000, style: { borderWidth: 3, borderColor: "#000", zIndex: 99 } }
+
+  switch (type) {
+    case "success":
+      return toast.success(message, toastOptions);
+    case "error":
+      return toast.error(message, toastOptions);
+    case "info":
+      return toast.info(message, toastOptions);
+    case "warning":
+      return toast.warning(message, toastOptions);
+    default:
+      return toast(message, toastOptions);
+  }
 };
 
 export default myToast;

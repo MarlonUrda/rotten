@@ -10,9 +10,10 @@ import { CommentController } from "@/api/controllers/CommentsController";
 import { useState } from "react";
 import { userAtom } from "@/utils/atoms/userAtom";
 import { useAtom } from "jotai";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateCommentRequest } from "@/types/api/Comments";
 import myToast from "../toast";
+import { GameRating } from "./gameRating";
 
 interface CommentInputProps {
   gameId: number;
@@ -20,36 +21,40 @@ interface CommentInputProps {
 
 export function CommentInput({ gameId }: CommentInputProps) {
 
+  const commentQuery = useQueryClient()
+
   const [currentUser] = useAtom(userAtom)
   const [comment, setComment] = useState("")
+  const [rating, setRating] = useState(0)
 
   const onChange = (value: string) => {
     setComment(value)
   }
 
   const sendMutate = useMutation({
-    mutationKey: ["comments", gameId],
     mutationFn: (payload: CreateCommentRequest) => CommentController.createComment(payload, gameId),
     onSuccess: () => {
-      myToast(true, "Comentario agregado!")
+      myToast({ type: "success", message: "Comment added!" })
       setComment("")
+
+      commentQuery.invalidateQueries({ queryKey: ["comments"] })
     },
     onError: (error) => {
-      myToast(false, error.message)
+      myToast({ type:"info", message:error.message})
     }
   })
 
   const submitComment = () => {
-    console.log(comment)
-    if (comment.trim() === "") {
-      return
-    }
     if (!currentUser) {
       return;
     }
+    if (comment.trim() === "") {
+      return
+    }
+    console.log(rating)
     const payload = {
       content: comment,
-      rating: 3,
+      rating: rating,
       gameId,
       userId: currentUser._id
     }
@@ -57,11 +62,14 @@ export function CommentInput({ gameId }: CommentInputProps) {
   }
 
   return (
-    <View style={[mt.flexRow, mt.gap(8), mt.items("center")]}>
-      <SimpleInput placeholder="Agrega tu reseña..." inputStyle={[mt.w(60)]} multiline onChangeText={onChange}/>
-      <Button variant="primary" onPress={submitComment}>
-        <SendHorizontal size={24} color="#000" />
-      </Button>
+    <View style={[mt.flexCol, mt.gap(4)]}>
+      <View style={[mt.flexRow, mt.gap(8), mt.items("center")]}>
+        <SimpleInput placeholder="Agrega tu reseña..." inputStyle={[mt.w(60)]} multiline onChangeText={onChange}/>
+        <Button variant="primary" onPress={submitComment}>
+          <SendHorizontal size={24} color="#000" />
+        </Button>
+      </View>
+      <GameRating rating={0} onChange={(rating) => setRating(Math.round(rating))}/>
     </View>
   )
 }

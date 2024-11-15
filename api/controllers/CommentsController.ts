@@ -81,10 +81,11 @@ export class CommentController {
 
       return result;
     } catch (error) {
-      console.log("error")
       const sfError = error as SuperFetchError;
       console.log(sfError.code, sfError.message);
-      throw new Error("Error deleting comment in db.");
+      if (sfError.code === 400) {
+        throw new Error("User already has a comment here.")
+      }
     }
   }
 }

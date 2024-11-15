@@ -37,7 +37,7 @@ export default function CommentList({ comments }: ListProps) {
           </Shadow>
         </View>
       )}
-      contentContainerStyle={[mt.backgroundColor("blueOpacity", 200, 0.3), mt.gap(4), mt.p(2), mt.mb(14), mt.pb(7)]}
+      contentContainerStyle={[mt.backgroundColor("blueOpacity", 200, 0.3), mt.gap(4), mt.p(2), mt.mb(20), mt.pb(7), mt.h("full")]}
     />
   );
 }
