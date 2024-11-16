@@ -18,8 +18,20 @@ interface CommentProps {
   canEdit?: boolean;
 }
 
+function getContainerColor(rating: number) {
+  if (rating < 2) {
+    return "red";
+  } else if (rating < 3) {
+    return "yellow";
+  } else {
+    return "green";
+  }
+}
+
 export function ReviewContainer({ review }: CommentProps) {
   const [user] = useAtom(userAtom);
+  const containerColor = getContainerColor(review.rating);
+
   return (
     <Animated.View
       style={[
@@ -27,43 +39,45 @@ export function ReviewContainer({ review }: CommentProps) {
         mt.flexCol,
         mt.gap(4),
         mt.p(4),
-        mt.backgroundColor("background"),
-        mt.rounded("base"),
+        mt.backgroundColor(containerColor, 400),
+        mt.border(2),
       ]}
       layout={LinearTransition}
       entering={FadeIn}
       exiting={FadeOut}
     >
-      <View style={[mt.flexRow, mt.justify("space-between"), mt.p(4)]}>
-        <View style={[mt.flexCol, mt.gap(2)]}>
-          <Text size="md" weight="bold">
-            {review.user.firstName} {review.user.lastName}
-          </Text>
-          <View style={[mt.flexRow]}>
-            <GameRatingDisplay rating={review.rating ?? 2} size={24} />
+        <View style={[mt.flexRow, mt.justify("space-between")]}>
+          <View style={[mt.flexCol, mt.gap(2)]}>
+            <Text size="md" weight="bold">
+              {review.user.firstName} {review.user.lastName}
+            </Text>
+            <View style={[mt.flexRow]}>
+              <GameRatingDisplay rating={2} size={24} />
+            </View>
+            <Text size="sm">{review.createdAt.toLocaleDateString()}</Text>
           </View>
-          <Text size="sm">{review.createdAt.toString()}</Text>
+
+          {user && user._id === review.userId ? (
+            <Shadow {...s.shadow.md}>
+              <TouchableOpacity
+                style={[
+                  mt.w(6),
+                  mt.h(6),
+                  mt.backgroundColor("purple"),
+                  mt.rounded("base"),
+                ]}
+              ></TouchableOpacity>
+            </Shadow>
+          ) : (
+            <View></View>
+          )}
         </View>
-        {user && user._id === review.userId ? (
-          <Shadow {...s.shadow.md}>
-            <TouchableOpacity
-              style={[
-                mt.w(6),
-                mt.h(6),
-                mt.backgroundColor("purple"),
-                mt.rounded("base"),
-              ]}
-            ></TouchableOpacity>
-          </Shadow>
-        ) : (
-          <View></View>
-        )}
-      </View>
-      <View style={[mt.pl(4), mt.pr(2)]}>
-        <Text size="md" weight="normal">
-          {review.content}
-        </Text>
-      </View>
+
+        <View>
+          <Text size="md" weight="normal">
+            {review.content}
+          </Text>
+        </View>
     </Animated.View>
   );
 }

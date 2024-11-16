@@ -5,10 +5,11 @@ import { Shadow } from "react-native-shadow-2";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import mt from "@/styles/mtWind";
 import s from "@/styles/styleValues";
+import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 
 export function EmptyCommentsSplash(){
   return (
-    <View
+    <Animated.View
       style={[
         mt.flexCol,
         mt.items("center"),
@@ -17,6 +18,8 @@ export function EmptyCommentsSplash(){
         mt.h("full"),
         mt.rotate(7),
       ]}
+      entering={SlideInLeft}
+      exiting={SlideOutRight}
     >
       <Shadow {...s.shadow.mdNoRound}>
         <View
@@ -41,6 +44,6 @@ export function EmptyCommentsSplash(){
           </Text>
         </View>
       </Shadow>
-    </View>
+    </Animated.View>
   );
 }

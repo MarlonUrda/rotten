@@ -6,31 +6,34 @@ import { ReviewContainer } from "./reviewContainer";
 import { Shadow } from "react-native-shadow-2";
 import s from "@/styles/styleValues";
 import type { Review } from "@/types/Review";
+import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 
 interface ListProps {
-  comments: Review[] | [];
+  comments: Review[];
 }
 
 export default function ReviewList({ comments }: ListProps) {
   return (
-    <FlatList
-      data={comments}
-      keyExtractor={(_item, index) => index.toString()}
-      renderItem={({ item }) => (
-        <View style={[mt.p(2), mt.rounded("base")]}>
-          <Shadow {...s.shadow.md}>
-            <ReviewContainer review={item} />
-          </Shadow>
-        </View>
-      )}
-      contentContainerStyle={[
-        mt.backgroundColor("blueOpacity", 200, 0.3),
-        mt.gap(4),
-        mt.p(2),
-        mt.mb(20),
-        mt.pb(7),
-        mt.h("full"),
-      ]}
-    />
+    <Animated.View entering={SlideInLeft} exiting={SlideOutRight}
+      // w full
+      style={[mt.w("full"), mt.p(4)]}
+    >
+      <FlatList
+        data={comments.sort((a, b) => {
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        })}
+        keyExtractor={(_item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={[mt.p(2), mt.rounded("base")]}>
+            <Shadow {...s.shadow.mdNoRound}>
+              <ReviewContainer review={item} />
+            </Shadow>
+          </View>
+        )}
+        contentContainerStyle={[mt.w("full")]}
+      />
+    </Animated.View>
   );
 }

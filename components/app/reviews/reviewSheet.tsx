@@ -59,7 +59,7 @@ export function ReviewSheet({ payload, ref }: ReviewSheetProps) {
           mt.items("center"),
           mt.pxh(height - 50),
           mt.w("full"),
-          mt.p(4),
+          // mt.p(4),
         ]}
       >
         <View
@@ -77,7 +77,7 @@ export function ReviewSheet({ payload, ref }: ReviewSheetProps) {
             <X size={24} color="#000" />
           </Button>
         </View>
-        <View style={[mt.flexCol, mt.flex1]}>
+        <View style={[mt.flexCol, mt.flex1, mt.w("full")]}>
           {commentQueryResult.isLoading && <Loader />}
           {commentQueryResult.data && commentQueryResult.data.length > 0 ? (
             <ReviewList comments={commentQueryResult.data} />

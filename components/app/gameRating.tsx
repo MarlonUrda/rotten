@@ -32,7 +32,7 @@ export function GameRating({ rating, onChange, size }: GameRatingProps){
 export function GameRatingDisplay({ rating, size = 24, color }: GameRatingProps) {
   const starStyle = useAnimatedStyle(() => {
     return {
-      tintColor: withTiming(color ?? s.colors.yellow[900]),
+      tintColor: withTiming(color ?? s.colors.yellow[500]),
       width: size,
       height: size,
     }
