@@ -41,10 +41,10 @@ export default function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: AuthController.login,
     onError: (error) => {
-      myToast(false, error.message)
+      myToast({type: "error", message: error.message})
     },
     onSuccess: (data) => {
-      myToast(true, `Bienvenido ${data.user.firstName}`)
+      myToast({type: "success", message:`Bienvenido ${data.user.firstName}`})
       form.reset()
       router.push("/games")
     }

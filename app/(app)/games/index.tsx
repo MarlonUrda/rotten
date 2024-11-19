@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { GamesController } from "@/api/controllers/GamesController";
 import { useEffect } from "react";
+import { Navbar } from "@/components/app/navbar";
 
 export default function Index() {
   const popularGamesQuery = useQuery({
@@ -18,6 +19,7 @@ export default function Index() {
 
   return (
     <View style={[mt.pt(12), mt.p(2)]}>
+      <Navbar />
       <GamesScroll title="Juegos Populares"
         gamesQuery={popularGamesQuery}
       />

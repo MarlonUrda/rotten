@@ -45,14 +45,14 @@ export function PasswordForm({ setTab, fullForm }: PasswordFormProps) {
     mutationFn: AuthController.register,
     onError: (error) => {
       console.log(error.message);
-      myToast(false, "Error al registrarse");
+      myToast({ type: "error", message: error.message});
     },
     onSuccess: () => {
-      myToast(true, "Registro exitoso! Bienvenido a Rotten Minds");
+      myToast({ type: "success", message: "Bienvenido a Rotten Minds!" });
       fullForm.reset();
       form.reset();
       setTab(0);
-      router.push("/movies");
+      router.push("/games");
     },
   });
 

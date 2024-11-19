@@ -45,7 +45,7 @@ export function EmailForm({ setTab, fullForm }: InfoFormProps) {
   const verifyEmailMutation = useMutation({
     mutationFn: AuthController.verifyEmailAvailability,
     onError: (_) => {
-      myToast(false, "Error al verificar el email.");
+      myToast({type: "error", message: "Error al verificar el email"});
     },
     onSuccess: (data) => {
       if (!data.available) {

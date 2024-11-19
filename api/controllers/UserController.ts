@@ -6,13 +6,13 @@ export default class UserController {
   static async UpdateUser(payload: UserUpdateRequest): Promise<UserUpdateResponse> {
     console.log("myPayload", payload);
     try {
-      const res = await superFetch<UserUpdateRequest, UserUpdateResponse, "user">({
+      const res = await superFetch<UserUpdateRequest, UserUpdateResponse, "user/[id]">({
         options: {
           method: "PUT",
           includeCredentials: true,
         },
-        route: "user",
-        routeParams: [],
+        route: "user/[id]",
+        routeParams: [payload._id],
         responseSchema: UserUpdateSchema,
         payload,
       });
@@ -24,6 +24,7 @@ export default class UserController {
           throw new Error("Invalid user data");
         }
       }
+      console.log(error)
       throw new Error("error updating user")
     }
   }

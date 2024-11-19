@@ -7,7 +7,7 @@ interface ToastProps {
 }
 
 const myToast = ({ type, message }: ToastProps) => {
-  const toastOptions = { duration: 3000, style: { borderWidth: 3, borderColor: "#000", zIndex: 99 } }
+  const toastOptions = { duration: 3000, style: {  zIndex: 99 } }
 
   switch (type) {
     case "success":

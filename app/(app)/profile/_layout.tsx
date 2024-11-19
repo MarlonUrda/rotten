@@ -3,7 +3,7 @@ import { Stack, Redirect } from 'expo-router'
 import { userAtom } from '@/utils/atoms/userAtom'
 import { useAtomValue } from 'jotai'
 
-export default function Movies() {
+export default function Profile() {
   const user = useAtomValue(userAtom)
 
   if (!user) {
@@ -15,8 +15,8 @@ export default function Movies() {
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: "gray" },
-          animation: "fade_from_bottom"
+          contentStyle: { backgroundColor: "yellow" },
+          animation: "slide_from_right"
         }}
       ></Stack>
     </SafeAreaView>
