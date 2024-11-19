@@ -151,6 +151,9 @@ const mt = {
   borderBottom: (value: keyof typeof s.borderWidth) => ({
     borderBottomWidth: s.borderWidth[value]
   }),
+  borderTop: (value: keyof typeof s.borderWidth) => ({
+    borderTopWidth: s.borderWidth[value]
+  }),
   fontSize: (value: FontSize) => ({
     fontSize: s.font[value]
   }),
@@ -186,11 +189,17 @@ const mt = {
   w: (value: Pixels) => ({
     width: s.pixels[value]
   }),
+  maxW: (value: Pixels) => ({
+    maxWidth: s.pixels[value]
+  }),
   pxw: (value: number) => ({
     width: value
   }),
   h: (value: Pixels) => ({
     height: s.pixels[value]
+  }),
+  maxH: (value: Pixels) => ({
+    maxHeight: s.pixels[value]
   }),
   pxh: (value: number) => ({
     height: value

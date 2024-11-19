@@ -55,7 +55,7 @@ export function GameDetails({ game }: GameDetailsProps) {
               payload: {
                 gameId: game._id,
               },
-            });
+            });            
           }}
         >
           <Text>Ver comentarios</Text>

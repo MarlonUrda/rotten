@@ -16,7 +16,7 @@ export default function ReviewList({ comments }: ListProps) {
   return (
     <Animated.View entering={SlideInLeft} exiting={SlideOutRight}
       // w full
-      style={[mt.w("full"), mt.p(4)]}
+      style={[mt.w("full")]}
     >
       <FlatList
         data={comments.sort((a, b) => {
@@ -25,14 +25,18 @@ export default function ReviewList({ comments }: ListProps) {
           );
         })}
         keyExtractor={(_item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={[mt.p(2), mt.rounded("base")]}>
+        renderItem={({ item, index }) => (
+          <View style={[mt.p(2), mt.rounded("base")
+            // rotate -3 even and 3 odd
+            , mt.rotate(index % 2 === 0 ? 3 : -3) 
+
+          ]}>
             <Shadow {...s.shadow.mdNoRound}>
               <ReviewContainer review={item} />
             </Shadow>
           </View>
         )}
-        contentContainerStyle={[mt.w("full")]}
+        contentContainerStyle={[mt.w("full"), mt.overflow("visible"), mt.p(4)]}
       />
     </Animated.View>
   );

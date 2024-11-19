@@ -1,4 +1,10 @@
-import { StyleProp, TextInput as Input, TextStyle, ViewStyle, TextInputProps } from "react-native";
+import {
+  StyleProp,
+  TextInput as Input,
+  TextStyle,
+  ViewStyle,
+  TextInputProps,
+} from "react-native";
 import Animated, {
   LinearTransition,
   useSharedValue,
@@ -12,6 +18,7 @@ import mt from "@/styles/mtWind";
 import { useState } from "react";
 import s from "@/styles/styleValues";
 import { View } from "react-native";
+import { Text } from "@/components/ui/text";
 
 interface SimpleInputProps extends TextInputProps {
   placeholder?: string;
@@ -42,34 +49,68 @@ export function SimpleInput({
     };
   }, [focus]);
 
-  return(
+  return (
     <Shadow {...s.shadow.md}>
       <View>
         <Animated.View style={[translateStyle]}>
           <Input
             style={[
               formStyles.input,
-                    mt.backgroundColor("gray"),
-                    mt.h(10),
-                    mt.p(2),
-                    mt.border(2),
-                    mt.rounded("base"),
-                    mt.color("black"),
-                    inputStyle,
-                    focus && mt.backgroundColor("purple", 200),
+              mt.backgroundColor("gray"),
+
+              mt.p(2),
+              mt.border(2),
+              mt.rounded("base"),
+              mt.color("black"),
+              inputStyle,
+              focus && mt.backgroundColor("purple", 200),
             ]}
             placeholder={placeholder}
             placeholderTextColor={"#000"}
             multiline={multiline}
+            
             selectionColor={"#000"}
-            onBlur={() => setFocus(false)}
-            onFocus={() => setFocus(true)}
+            onBlur={(e) => {
+              if (props.onBlur) {
+                props.onBlur(e);
+              }
+              setFocus(false);
+            }}
+            onFocus={(e) => {
+              if (props.onFocus) {
+                props.onFocus(e);
+              }
+              setFocus(true);
+            }}
             onChangeText={onChangeText}
             {...props}
-          >
-          </Input>
+          ></Input>
         </Animated.View>
       </View>
     </Shadow>
-  )
+  );
+}
+
+export function DummySimpleInput({
+  inputStyle,
+}: {
+  inputStyle?: StyleProp<ViewStyle>;
+}) {
+  return (
+    <Shadow {...s.shadow.md}>
+      <View
+        style={[
+          mt.backgroundColor("gray"),
+          mt.h(10),
+          mt.p(2),
+          mt.border(2),
+          mt.rounded("base"),
+          mt.color("black"),
+          inputStyle,
+        ]}
+      >
+        <Text>Add your review...</Text>
+      </View>
+    </Shadow>
+  );
 }

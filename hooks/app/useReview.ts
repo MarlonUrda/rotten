@@ -2,12 +2,14 @@ import { Review } from "@/types/Review";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ReviewController } from "@/api/controllers/ReviewController";
 import myToast from "@/components/toast";
-import { CreateReviewRequest } from "@/types/api/Reviews";
+import { CreateReviewRequest, UpdateReviewRequest } from "@/types/api/Reviews";
 
-export function useCreateReview({
+export function useReviewEditor({
   setComment,
+  reviewId,
 }: {
   setComment: (comment: string) => void;
+  reviewId?: string;
 }) {
   const queryClient = useQueryClient();
 
@@ -26,7 +28,31 @@ export function useCreateReview({
     },
   });
 
+  const editCommentMutation = useMutation({
+    mutationFn: (payload: Omit<UpdateReviewRequest, "reviewId">) => {
+      if (!reviewId) {
+        throw new Error("No comment id provided");
+      }
+      return ReviewController.updateReview({
+        ...payload,
+        reviewId: reviewId,
+      });
+    },
+    onSuccess: () => {
+      myToast({ type: "success", message: "Comment edited!" });
+      setComment("");
+    },
+    onError: (error) => {
+      myToast({ type: "info", message: error.message });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
+  });
+
+  const reviewMutation = reviewId ? editCommentMutation : createCommentMutation;
+
   return {
-    createCommentMutation,
+    reviewMutation
   };
 }

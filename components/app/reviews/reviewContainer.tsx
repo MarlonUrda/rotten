@@ -12,6 +12,13 @@ import { userAtom } from "@/utils/atoms/userAtom";
 import { useAtom } from "jotai";
 import { GameRatingDisplay } from "../gameRating";
 import { Review } from "@/types/Review";
+import { Image } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { OptionSheet } from "@/components/ui/optionSheet";
+import { useCallback, useEffect } from "react";
+import { SheetManager } from "react-native-actions-sheet";
+
+
 
 interface CommentProps {
   review: Review;
@@ -30,7 +37,7 @@ function getContainerColor(rating: number) {
 
 export function ReviewContainer({ review }: CommentProps) {
   const [user] = useAtom(userAtom);
-  const containerColor = getContainerColor(review.rating);
+  const containerColor = "white";
 
   return (
     <Animated.View
@@ -46,7 +53,8 @@ export function ReviewContainer({ review }: CommentProps) {
       entering={FadeIn}
       exiting={FadeOut}
     >
-        <View style={[mt.flexRow, mt.justify("space-between")]}>
+        <TouchableOpacity style={[mt.flexRow, mt.justify("space-between")]}>
+
           <View style={[mt.flexCol, mt.gap(2)]}>
             <Text size="md" weight="bold">
               {review.user.firstName} {review.user.lastName}
@@ -58,20 +66,22 @@ export function ReviewContainer({ review }: CommentProps) {
           </View>
 
           {user && user._id === review.userId ? (
-            <Shadow {...s.shadow.md}>
               <TouchableOpacity
-                style={[
-                  mt.w(6),
-                  mt.h(6),
-                  mt.backgroundColor("purple"),
-                  mt.rounded("base"),
-                ]}
-              ></TouchableOpacity>
-            </Shadow>
+                onPress={() => {
+                  SheetManager.show("reviewOptionSheet", {
+                    payload: {
+                      review,
+                    },
+                  });
+                }}
+              
+              >
+                <MaterialCommunityIcons name="dots-vertical" size={24} />
+              </TouchableOpacity>
           ) : (
             <View></View>
           )}
-        </View>
+        </TouchableOpacity>
 
         <View>
           <Text size="md" weight="normal">
@@ -80,4 +90,49 @@ export function ReviewContainer({ review }: CommentProps) {
         </View>
     </Animated.View>
   );
+}
+
+interface ReviewOptionSheetPayload {
+  review: Review;
+}
+
+interface ReviewInputSheetProps {
+  payload: ReviewOptionSheetPayload;
+}
+
+export function ReviewOptionSheet(
+  { payload }: ReviewInputSheetProps
+) {
+
+  const { review } = payload;
+
+  const close = useCallback(() => {
+    SheetManager.hide("reviewOptionSheet");
+  }, []);
+
+  const options = [
+    {
+      text: "Edit",
+      onPress: () => {
+        console.log("Edit");
+        SheetManager.show("reviewInputSheet", {
+          payload: {
+            gameId: review.gameId,
+            reviewId: review._id,
+            oldContent: review.content,
+            oldRating: review.rating,
+          }
+        });
+      },
+    },
+    {
+      text: "Delete",
+      onPress: () => {
+        console.log("Delete");
+      },
+    },
+  ];
+
+  return <OptionSheet options={options} onClose={close} close={close} />;
+
 }

@@ -66,7 +66,7 @@ export class ReviewController {
     }
   }
 
-  static async updateReview(payload: UpdateReviewRequest, gameId: number) {
+  static async updateReview(payload: UpdateReviewRequest) {
     try {
       const result = await superFetch<
         UpdateReviewRequest,
@@ -77,7 +77,7 @@ export class ReviewController {
           method: "PUT",
         },
         route: "reviews/:id",
-        routeParams: [gameId, payload._id],
+        routeParams: [payload.gameId, payload.reviewId],
         responseSchema: UpdateReviewResponseSchema,
         payload: payload,
       });

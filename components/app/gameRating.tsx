@@ -3,8 +3,17 @@ import { Rating } from "@kolking/react-native-rating"
 import Animated, { withTiming, useAnimatedStyle } from "react-native-reanimated";
 import  s  from "../../styles/styleValues"
 import mt from "@/styles/mtWind";
+import { Image } from "react-native";
 
 const star = require("../../assets/images/rating.png")
+const smiley1 = require("../../assets/images/smiley/1.png")
+const smiley2 = require("../../assets/images/smiley/2.png")
+const smiley3 = require("../../assets/images/smiley/3.png")
+const smiley4 = require("../../assets/images/smiley/4.png")
+const smiley5 = require("../../assets/images/smiley/5.png")
+const images = [smiley1, smiley2, smiley3, smiley4, smiley5]
+const starFilled = require("../../assets/images/stars/filled30px.png")
+const starBase = require("../../assets/images/stars/base30px.png")
 
 interface GameRatingProps {
   rating: number;
@@ -16,15 +25,14 @@ interface GameRatingProps {
 export function GameRating({ rating, onChange, size }: GameRatingProps){
   return (
     <Rating 
-      size={size}
-      baseColor="#303030"
-      fillColor={s.colors.yellow[900]}
+      variant="emoji"
+      size={30}
       spacing={0}
-      touchColor={s.colors.yellow[600]}
       rating={rating}
-      baseSymbol={star}
-      fillSymbol={star}
+      baseSymbol={starBase}
+      fillSymbol={starFilled}
       onChange={onChange}
+      maxRating={5}
     />
   )
 }
@@ -32,7 +40,6 @@ export function GameRating({ rating, onChange, size }: GameRatingProps){
 export function GameRatingDisplay({ rating, size = 24, color }: GameRatingProps) {
   const starStyle = useAnimatedStyle(() => {
     return {
-      tintColor: withTiming(color ?? s.colors.yellow[500]),
       width: size,
       height: size,
     }
@@ -41,12 +48,12 @@ export function GameRatingDisplay({ rating, size = 24, color }: GameRatingProps)
   return (
     <View style={[mt.flexRow, mt.gap(1)]}>
       {Array.from({ length: rating }, (_, index) => (
-        <Animated.Image 
-          key={index}
-          source={star}
-          style={[starStyle, mt.border(8)]}
-        />
+        <Image key={index} source={starFilled} style={[mt.pxw(30), mt.pxh(30)]} />
+      ))}
+      {/* base for the rest */}
+      {Array.from({ length: 5 - rating }, (_, index) => (
+        <Image key={index} source={starBase} style={[mt.pxw(30), mt.pxh(30)]} />
       ))}
     </View>
-  )
+  );
 }

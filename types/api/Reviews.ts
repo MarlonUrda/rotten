@@ -14,9 +14,10 @@ export type CreateReviewRequest = {
 };
 
 export type UpdateReviewRequest = {
-  _id: string;
-  content?: string;
-  rating?: number;
+  reviewId: string;
+  gameId: string;
+  content: string;
+  rating: number;
 };
 
 export const CreateReviewResponseSchema = z.object({

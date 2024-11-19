@@ -15,7 +15,7 @@ export const apiRoutes = {
     "game/:id/screenshots": (id: number) => `${server}/games/${id}/screenshots`,
     // Comments
     "reviews": (id: string) => `${server}/games/${id}/reviews`,
-    "reviews/:id": (id: number, reviewId: string) => `${server}/games/${id}/reviews/${reviewId}`
+    "reviews/:id": (id: string | number, reviewId: string) => `${server}/games/${id}/reviews/${reviewId}`
 };
 
 
