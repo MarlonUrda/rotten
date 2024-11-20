@@ -58,7 +58,7 @@ export function SimpleInput({
           <Input
             style={[
               formStyles.input,
-              mt.backgroundColor("gray"),
+              mt.backgroundColor("gray", 300),
 
               mt.p(2),
               mt.border(2),
@@ -103,7 +103,7 @@ export function DummySimpleInput({
     <Shadow {...s.shadow.md}>
       <View
         style={[
-          mt.backgroundColor("gray"),
+          mt.backgroundColor("gray", 300),
           mt.h(10),
           mt.p(2),
           mt.border(2),

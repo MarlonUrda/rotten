@@ -33,15 +33,26 @@ export function ReviewContainer({ review }: CommentProps) {
   const deleteReview = useDeleteReview(review._id, review.gameId);
 
   const reviewContent = useMemo(() => {
-    if (moreOpen) {
-      return review.content;
-    } else {
-      if (review.content.length > 50) {
-        return review.content.slice(0, 50) + "...";
-      } else {
-        return review.content;
+    const paragraphs = review.content.split("\n");
+
+    // if moreOpen is false, only show the first 2 paragraphs up to 100 characters
+
+    if (!moreOpen) {
+      let text =  paragraphs
+        .slice(0, 2)
+        .map((p) => p.slice(0, 100))
+        .join("\n");
+
+      if (text.length < review.content.length) {
+        text += "...";
       }
+      return text;
     }
+
+    return paragraphs.join("\n");
+
+
+
   }, [review.content, moreOpen]);
 
   const dropdownOptions = [
@@ -106,7 +117,10 @@ export function ReviewContainer({ review }: CommentProps) {
           <Text size="md" weight="normal">
             {reviewContent}
           </Text>
-          {review.content.length > 50 && (
+          {(review.content.length > 50 
+            || review.content.split("\n").length > 2) 
+
+          && (
             <TouchableOpacity onPress={() => setMoreOpen(!moreOpen)}>
               <Text size="sm">{moreOpen ? "\nShow less" : "\nShow more"}</Text>
             </TouchableOpacity>

@@ -49,9 +49,12 @@ export function ReviewInput({
     if (comment === oldContent && rating === oldRating) {
       return;
     }
+
+    const cleanComment = comment.trimEnd().replace(/\n{2,}/g, "\n\n");
+
     inputRef.current?.blur();
     const payload = {
-      content: comment.trimEnd(),
+      content: cleanComment,
       rating: rating,
       gameId,
     };

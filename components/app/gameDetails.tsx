@@ -30,7 +30,6 @@ export function GameDetails({ game }: GameDetailsProps) {
     queryKey: ["comments", game._id],
     queryFn: () => ReviewController.getGameReviews(game._id),
   });
-  const router = useRouter();
 
   return (
     <Animated.View
@@ -48,20 +47,6 @@ export function GameDetails({ game }: GameDetailsProps) {
         <GameInfo game={game}
           reviews={reviewQuery}
         />
-      </Animated.View>
-      <Animated.View>
-        <Button
-          variant="secondary"
-          onPress={() => {
-            SheetManager.show("commentSheet", {
-              payload: {
-                gameId: game._id,
-              },
-            });            
-          }}
-        >
-          <Text>Ver comentarios</Text>
-        </Button>
       </Animated.View>
     </Animated.View>
   );

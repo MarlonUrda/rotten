@@ -1,23 +1,24 @@
-import mt, { MTTypes } from "@/styles/mtWind";
-import { View } from "react-native";
+import mt from "@/styles/mtWind";
+import { Pressable, TouchableOpacity, View } from "react-native";
 import { Image, Dimensions } from "react-native";
 import { Text } from "../ui/text";
 import { GameDetails } from "@/types/api/games/gameDetails";
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 import MCIcon from "@expo/vector-icons/MaterialCommunityIcons";
-import { Shadow } from "react-native-shadow-2";
 import { platforms } from "../util/platforms/platforms";
 import { GamesController } from "@/api/controllers/GamesController";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import Carousel from "react-native-reanimated-carousel";
 import Loader from "../ui/loader";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import s from "@/styles/styleValues";
 import { Title } from "../ui/Title";
 import { GameRatingDisplay } from "./gameRating";
-import { Review } from "@/types/Review";
 import { GetReviewsResponse } from "@/types/api/Reviews";
-
+import { SheetManager } from "react-native-actions-sheet";
+import { Button } from "../ui/button";
+import { Review } from "@/types/Review";
+import { Shadow } from "react-native-shadow-2";
 
 interface GameInfoProps {
   game: GameDetails;
@@ -26,7 +27,6 @@ interface GameInfoProps {
 
 export function GameInfo({ game, reviews }: GameInfoProps) {
   const dev = game.developers.map((dev) => dev.name).join(", ");
-  const genres = game.genres.map((genre) => genre.name).join(", ");
 
   const cutDescription = (description: string, word: string) => {
     const index = description.indexOf(word);
@@ -39,10 +39,17 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
 
   const description = cutDescription(game.description_raw, "Español");
 
-
   return (
     <>
-      <View style={[mt.flexCol, mt.justify("center"), mt.gap(8), mt.p(4), mt.w("full")]}>
+      <View
+        style={[
+          mt.flexCol,
+          mt.justify("center"),
+          mt.gap(8),
+          mt.p(4),
+          mt.w("full"),
+        ]}
+      >
         <Animated.View
           style={[
             mt.flexCol,
@@ -53,7 +60,7 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
           ]}
         >
           <Title title={"Game Info"} color="yellow"></Title>
-          <View style={[mt.border(2), mt.p(2)]}>
+          <View style={[mt.border(2), mt.p(2), mt.w("full")]}>
             <Text weight="bold">
               Release date: <Text>{game.released}</Text>
             </Text>
@@ -67,11 +74,20 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
         </Animated.View>
         {/* rating view */}
         <Animated.View
-          style={[mt.flexCol, mt.gap(4), mt.justify("flex-start"), mt.items("flex-start"), mt.w("full")]}
+          style={[
+            mt.flexCol,
+            mt.gap(4),
+            mt.justify("flex-start"),
+            mt.items("flex-start"),
+            mt.w("full"),
+          ]}
         >
           <Title title={"Ratings"} color="red"></Title>
           <GameRatings reviews={reviews}></GameRatings>
-          
+          <ReviewPressable
+            gameId={game._id}
+            review={reviews.data?.at(0)}
+          ></ReviewPressable>
         </Animated.View>
 
         <Animated.View style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}>
@@ -113,8 +129,6 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
   );
 }
 
-
-
 function PlatformChip({ id }: { id: number }) {
   const platform = platforms.find((platform) => platform.id === id);
   if (!platform) {
@@ -143,7 +157,15 @@ function PlatformChip({ id }: { id: number }) {
 
 function ImageFrame({ image }: { image: string }) {
   return (
-    <View style={[mt.w(80), mt.h(72), mt.border(4), mt.p(4), mt.backgroundColor("white")]}>
+    <View
+      style={[
+        mt.w(80),
+        mt.h(72),
+        mt.border(4),
+        mt.p(4),
+        mt.backgroundColor("white"),
+      ]}
+    >
       <View style={[mt.w("full"), mt.h("full"), mt.border(4)]}>
         <Image source={{ uri: image }} style={[mt.w("full"), mt.h("full")]} />
       </View>
@@ -212,53 +234,53 @@ function GameRatings({
 }: {
   reviews: UseQueryResult<GetReviewsResponse>;
 }) {
+  const calculatedRatings = useMemo(() => {
+    const result = {
+      userTotal: 0,
+      userAverage: 0,
+      criticTotal: 0,
+      criticAverage: 0,
+    };
+    // calculate the average rating from the reviews
+    if (!reviews.data) return result;
 
-    const calculatedRatings = useMemo(() => {
-      const result = {
-        userTotal: 0,
-        userAverage: 0,
-        criticTotal: 0,
-        criticAverage: 0,
-      };
-      // calculate the average rating from the reviews
-      if (!reviews.data) return result;
+    const userReviews = reviews.data.filter(
+      (review) => review.reviewType === "user"
+    );
+    const criticReviews = reviews.data.filter(
+      (review) => review.reviewType === "critic"
+    );
 
-      const userReviews = reviews.data.filter(
-        (review) => review.reviewType === "user"
-      );
-      const criticReviews = reviews.data.filter(
-        (review) => review.reviewType === "critic"
-      );
+    result.userTotal = userReviews.length;
+    result.criticTotal = criticReviews.length;
 
-      result.userTotal = userReviews.length;
-      result.criticTotal = criticReviews.length;
+    result.userAverage =
+      result.userTotal === 0
+        ? 0
+        : userReviews.reduce((acc, review) => acc + review.rating, 0) /
+          result.userTotal;
+    result.criticAverage =
+      result.criticTotal === 0
+        ? 0
+        : criticReviews.reduce((acc, review) => acc + review.rating, 0) /
+          result.criticTotal;
 
-      result.userAverage =
-        userReviews.reduce((acc, review) => acc + review.rating, 0) /
-        result.userTotal;
-      result.criticAverage = result.criticTotal === 0 ? 0 :
-        criticReviews.reduce((acc, review) => acc + review.rating, 0) /
-        result.criticTotal;
-
-      return result;
-    }, [reviews.data]);
-
+    return result;
+  }, [reviews.data]);
 
   return (
     <View style={[mt.flexRow, mt.gap(2), mt.w("full")]}>
-
       <View style={[mt.flexCol, mt.gap(2), mt.items("flex-start"), mt.flex1]}>
-        
-        <Text 
-          style={[mt.fontWeight("bold")]}
-        >User Score</Text>
+        <Text style={[mt.fontWeight("bold")]}>User Score</Text>
 
-        <Text
-          size="3xl"
-          style={[mt.fontWeight("bold")]}
-        >{calculatedRatings.userAverage.toFixed(1)}</Text>
+        <Text size="3xl" style={[mt.fontWeight("bold")]}>
+          {calculatedRatings.userAverage.toFixed(1)}
+        </Text>
 
-        <GameRatingDisplay size={27} rating={calculatedRatings.userAverage}></GameRatingDisplay>
+        <GameRatingDisplay
+          size={27}
+          rating={calculatedRatings.userAverage}
+        ></GameRatingDisplay>
 
         <Text>{calculatedRatings.userTotal} Reviews</Text>
       </View>
@@ -267,21 +289,94 @@ function GameRatings({
       <View style={[mt.border(2), mt.backgroundColor("black")]}></View>
 
       <View style={[mt.flexCol, mt.gap(2), mt.items("flex-end"), mt.flex1]}>
-        <Text
-          style={[mt.fontWeight("bold")]}
+        <Text style={[mt.fontWeight("bold")]}>Critic Score </Text>
 
-        >Critic Score </Text>
+        <Text size="3xl" style={[mt.fontWeight("bold")]}>
+          {calculatedRatings.criticAverage.toFixed(1)}
+        </Text>
 
-        <Text
-          size="3xl"
-          style={[mt.fontWeight("bold")]}
-        >{calculatedRatings.criticAverage.toFixed(1)}</Text>
-
-        <GameRatingDisplay size={27} rating={calculatedRatings.criticAverage}></GameRatingDisplay>
+        <GameRatingDisplay
+          size={27}
+          rating={calculatedRatings.criticAverage}
+        ></GameRatingDisplay>
         <Text>{calculatedRatings.criticTotal} Reviews</Text>
       </View>
-
-      
     </View>
+  );
+}
+
+export function ReviewPressable({
+  review,
+  gameId,
+}: {
+  review?: Review;
+  gameId?: string;
+}) {
+  return (
+    <TouchableOpacity
+      style={[mt.w("full")]}
+      onPress={() => {
+        gameId &&
+          SheetManager.show("commentSheet", {
+            payload: {
+              gameId: gameId,
+            },
+          });
+      }}
+    >
+      {review ? (
+        <View
+          style={[
+            mt.flexCol,
+            mt.items("flex-start"),
+            mt.w("full"),
+            mt.p(2),
+            mt.gap(2),
+            mt.border(2),
+            mt.rounded("base"),
+            mt.backgroundColor("gray", 300),
+          ]}
+        >
+          <Text size="md" style={[mt.fontWeight("black")]}>
+            Reviews
+          </Text>
+          <View
+            style={[
+              mt.flexRow,
+              mt.justify("space-between"),
+              mt.items("center"),
+              mt.w("full"),
+            ]}
+          >
+            <Text>
+              {review.user.firstName} {review.user.lastName}
+            </Text>
+            <GameRatingDisplay
+              rating={review.rating}
+              size={24}
+            ></GameRatingDisplay>
+          </View>
+          <Text style={[mt.fontWeight("bold")]} size="md">
+            {review.content.split("\n")[0].slice(0, 50)}
+          </Text>
+        </View>
+      ) : (
+        <View
+          style={[
+            mt.flexCol,
+            mt.items("flex-start"),
+            mt.w("full"),
+            mt.p(2),
+            mt.gap(2),
+            mt.border(2),
+            mt.rounded("base"),
+            mt.backgroundColor("gray", 300),
+          ]}
+        >
+          <Text style={[mt.fontWeight("bold")]}>Reviews</Text>
+          <Text>Be the first to review this game!</Text>
+        </View>
+      )}
+    </TouchableOpacity>
   );
 }
