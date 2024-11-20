@@ -136,6 +136,12 @@ const mt = {
   mr: (value: AbsolutePixels) => ({
     marginRight: s.pixels[value]
   }),
+  mx: (value: AbsolutePixels) => ({
+    marginHorizontal: s.pixels[value]
+  }),
+  my: (value: AbsolutePixels) => ({
+    marginVertical: s.pixels[value]
+  }),
   gap: (value: AbsolutePixels) => ({
     gap: s.pixels[value]
   }),

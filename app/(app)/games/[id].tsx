@@ -32,7 +32,9 @@ export default function DetailsScreen() {
   return (
     <View>
       {getGameQuery.data && (
-        <ScrollView>
+        <ScrollView
+          
+        >
           <GameDetails game={getGameQuery.data} />
         </ScrollView>
       )}

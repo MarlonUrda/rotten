@@ -6,9 +6,11 @@ import {
   SimpleInput,
   DummySimpleInput,
 } from "../../forms/formsUtils/SimpleInput";
-import { useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import { GameRating, GameRatingDisplay } from "../gameRating";
 import { useReviewEditor } from "@/hooks/app/useReview";
+import { SheetManager } from "react-native-actions-sheet";
+import { TextInput } from "react-native";
 
 interface CommentInputProps {
   gameId: string;
@@ -29,6 +31,7 @@ export function ReviewInput({
 }: CommentInputProps) {
   const [comment, setComment] = useState(oldContent);
   const [rating, setRating] = useState(oldRating);
+  const inputRef = useRef<TextInput>(null);
 
   const onChange = (value: string) => {
     setComment(value);
@@ -39,16 +42,22 @@ export function ReviewInput({
     reviewId
   });
   const submitComment = () => {
+
     if (comment.trim() === "") {
       return;
     }
-    console.log(rating);
+    if (comment === oldContent && rating === oldRating) {
+      return;
+    }
+    inputRef.current?.blur();
     const payload = {
-      content: comment,
+      content: comment.trimEnd(),
       rating: rating,
       gameId,
     };
+    
     reviewMutation.mutate(payload);
+
   };
 
   return (
@@ -68,6 +77,8 @@ export function ReviewInput({
           onBlur={onBlur}
           autoFocus
           maxLength={500}
+          inputRef={inputRef}
+          
           
         />
         <Button

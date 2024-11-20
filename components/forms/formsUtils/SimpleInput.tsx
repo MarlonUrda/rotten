@@ -15,7 +15,7 @@ import Animated, {
 import { Shadow } from "react-native-shadow-2";
 import { formStyles } from "@/styles/formStyleSheet";
 import mt from "@/styles/mtWind";
-import { useState } from "react";
+import React, { useState } from "react";
 import s from "@/styles/styleValues";
 import { View } from "react-native";
 import { Text } from "@/components/ui/text";
@@ -25,6 +25,7 @@ interface SimpleInputProps extends TextInputProps {
   multiline?: boolean;
   inputStyle?: StyleProp<TextStyle>;
   viewStyle?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
+  inputRef?: React.RefObject<Input>;
 }
 
 export function SimpleInput({
@@ -32,6 +33,7 @@ export function SimpleInput({
   multiline,
   inputStyle,
   viewStyle,
+  inputRef,
   onChangeText,
   ...props
 }: SimpleInputProps) {
@@ -84,6 +86,7 @@ export function SimpleInput({
             }}
             onChangeText={onChangeText}
             {...props}
+            ref={inputRef}
           ></Input>
         </Animated.View>
       </View>

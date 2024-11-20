@@ -8,7 +8,7 @@ import mt from "@/styles/mtWind";
 import { Button } from "../../ui/button";
 import { X } from "lucide-react-native";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useEffect, useMemo, useRef } from "react";
 import { EmptyCommentsSplash } from "../emptyComentariesSplash";
 import { Title } from "../../ui/Title";
 import Loader from "../../ui/loader";
@@ -18,6 +18,9 @@ import { ReviewInput, DummyReviewInput } from "./reviewInput";
 import { TextInput } from "react-native-gesture-handler";
 import { Text } from "@/components/ui/text";
 import { GameRatingDisplay } from "../gameRating";
+import { userAtom } from "@/utils/atoms/userAtom";
+import { useAtom, useAtomValue } from "jotai";
+import Animated, { SlideInDown, SlideInLeft, SlideInUp, SlideOutDown, SlideOutRight, SlideOutUp } from "react-native-reanimated";
 
 interface Payload {
   gameId: string;
@@ -29,6 +32,7 @@ interface ReviewSheetProps {
 }
 
 export function ReviewSheet({ payload, ref }: ReviewSheetProps) {
+  const user = useAtomValue(userAtom);
   const { height } = Dimensions.get("window");
   const { gameId } = payload;
   const inputRef = useRef<ActionSheetRef>(null);
@@ -42,11 +46,15 @@ export function ReviewSheet({ payload, ref }: ReviewSheetProps) {
     SheetManager.hide("commentSheet");
   };
 
+  const canReview = useMemo(() => {
+    const userComment = commentQueryResult.data?.find(
+      (comment) => comment.userId === user?._id
+    );
+    return !userComment;
+  }, [commentQueryResult.data, user]);
+
   return (
     <ActionSheet
-      backgroundInteractionEnabled
-      isModal={false}
-      keyboardHandlerEnabled={false}
       ref={ref}
       onClose={() => SheetManager.hide("reviewInputSheet")}
       zIndex={9990}
@@ -85,21 +93,26 @@ export function ReviewSheet({ payload, ref }: ReviewSheetProps) {
         <View style={[mt.flexCol, mt.flex1, mt.w("full")]}>
           {commentQueryResult.isLoading && <Loader />}
           {commentQueryResult.data && commentQueryResult.data.length > 0 ? (
-            <ReviewList comments={commentQueryResult.data} />
+            <ReviewList comments={commentQueryResult.data}
+              commentsQuery={commentQueryResult}
+            />
           ) : (
-            <EmptyCommentsSplash />
+            <EmptyCommentsSplash
+              commentsQuery={commentQueryResult}
+            />
           )}
         </View>
-        <DummyReviewInputSheet
-          onPress={() => {
-            SheetManager.show("reviewInputSheet", {
-              payload: {
-                gameId,
-              },
-            });
-          }}
-        />
-
+        {canReview && (
+          <DummyReviewInputSheet
+            onPress={() => {
+              SheetManager.show("reviewInputSheet", {
+                payload: {
+                  gameId,
+                },
+              });
+            }}
+          />
+        )}
       </View>
     </ActionSheet>
   );
@@ -125,18 +138,14 @@ export function ReviewInputSheet({
   return (
     <ActionSheet
       ref={ref}
-      zIndex={9999}
+      zIndex={9996}
       containerStyle={{
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
         borderTopWidth: s.borderWidth[4],
       }}
     >
-      <Text>
-        {reviewId ? "Edit your review" : "Leave a review"}
-      </Text>
       <ReviewInput
-        onFocus={() => {}}
         gameId={gameId}
         reviewId={reviewId}
         oldContent={oldContent}
@@ -149,11 +158,18 @@ export function ReviewInputSheet({
 export function DummyReviewInputSheet({ onPress }: { onPress?: () => void }) {
   //  pressable to open the review input sheet, looks like the review input sheet is not opening
   return (
-    <Pressable
-      style={[mt.pxh(100), mt.w("full"), mt.borderTop(4)]}
-      onPress={onPress}
+    <Animated.View
+      entering={SlideInDown}
+      exiting={SlideOutDown}
+      style={[mt.w("full")]}
     >
-      <DummyReviewInput />
-    </Pressable>
+
+      <Pressable
+        style={[mt.pxh(100), mt.w("full"), mt.borderTop(4)]}
+        onPress={onPress}
+      >
+        <DummyReviewInput />
+      </Pressable>
+    </Animated.View>
   );
 }

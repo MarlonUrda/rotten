@@ -75,9 +75,10 @@ export class ReviewController {
       >({
         options: {
           method: "PUT",
+          includeCredentials: true,
         },
         route: "reviews/:id",
-        routeParams: [payload.gameId, payload.reviewId],
+        routeParams: [payload.gameId, payload._id],
         responseSchema: UpdateReviewResponseSchema,
         payload: payload,
       });
@@ -93,7 +94,7 @@ export class ReviewController {
     }
   }
 
-  static async deleteReview(id: string, gameId: number) {
+  static async deleteReview(id: string, gameId: string) {
     try {
       const result = await superFetch<
         undefined,
@@ -102,6 +103,7 @@ export class ReviewController {
       >({
         options: {
           method: "DELETE",
+          includeCredentials: true,
         },
         route: "reviews/:id",
         routeParams: [gameId, id],

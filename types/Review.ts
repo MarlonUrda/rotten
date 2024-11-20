@@ -12,7 +12,8 @@ export const reviewSchema = z.object({
     _id: z.string(),
     firstName: z.string(),
     lastName: z.string(),
-  })
+  }),
+  reviewType: z.string(),
 });
 
 export type Review = z.infer<typeof reviewSchema>;

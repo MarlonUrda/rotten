@@ -8,18 +8,23 @@ import MCIcon from "@expo/vector-icons/MaterialCommunityIcons";
 import { Shadow } from "react-native-shadow-2";
 import { platforms } from "../util/platforms/platforms";
 import { GamesController } from "@/api/controllers/GamesController";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import Carousel from "react-native-reanimated-carousel";
 import Loader from "../ui/loader";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import s from "@/styles/styleValues";
 import { Title } from "../ui/Title";
+import { GameRatingDisplay } from "./gameRating";
+import { Review } from "@/types/Review";
+import { GetReviewsResponse } from "@/types/api/Reviews";
+
 
 interface GameInfoProps {
   game: GameDetails;
+  reviews: UseQueryResult<GetReviewsResponse>;
 }
 
-export function GameInfo({ game }: GameInfoProps) {
+export function GameInfo({ game, reviews }: GameInfoProps) {
   const dev = game.developers.map((dev) => dev.name).join(", ");
   const genres = game.genres.map((genre) => genre.name).join(", ");
 
@@ -34,9 +39,10 @@ export function GameInfo({ game }: GameInfoProps) {
 
   const description = cutDescription(game.description_raw, "Español");
 
+
   return (
     <>
-      <View style={[mt.flexCol, mt.justify("center"), mt.gap(8), mt.p(4)]}>
+      <View style={[mt.flexCol, mt.justify("center"), mt.gap(8), mt.p(4), mt.w("full")]}>
         <Animated.View
           style={[
             mt.flexCol,
@@ -58,6 +64,14 @@ export function GameInfo({ game }: GameInfoProps) {
               Playtime: <Text>{game.playtime}h</Text>
             </Text>
           </View>
+        </Animated.View>
+        {/* rating view */}
+        <Animated.View
+          style={[mt.flexCol, mt.gap(4), mt.justify("flex-start"), mt.items("flex-start"), mt.w("full")]}
+        >
+          <Title title={"Ratings"} color="red"></Title>
+          <GameRatings reviews={reviews}></GameRatings>
+          
         </Animated.View>
 
         <Animated.View style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}>
@@ -190,5 +204,84 @@ function ImageCarousel({ external_id: id }: { external_id: number }) {
         </Animated.View>
       )}
     </Animated.View>
+  );
+}
+
+function GameRatings({
+  reviews,
+}: {
+  reviews: UseQueryResult<GetReviewsResponse>;
+}) {
+
+    const calculatedRatings = useMemo(() => {
+      const result = {
+        userTotal: 0,
+        userAverage: 0,
+        criticTotal: 0,
+        criticAverage: 0,
+      };
+      // calculate the average rating from the reviews
+      if (!reviews.data) return result;
+
+      const userReviews = reviews.data.filter(
+        (review) => review.reviewType === "user"
+      );
+      const criticReviews = reviews.data.filter(
+        (review) => review.reviewType === "critic"
+      );
+
+      result.userTotal = userReviews.length;
+      result.criticTotal = criticReviews.length;
+
+      result.userAverage =
+        userReviews.reduce((acc, review) => acc + review.rating, 0) /
+        result.userTotal;
+      result.criticAverage = result.criticTotal === 0 ? 0 :
+        criticReviews.reduce((acc, review) => acc + review.rating, 0) /
+        result.criticTotal;
+
+      return result;
+    }, [reviews.data]);
+
+
+  return (
+    <View style={[mt.flexRow, mt.gap(2), mt.w("full")]}>
+
+      <View style={[mt.flexCol, mt.gap(2), mt.items("flex-start"), mt.flex1]}>
+        
+        <Text 
+          style={[mt.fontWeight("bold")]}
+        >User Score</Text>
+
+        <Text
+          size="3xl"
+          style={[mt.fontWeight("bold")]}
+        >{calculatedRatings.userAverage.toFixed(1)}</Text>
+
+        <GameRatingDisplay size={27} rating={calculatedRatings.userAverage}></GameRatingDisplay>
+
+        <Text>{calculatedRatings.userTotal} Reviews</Text>
+      </View>
+
+      {/* divider */}
+      <View style={[mt.border(2), mt.backgroundColor("black")]}></View>
+
+      <View style={[mt.flexCol, mt.gap(2), mt.items("flex-end"), mt.flex1]}>
+        <Text
+          style={[mt.fontWeight("bold")]}
+
+        >Critic Score </Text>
+
+        <Text
+          size="3xl"
+          style={[mt.fontWeight("bold")]}
+        >{calculatedRatings.criticAverage.toFixed(1)}</Text>
+
+        <GameRatingDisplay size={27} rating={calculatedRatings.criticAverage}></GameRatingDisplay>
+        <Text>{calculatedRatings.criticTotal} Reviews</Text>
+      </View>
+
+      
+    </View>
   );
 }
