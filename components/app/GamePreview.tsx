@@ -11,6 +11,7 @@ import type { GamePreview } from "@/types/api/games/gamePreview";
 import s from "@/styles/styleValues";
 import { ESRBChip } from "./ESRBChip";
 
+
 interface GamePreviewProps {
   title: string;
   game: GamePreview;
@@ -82,7 +83,11 @@ export function GamePreview({ title, game }: GamePreviewProps) {
               critic: game.metacritic,
             }}
           />
+
         </View>
+        <Button>
+          <Text>Agregar</Text>
+        </Button>
       </TouchableOpacity>
     </Shadow>
   );
