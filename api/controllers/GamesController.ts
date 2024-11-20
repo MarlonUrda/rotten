@@ -46,9 +46,6 @@ export class GamesController {
         routeParams: [payload.id],
         responseSchema: gameDetails,
       });
-
-      console.log("result");
-
       return result;
     } catch (error) {
       const sfError = error as SuperFetchError;

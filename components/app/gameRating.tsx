@@ -37,7 +37,22 @@ export function GameRating({ rating, onChange, size }: GameRatingProps){
   )
 }
 
-export function GameRatingDisplay({ rating, size = 24, color }: GameRatingProps) {
+export function GameRatingBigDisplay({rating}: GameRatingProps){
+  return (
+    <Rating
+      variant="emoji"
+      size={40}
+      spacing={0}
+      rating={rating}
+      baseSymbol={starBase}
+      fillSymbol={starFilled}
+      maxRating={5}
+      disabled
+    ></Rating>
+  )
+}
+
+export function GameRatingDisplay({ rating, size = 30, color }: GameRatingProps) {
   const starStyle = useAnimatedStyle(() => {
     return {
       width: size,
@@ -48,11 +63,11 @@ export function GameRatingDisplay({ rating, size = 24, color }: GameRatingProps)
   return (
     <View style={[mt.flexRow, mt.gap(1)]}>
       {Array.from({ length: rating }, (_, index) => (
-        <Image key={index} source={starFilled} style={[mt.pxw(30), mt.pxh(30)]} />
+        <Image key={index} source={starFilled} style={[mt.pxw(size), mt.pxh(size)]} />
       ))}
       {/* base for the rest */}
       {Array.from({ length: 5 - rating }, (_, index) => (
-        <Image key={index} source={starBase} style={[mt.pxw(30), mt.pxh(30)]} />
+        <Image key={index} source={starBase} style={[mt.pxw(size), mt.pxh(size)]} />
       ))}
     </View>
   );

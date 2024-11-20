@@ -26,7 +26,7 @@ interface GameDetailsProps {
 }
 
 export function GameDetails({ game }: GameDetailsProps) {
-  useQuery({
+  const reviewQuery = useQuery({
     queryKey: ["comments", game._id],
     queryFn: () => ReviewController.getGameReviews(game._id),
   });
@@ -37,7 +37,7 @@ export function GameDetails({ game }: GameDetailsProps) {
       layout={LinearTransition}
       entering={SlideInRight}
       exiting={SlideOutLeft}
-      style={[mt.flexCol, mt.justify("center")]}
+      style={[mt.flexCol, mt.justify("center"), mt.w("full")]}
     >
       <GameHeader title={game.name} image={game.background_image} />
 
@@ -45,7 +45,9 @@ export function GameDetails({ game }: GameDetailsProps) {
         layout={LinearTransition}
         style={[mt.w("full"), mt.flexRow, mt.gap(4), mt.p(3)]}
       >
-        <GameInfo game={game} />
+        <GameInfo game={game}
+          reviews={reviewQuery}
+        />
       </Animated.View>
       <Animated.View>
         <Button

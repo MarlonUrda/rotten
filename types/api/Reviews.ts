@@ -14,7 +14,7 @@ export type CreateReviewRequest = {
 };
 
 export type UpdateReviewRequest = {
-  reviewId: string;
+  _id: string;
   gameId: string;
   content: string;
   rating: number;
