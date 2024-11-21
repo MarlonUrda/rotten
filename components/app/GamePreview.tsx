@@ -47,8 +47,8 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
   }, [game.name]);
 
   const getGameQuery = useQuery({
-    queryKey: ["game", game.id],
-    queryFn: () => GamesController.getGame({ id: game.id }),
+    queryKey: ["game", game._id],
+    queryFn: () => GamesController.getGame({ id: game._id }),
   });
   const handleAdd = () => {
 

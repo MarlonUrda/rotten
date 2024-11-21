@@ -2,7 +2,8 @@ import { View } from "react-native";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
 import mt from "@/styles/mtWind";
-import { LogOut, Trash, UserPen } from "lucide-react-native";
+import { LogOut, Trash, UserPen, ListVideo } from "lucide-react-native";
+import { router } from "expo-router";
 
 interface UserActionProps {
   onDelete: () => void;
@@ -17,6 +18,12 @@ export function UserActions({ onDelete, onLogOut, onUpdate }: UserActionProps){
         <View style={[mt.flexRow, mt.gap(4)]}>
           <UserPen color={"#000"}/>
           <Text>Actualizar perfil</Text>
+        </View>
+      </Button>
+      <Button variant="secondary" onPress={() => router.push("/playlist")}>
+      <View style={[mt.flexRow, mt.gap(4)]}>
+          <ListVideo color={"#000"}/>
+          <Text>Mi lista</Text>
         </View>
       </Button>
       <Button variant="secondary" onPress={onLogOut}>

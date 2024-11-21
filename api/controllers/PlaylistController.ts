@@ -57,7 +57,7 @@ export class PlaylistController {
       console.log("error");
       const sfError = error as SuperFetchError;
       console.log(sfError.code, sfError.message);
-      throw new Error("Error adding game to your playlist");
+      throw new Error(sfError.message);
     }
   }
 

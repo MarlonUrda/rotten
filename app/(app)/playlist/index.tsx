@@ -27,7 +27,7 @@ export default function PlaylistScreen() {
   }, [playlistQuery])
 
   return (
-    <View style={[mt.flexCol, mt.gap(4), mt.justify("center"), mt.items("center")]}>
+    <View style={[mt.flexCol, mt.gap(4), mt.justify("center"), mt.items("center"), mt.pt(10)]}>
       {playlistQuery.isLoading && <Loader />}
       <Text size="lg" weight="bold" style={[mt.align("center")]}>
         {currentUser?.firstName}'s Playlist
@@ -35,7 +35,7 @@ export default function PlaylistScreen() {
       {playlistQuery.data?.gameIds && playlistQuery.data?.gameIds.length > 0 ? (
         <ScrollView showsVerticalScrollIndicator contentContainerStyle={[mt.flexRow, mt.p(4), mt.w("full"), mt.gap(3)]}>
           {playlistQuery.data.gameIds.map((game, index) => {
-            return <GamePreview game={{ ...game, id: game.external_id }} key={index} title={game.name} isListed/>
+            return <GamePreview game={{ ...game }} key={index} title={game.name} isListed/>
           })}
         </ScrollView>
       ): (

@@ -17,17 +17,12 @@ export function Navbar(){
         >
           <Search size={24} color={"#000"}/>
         </Button>
-        
-      <Button>
-        <Text weight="bold">
-          Playlist
-        </Text>
+        <Button variant="success" onPress={() => router.push("/profile")}>
+        <View style={[mt.flexRow, mt.gap(2)]}>
+          <User color={"#000"}/>
+          <Text>Tu perfil</Text>
+        </View>
       </Button>
-      <Shadow {...mt.shadow.md}>
-        <TouchableOpacity onPress={() => router.push("/profile")} style={[mt.border(2), mt.rounded("base"), mt.backgroundColor("white")]}>
-          <UserRound size={32} color={"#000"}/>
-        </TouchableOpacity>
-      </Shadow>
     </View>
   )
 }
