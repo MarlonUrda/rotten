@@ -41,11 +41,11 @@ export function SetPasswordForm({ setTab, fullForm }: SetPasswordProps) {
     mutationFn: AuthController.resetPassword,
     onError: (error) => {
       console.log(error.message)
-      myToast(false, error.message)
+      myToast({type: "error", message:error.message})
       setTab(0)
     },
     onSuccess: () => {
-      myToast(true, "Contraseña establecida")
+      myToast({type: "success", message:"Contraseña establecida"})
       router.push("/")
     }
   })

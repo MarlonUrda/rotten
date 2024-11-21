@@ -35,10 +35,10 @@ export default function SendResetForm() {
   const sendResetMutation = useMutation({
     mutationFn: AuthController.sendResetEmail,
     onError: (err) => {
-      myToast(false, err.message)
+      myToast({type: "error", message:err.message})
     },
     onSuccess: () => {
-      myToast(true, "Email enviado.")
+      myToast({type: "success", message: "Email enviado."})
       router.push("/auth/changePasswordPage")
     }
   })

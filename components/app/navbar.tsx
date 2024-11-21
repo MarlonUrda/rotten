@@ -9,7 +9,7 @@ import { Shadow } from "react-native-shadow-2";
 export function Navbar(){
   return (
     <View style={[mt.flexRow, mt.gap(3), mt.justify("flex-end"), mt.items("center")]}>
-      <Button>
+      <Button onPress={() => router.push("/playlist")}>
         <Text weight="bold">
           Playlist
         </Text>
