@@ -2,22 +2,22 @@ import z from "zod";
 import { esrbRating, platformDetails, parentPlatform } from "./generics";
 
 export const gamePreview = z.object({
-  id: z.number(),
+  _id: z.string(),
+  external_id: z.number(),
   slug: z.string(),
   name: z.string(),
   released: z.string(),
   tba: z.boolean(),
   background_image: z.string(),
-  // rating: z.number(),
-  // rating_top: z.number(),
-  // ratings: z.object({}),
-  // ratings_count: z.number(),
-  // reviews_text_count: z.string(),
   metacritic: z.number(),
   playtime: z.number(),
   esrb_rating: esrbRating,
   platforms: z.array(platformDetails),
   parent_platforms: z.array(parentPlatform),
+  mt_rating_user: z.number().optional(),
+  mt_rating_user_count: z.number().optional(),
+  mt_rating_critic: z.number().optional(),
+  mt_rating_critic_count: z.number().optional(),
 });
 
 export type GamePreview = z.infer<typeof gamePreview>;

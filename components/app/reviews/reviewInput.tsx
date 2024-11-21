@@ -39,25 +39,26 @@ export function ReviewInput({
 
   const { reviewMutation } = useReviewEditor({
     setComment,
-    reviewId
+    reviewId,
   });
   const submitComment = () => {
-
     if (comment.trim() === "") {
       return;
     }
     if (comment === oldContent && rating === oldRating) {
       return;
     }
+
+    const cleanComment = comment.trim().replace(/\n{2,}/g, "\n\n");
+
     inputRef.current?.blur();
     const payload = {
-      content: comment.trimEnd(),
+      content: cleanComment,
       rating: rating,
       gameId,
     };
-    
-    reviewMutation.mutate(payload);
 
+    reviewMutation.mutate(payload);
   };
 
   return (
@@ -78,8 +79,6 @@ export function ReviewInput({
           autoFocus
           maxLength={500}
           inputRef={inputRef}
-          
-          
         />
         <Button
           variant="primary"

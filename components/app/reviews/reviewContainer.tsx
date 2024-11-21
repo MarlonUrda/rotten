@@ -12,13 +12,14 @@ import { userAtom } from "@/utils/atoms/userAtom";
 import { useAtom } from "jotai";
 import { GameRatingDisplay } from "../gameRating";
 import { Review } from "@/types/Review";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useMemo, useState } from "react";
 import { SheetManager } from "react-native-actions-sheet";
 import { OptionsDropdown } from "@/components/ui/optionsDropdown";
 import { Shadow } from "react-native-shadow-2";
 import { Button } from "@/components/ui/button";
 import { useDeleteReview } from "@/hooks/app/useReview";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import s from "@/styles/styleValues";
 
 interface CommentProps {
   review: Review;
@@ -27,21 +28,29 @@ interface CommentProps {
 
 export function ReviewContainer({ review }: CommentProps) {
   const [user] = useAtom(userAtom);
-  const containerColor = "white";
+  const containerColor = review.reviewType === "critic" ? "yellow" : "white";
   const [moreOpen, setMoreOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const deleteReview = useDeleteReview(review._id, review.gameId);
 
   const reviewContent = useMemo(() => {
-    if (moreOpen) {
-      return review.content;
-    } else {
-      if (review.content.length > 50) {
-        return review.content.slice(0, 50) + "...";
-      } else {
-        return review.content;
+    const paragraphs = review.content.split("\n");
+
+    // if moreOpen is false, only show the first 2 paragraphs up to 100 characters
+
+    if (!moreOpen) {
+      let text = paragraphs
+        .slice(0, 2)
+        .map((p) => p.slice(0, 100))
+        .join("\n");
+
+      if (text.length < review.content.length) {
+        text += "...";
       }
+      return text;
     }
+
+    return paragraphs.join("\n");
   }, [review.content, moreOpen]);
 
   const dropdownOptions = [
@@ -69,7 +78,7 @@ export function ReviewContainer({ review }: CommentProps) {
   ];
 
   return (
-    <Animated.View layout={LinearTransition}>
+    <Animated.View>
       <Animated.View
         style={[
           mt.w("full"),
@@ -79,14 +88,48 @@ export function ReviewContainer({ review }: CommentProps) {
           mt.backgroundColor(containerColor, 400),
           mt.border(2),
         ]}
-        entering={ZoomIn}
-        exiting={ZoomOut}
       >
         <TouchableOpacity style={[mt.flexRow, mt.justify("space-between")]}>
           <View style={[mt.flexCol, mt.gap(2)]}>
-            <Text size="md" weight="bold">
-              {review.user.firstName} {review.user.lastName}
-            </Text>
+            <View
+              style={[
+                mt.flexRow,
+                mt.justify("flex-start"),
+                mt.items("center"),
+                mt.gap(2),
+              ]}
+            >
+              <Text size="md" style={[mt.fontWeight("bold")]}>
+                {review.user.firstName} {review.user.lastName}
+
+                {/* if me */}
+                {user && user._id === review.userId && (
+                  <Text style={[mt.ml(2)]}>
+                    {" "}(me)
+                  </Text>
+                )}
+              </Text>
+
+              {review.reviewType === "critic" ? (
+                <View
+                  style={[
+                    mt.flexRow,
+                    mt.items("center"),
+                    mt.justify("flex-start"),
+                    mt.gap(2),
+                  ]}
+                >
+                  <Text>(Verified Critic)</Text>
+                  <MaterialCommunityIcons
+                    name="check-decagram-outline"
+                    size={20}
+                  />
+                </View>
+              ) : (
+                <View></View>
+              )}
+            </View>
+
             <View style={[mt.flexRow]}>
               <GameRatingDisplay rating={review.rating} size={24} />
             </View>
@@ -106,7 +149,8 @@ export function ReviewContainer({ review }: CommentProps) {
           <Text size="md" weight="normal">
             {reviewContent}
           </Text>
-          {review.content.length > 50 && (
+          {(review.content.length > 50 ||
+            review.content.split("\n").length > 2) && (
             <TouchableOpacity onPress={() => setMoreOpen(!moreOpen)}>
               <Text size="sm">{moreOpen ? "\nShow less" : "\nShow more"}</Text>
             </TouchableOpacity>

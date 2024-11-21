@@ -11,7 +11,6 @@ import s from "@/styles/styleValues";
 import Animated, {
   useAnimatedStyle,
   withTiming,
-  
 } from "react-native-reanimated";
 import React from "react";
 import { ActivityIndicator } from "react-native";
@@ -22,7 +21,7 @@ interface ButtonProps extends PressableProps {
   variant?: "primary" | "secondary" | "error" | "success";
   style?: StyleProp<ViewStyle>;
   loading?: boolean;
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 export function Button({ ...props }: ButtonProps) {
   const [pressed, setPressed] = React.useState(false);
@@ -42,24 +41,82 @@ export function Button({ ...props }: ButtonProps) {
   return (
     <Shadow {...s.shadow.md}>
       <View>
-      <Animated.View style={[translateStyle]}>
-        <AnimatedPressable
-          style={[buttonStyles(props.variant).button, props.style, props.disabled ? { opacity: 0.8 } : {}]}
-          {...props}
-          onPressIn={(e) => {
-            setPressed(true);
-            props.onPressIn?.(e);
-          }}
-          onPressOut={(e) => {
-            setPressed(false);
-            props.onPressOut?.(e);
-          }}
-        >
+        <Animated.View style={[translateStyle]}>
+          <AnimatedPressable
+            style={[
+              buttonStyles(props.variant).button,
+              props.style,
+              props.disabled ? { opacity: 0.8 } : {},
+            ]}
+            {...props}
+            onPressIn={(e) => {
+              setPressed(true);
+              props.onPressIn?.(e);
+            }}
+            onPressOut={(e) => {
+              setPressed(false);
+              props.onPressOut?.(e);
+            }}
+          >
             {props.loading ? (
-            <ActivityIndicator color={s.colors.white} />
-            ) : props.children}
-        </AnimatedPressable>
-      </Animated.View>
+              <ActivityIndicator color={s.colors.white} />
+            ) : (
+              props.children
+            )}
+          </AnimatedPressable>
+        </Animated.View>
+      </View>
+    </Shadow>
+  );
+}
+
+interface PushButtonProps extends ButtonProps {
+  isPushed: boolean;
+}
+
+/**
+ *
+ * Controlled push button
+ */
+export function CPushButton({ isPushed, ...props }: PushButtonProps) {
+  const translateStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: withTiming(isPushed ? 5 : 0, { duration: s.timing.fast }),
+        },
+        {
+          translateY: withTiming(isPushed ? 4 : 0, { duration: s.timing.fast }),
+        },
+      ],
+    };
+  }, [isPushed]);
+
+  return (
+    <Shadow {...s.shadow.md}>
+      <View>
+        <Animated.View style={[translateStyle]}>
+          <AnimatedPressable
+            style={[
+              buttonStyles(props.variant).button,
+              props.style,
+              props.disabled ? { opacity: 0.8 } : {},
+            ]}
+            {...props}
+            onPressIn={(e) => {
+              props.onPressIn?.(e);
+            }}
+            onPressOut={(e) => {
+              props.onPressOut?.(e);
+            }}
+          >
+            {props.loading ? (
+              <ActivityIndicator color={s.colors.white} />
+            ) : (
+              props.children
+            )}
+          </AnimatedPressable>
+        </Animated.View>
       </View>
     </Shadow>
   );

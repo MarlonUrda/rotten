@@ -10,6 +10,8 @@ import { router } from "expo-router";
 import type { GamePreview } from "@/types/api/games/gamePreview";
 import s from "@/styles/styleValues";
 import { ESRBChip } from "./ESRBChip";
+import { HoldItem } from "react-native-hold-menu";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PlaylistController } from "@/api/controllers/PlaylistController";
 import myToast from "../toast";
@@ -82,7 +84,7 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
   }
   return (
     <Shadow {...mt.shadow.md}>
-      <TouchableOpacity onPress={() => router.push(`/games/${game.id}`)}>
+      <TouchableOpacity onPress={() => router.push(`/games/${game._id}`)}>
         <View
           style={[
             mt.flexCol,
@@ -136,8 +138,8 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
 
           <Scores
             score={{
-              audience: game.metacritic,
-              critic: game.metacritic,
+              audience: game.mt_rating_user ?? 0,
+              critic: game.mt_rating_critic ?? 0,
             }}
           />
 
@@ -145,7 +147,9 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
       </TouchableOpacity>
       {!isListed ? (
         <Button onPress={handleAdd}>
-          <Text>Agregar</Text>
+          <Text>Agregar
+
+          </Text>
         </Button>
       ): (
         <Button variant="error" onPress={handleDelete}>
@@ -200,8 +204,8 @@ function ReleaseDate({ released }: { released: string }) {
 
 
 const getColor = (score: number): "red" | "orange" | "green" => {
-  if (score < 50) return "red";
-  if (score < 75) return "orange";
+  if (score < 2.5) return "red";
+  if (score < 3.5) return "orange";
   return "green";
 }
 
@@ -252,7 +256,7 @@ function Scores({
           <Text size="lg" weight="black"
             style={[mt.fontWeight("black")]}
           >
-            {score.audience}
+            {score.audience.toFixed(1)}
           </Text>
         </View>
       </View>
@@ -282,7 +286,7 @@ function Scores({
           style={[
             mt.border(2),
             mt.p(2),
-            mt.backgroundColor(getColor(score.audience)),
+            mt.backgroundColor(getColor(score.critic)),
             mt.w(14),
             mt.h(14),
             mt.flexCol,
@@ -293,10 +297,32 @@ function Scores({
           <Text size="lg" weight="black"
             style={[mt.fontWeight("black")]}
           >
-            {score.audience}
+            {score.critic.toFixed(1)}
           </Text>
         </View>
       </View>
     </View>
   );
 }
+
+
+const MenuItems = [
+  { text: "Actions", icon: "home", isTitle: true, onPress: () => {} },
+  { text: "Action 1", icon: "edit", onPress: () => {} },
+  { text: "Action 2", icon: "map-pin", withSeparator: true, onPress: () => {} },
+  { text: "Action 3", icon: "trash", isDestructive: true, onPress: () => {} },
+];
+
+export function HoldGamePreview(
+  { title, game }: GamePreviewProps
+)
+{
+  return (
+    <HoldItem
+      items={MenuItems}
+    >
+      <GamePreview title={title} game={game} />
+    </HoldItem>
+  )
+}
+

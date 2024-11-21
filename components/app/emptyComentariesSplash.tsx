@@ -7,15 +7,17 @@ import mt from "@/styles/mtWind";
 import s from "@/styles/styleValues";
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 import { UseQueryResult } from "@tanstack/react-query";
+import { Image } from "react-native";
+
+const smiley2 = require("../../assets/images/smiley/3.png");
 
 interface EmptyCommentsSplashProps {
   commentsQuery: UseQueryResult<any>;
 }
 
-export function EmptyCommentsSplash(
-  { commentsQuery }: EmptyCommentsSplashProps
-
-){
+export function EmptyCommentsSplash({
+  commentsQuery,
+}: EmptyCommentsSplashProps) {
   return (
     <Animated.View
       style={[
@@ -44,13 +46,11 @@ export function EmptyCommentsSplash(
           />
         }
       >
-        <View
-          style={[mt.rotate(7)]}
-        >
+        <View style={[mt.rotate(7)]}>
           <Shadow {...s.shadow.mdNoRound}>
             <View
               style={[
-                mt.h(44),
+                mt.h(48),
                 mt.w(60),
                 mt.backgroundColor("yellow"),
                 mt.items("center"),
@@ -59,7 +59,7 @@ export function EmptyCommentsSplash(
                 mt.border(2),
               ]}
             >
-              <AntDesign name="meh" size={64} color="black" />
+              <Image source={smiley2} style={[mt.w(20), mt.h(20)]}></Image>
               <Text size="lg" weight="bold">
                 No reviews yet!
               </Text>

@@ -1,15 +1,24 @@
 import { TouchableOpacity, View } from "react-native";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import { User, UserIcon, UserRound } from "lucide-react-native";
+import { User, UserIcon, UserRound, Search } from "lucide-react-native";
 import mt from "@/styles/mtWind";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { Shadow } from "react-native-shadow-2";
+import { Link } from "expo-router";
 
 export function Navbar(){
+
+  const router = useRouter();
   return (
     <View style={[mt.flexRow, mt.gap(3), mt.justify("flex-end"), mt.items("center")]}>
-      <Button onPress={() => router.push("/playlist")}>
+        <Button
+          onPress={() => router.push("/games/search")}
+        >
+          <Search size={24} color={"#000"}/>
+        </Button>
+        
+      <Button>
         <Text weight="bold">
           Playlist
         </Text>

@@ -4,7 +4,7 @@ export const esrbRating = z.object({
   id: z.number(),
   slug: z.string(),
   name: z.string(),
-});
+}).nullable().optional();
 export const platform = z.object({
   id: z.number(),
   slug: z.string(),
@@ -16,7 +16,7 @@ export const parentPlatform = z.object({
 
 export const platformDetails = z.object({
   platform: platform,
-  released_at: z.string(),
+  released_at: z.string().optional().nullable(),
 });
 export const screenShot = z.object({
   id: z.number(),

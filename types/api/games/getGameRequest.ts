@@ -1,5 +1,5 @@
 export interface GetGameRequest {
-  id: number;
+  id: string;
 }
 export interface GetGameScreenshotsRequest {
   external_id: number;

@@ -13,17 +13,14 @@ import Loader from "@/components/ui/loader";
 import mt from "@/styles/mtWind";
 
 export default function DetailsScreen() {
-  const { id } = useLocalSearchParams();
-
-  const numberId = Number(id);
-
-  console.log(id);
+  const { id } = useLocalSearchParams() as { id: string };
 
   const getGameQuery = useQuery({
     queryKey: ["game", id],
-    queryFn: () => GamesController.getGame({ id: numberId }),
+    queryFn: () => GamesController.getGame({ id }),
   });
 
+  
 
   useEffect(() => {
     console.log(getGameQuery.data);
@@ -32,9 +29,7 @@ export default function DetailsScreen() {
   return (
     <View>
       {getGameQuery.data && (
-        <ScrollView
-          
-        >
+        <ScrollView>
           <GameDetails game={getGameQuery.data} />
         </ScrollView>
       )}
@@ -42,7 +37,13 @@ export default function DetailsScreen() {
         <Animated.View
           entering={SlideInLeft}
           exiting={SlideOutRight}
-          style={[mt.w("full"), mt.h("full"),mt.flexCol, mt.justify("center"), mt.items("center")]}
+          style={[
+            mt.w("full"),
+            mt.h("full"),
+            mt.flexCol,
+            mt.justify("center"),
+            mt.items("center"),
+          ]}
         >
           <Loader size="large" />
         </Animated.View>
