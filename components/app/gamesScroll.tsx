@@ -1,7 +1,7 @@
 import { View, ScrollView } from "react-native";
 import { Text } from "../ui/text";
 import mt, { generic } from "@/styles/mtWind";
-import { GamePreview } from "./GamePreview";
+import { GamePreview, HoldGamePreview } from "./GamePreview";
 import { Shadow } from "react-native-shadow-2";
 import s from "@/styles/styleValues";
 import { StandardGameResponse } from "@/types/api/games/standardGameResponse";
@@ -46,7 +46,7 @@ const GamesScroll = ({ title, gamesQuery }: GamesScrollerProps) => {
         style={[]}
       >
         {gamesQuery.data?.results.map((game) => (
-            <GamePreview game={game} title={game.name} key={game.id} />
+            <GamePreview game={game} title={game.name} key={game._id} />
         ))}
       </ScrollView>
     </View>

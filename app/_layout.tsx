@@ -3,9 +3,9 @@ import { Stack } from "expo-router";
 import { Toaster } from "sonner-native";
 import { SheetProvider } from "react-native-actions-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { HoldMenuProvider } from "react-native-hold-menu";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { HoldMenuProvider } from "react-native-hold-menu";
 
 import "react-native-reanimated";
 import "@/global.css";
@@ -52,11 +52,14 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView>
-        <SheetProvider>
-          <ThemeProvider value={LightTheme}>
-            <HoldMenuProvider theme="light" safeAreaInsets={insets}>
+    <HoldMenuProvider
+      theme="light"
+      safeAreaInsets={insets}
+    >
+      <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView>
+          <SheetProvider>
+            <ThemeProvider value={LightTheme}>
               <Stack
                 screenOptions={{
                   headerShown: false,
@@ -67,10 +70,10 @@ export default function RootLayout() {
                 }}
               ></Stack>
               <Toaster richColors position="top-center" />
-            </HoldMenuProvider>
-          </ThemeProvider>
-        </SheetProvider>
-      </GestureHandlerRootView>
-    </QueryClientProvider>
+            </ThemeProvider>
+          </SheetProvider>
+        </GestureHandlerRootView>
+      </QueryClientProvider>
+    </HoldMenuProvider>
   );
 }

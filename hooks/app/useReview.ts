@@ -60,6 +60,7 @@ export function useReviewEditor({
     onSettled: (_data, _error, vars) => {
       queryClient.invalidateQueries({ queryKey: ["comments"] });
       queryClient.invalidateQueries({ queryKey: ["game", vars.gameId] });
+      queryClient.invalidateQueries({ queryKey: ["games"] });
     },
   });
 
