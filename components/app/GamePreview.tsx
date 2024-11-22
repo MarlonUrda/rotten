@@ -57,18 +57,8 @@ export function GamePreview({
       .replace(/-/g, " ");
   }, [game.name]);
 
-  const getGameQuery = useQuery({
-    queryKey: ["game", game._id],
-    queryFn: () => GamesController.getGame({ id: game.external_id }),
-  });
   const handleAdd = () => {
-    if (getGameQuery.isLoading) {
-      myToast({ type: "info", message: "Agregando el juego..." });
-    }
-
-    if (getGameQuery.data) {
-      addToPlaylistMutation.mutate(getGameQuery.data._id);
-    }
+    addToPlaylistMutation.mutate(game.external_id.toString())
   };
 
   const deleteMutation = useMutation({
@@ -90,9 +80,7 @@ export function GamePreview({
   });
 
   const handleDelete = () => {
-    if (getGameQuery.data?._id) {
-      deleteMutation.mutate(getGameQuery.data._id);
-    }
+    deleteMutation.mutate(game._id)
   };
   return (
     <Shadow {...mt.shadow.md}>

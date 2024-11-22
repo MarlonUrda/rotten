@@ -4,7 +4,7 @@ import { gameDetails } from './api/games/gameDetails'
 
 export const playlistSchema = z.object({
   _id: z.string(),
-  gameIds: z.array(gameDetails),
+  gameIds: z.array(gamePreview),
   userId: z.string(),
   user: z.object({
     firstName: z.string(),

@@ -13,6 +13,7 @@ import Loader from "@/components/ui/loader";
 import { EmptyPlaylist } from "@/components/app/emptyPlaylist";
 import { Playlist } from "@/types/Playlist";
 import Animated, {LinearTransition} from "react-native-reanimated";
+import { SimpleNavbar } from "@/components/app/simpleNavbar";
 
 export default function PlaylistScreen() {
   const [currentUser] = useAtom(userAtom)
@@ -46,6 +47,7 @@ export default function PlaylistScreen() {
 
   return (
     <View style={[mt.flexCol, mt.gap(4), mt.justify("center"), mt.items("center"), mt.pt(10)]}>
+      <SimpleNavbar />
       <Text size="lg" weight="bold" style={[mt.align("center")]}>
         {currentUser?.firstName}'s Playlist
       </Text>
