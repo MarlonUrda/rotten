@@ -19,7 +19,10 @@ declare module "react-native-actions-sheet" {
     updateUser: typeof UpdateUser;
     searchFilterSheet: SheetDefinition<{
       payload: Omit<SearchGameQuery, "query">;
-      returnValue: Omit<SearchGameQuery, "query">
+      returnValue: {
+        filters: Omit<SearchGameQuery, "query">;
+        clear: boolean;
+      } | undefined;
     }>;
     deleteUser: typeof DeleteAccountSheet
   }
