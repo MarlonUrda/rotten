@@ -45,6 +45,7 @@ export function GamePreview({
       await PlaylistController.addToPlaylist({ gameId: gameId }),
     onSuccess: () => {
       myToast({ type: "success", message: "Game added successfully!" });
+      queryClient.invalidateQueries({ queryKey: ["games", "popular"] })
     },
     onError: (error) => {
       myToast({ type: "error", message: error.message });

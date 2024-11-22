@@ -6,7 +6,7 @@ import Animated, {
   SlideOutRight,
 } from "react-native-reanimated";
 import { useLocalSearchParams } from "expo-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { GamesController } from "@/api/controllers/GamesController";
 import { useEffect } from "react";
 import Loader from "@/components/ui/loader";
@@ -14,15 +14,17 @@ import mt from "@/styles/mtWind";
 
 export default function DetailsScreen() {
   const { id } = useLocalSearchParams() as { id: string };
+  const queryClient = useQueryClient()
 
   const getGameQuery = useQuery({
     queryKey: ["game", id],
     queryFn: () => GamesController.getGame({ id }),
   });
 
-  
-
   useEffect(() => {
+    if(getGameQuery.isSuccess){
+      queryClient.invalidateQueries({ queryKey: ["games", "popular"] })
+    }
     console.log(getGameQuery.data);
   }, [getGameQuery]);
 
