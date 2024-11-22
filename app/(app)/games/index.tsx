@@ -20,7 +20,7 @@ export default function Index() {
   return (
     <View style={[mt.pt(12), mt.p(2)]}>
       <Navbar />
-      <GamesScroll title="Juegos Populares"
+      <GamesScroll title="Popular Games"
         gamesQuery={popularGamesQuery}
       />
     </View>

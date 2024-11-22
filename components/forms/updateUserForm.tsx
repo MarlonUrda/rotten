@@ -39,7 +39,7 @@ export default function UpdateUserForm() {
   return (
     <Animated.View style={[mt.flexCol, mt.gap(4), mt.p(4), mt.w("full")]} layout={LinearTransition}>
       <Text size="lg" weight="bold" style={[mt.align("center")]}>
-        Actualizar Datos
+        Update your Profile
       </Text>
       <FormTextInput 
         name="firstName"
@@ -65,7 +65,7 @@ export default function UpdateUserForm() {
       <Animated.View>
         <Button variant="error" onPress={() => SheetManager.hide("updateUser")}>
           <Text>
-            Cancelar
+            Cancel
           </Text>
         </Button>
       </Animated.View>

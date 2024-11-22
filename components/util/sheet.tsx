@@ -4,11 +4,13 @@ import UpdateUser from "../app/updateUser";
 import { SearchFilterSheet } from "../app/searchFilterSheet";
 import { SheetDefinition } from "react-native-actions-sheet";
 import { SearchGameQuery } from "@/types/api/games/getGameRequest";
+import DeleteAccountSheet from "../app/deleteAccountSheet";
 
 registerSheet("commentSheet", ReviewSheet);
 registerSheet("reviewInputSheet", ReviewInputSheet);
 registerSheet("updateUser", UpdateUser)
 registerSheet("searchFilterSheet", SearchFilterSheet);
+registerSheet("deleteUser", DeleteAccountSheet)
 
 declare module "react-native-actions-sheet" {
   interface Sheets {
@@ -19,5 +21,6 @@ declare module "react-native-actions-sheet" {
       payload: Omit<SearchGameQuery, "query">;
       returnValue: Omit<SearchGameQuery, "query">
     }>;
+    deleteUser: typeof DeleteAccountSheet
   }
 }

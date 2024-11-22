@@ -44,7 +44,7 @@ export default function LoginForm() {
       myToast({type: "error", message: error.message})
     },
     onSuccess: (data) => {
-      myToast({type: "success", message:`Bienvenido ${data.user.firstName}`})
+      myToast({type: "success", message:`Welcome ${data.user.firstName}!`})
       form.reset()
       router.push("/games")
     }
@@ -66,7 +66,7 @@ export default function LoginForm() {
         name="password"
         type="password"
         control={form.control}
-        label="Contraseña"
+        label="Password"
         placeholder=""
         error={form.formState.errors.password}
       />
@@ -75,7 +75,7 @@ export default function LoginForm() {
           href={"/auth/sendResetPage"}
           style={mtForm.text}
         >
-          Olvidé mi contraseña
+          Forgot your password?
         </Link>
       </Animated.View>
       <Animated.View layout={LinearTransition}>
@@ -87,7 +87,7 @@ export default function LoginForm() {
             <Text
               weight="bold"
             >
-              Iniciar sesión
+              Log In
             </Text>
           </Button>
       </Animated.View>
@@ -96,7 +96,7 @@ export default function LoginForm() {
           href={"/auth/registerPage"}
           style={mtForm.text}
         >
-          Crea una cuenta aqui
+          Create Account
         </Link>
       </Animated.View>
     </Animated.View>

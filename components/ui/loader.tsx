@@ -46,7 +46,7 @@ export default function Loader({
               ...sizesText[size],
             ]}
           >
-            Cargando{dots}
+            Loading{dots}
           </Text>
         </View>
       </Shadow>

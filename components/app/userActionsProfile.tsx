@@ -17,25 +17,25 @@ export function UserActions({ onDelete, onLogOut, onUpdate }: UserActionProps){
       <Button variant="primary" onPress={onUpdate}>
         <View style={[mt.flexRow, mt.gap(4)]}>
           <UserPen color={"#000"}/>
-          <Text>Actualizar perfil</Text>
+          <Text>Edit Profile</Text>
         </View>
       </Button>
       <Button variant="secondary" onPress={() => router.push("/playlist")}>
       <View style={[mt.flexRow, mt.gap(4)]}>
           <ListVideo color={"#000"}/>
-          <Text>Mi lista</Text>
+          <Text>My Playlist</Text>
         </View>
       </Button>
       <Button variant="secondary" onPress={onLogOut}>
       <View style={[mt.flexRow, mt.gap(4)]}>
         <LogOut color={"#000"}/>
-        <Text>Cerrar sesión</Text>
+        <Text>Log Out</Text>
       </View>
       </Button>
       <Button variant="error" onPress={onDelete}>
       <View style={[mt.flexRow, mt.gap(4)]}>
         <Trash color={"#000"}/>
-        <Text>Borrar cuenta</Text>
+        <Text>Delete Account</Text>
       </View>
       </Button>
     </View>

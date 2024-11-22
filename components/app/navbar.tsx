@@ -20,7 +20,7 @@ export function Navbar(){
         <Button variant="success" onPress={() => router.push("/profile")}>
         <View style={[mt.flexRow, mt.gap(2)]}>
           <User color={"#000"}/>
-          <Text>Tu perfil</Text>
+          <Text>Profile</Text>
         </View>
       </Button>
     </View>

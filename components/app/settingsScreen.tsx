@@ -20,21 +20,8 @@ export default function SettingScreen() {
   const setUser = useSetAtom(userAtom)
   const queryClient = useQueryClient()
 
-  const deleteUserMutation = useMutation({
-    mutationFn: UserController.DeleteUser,
-    onSuccess: () => {
-      myToast({type: 'success', message: 'User deleted successfully'})
-      setUser(null)
-      router.push("/")
-    },
-    onError: (error) => {
-      myToast({type: 'error', message: error.message})
-    }
-  })
-
   const onDelete = () => {
-    if (currentUser)
-      deleteUserMutation.mutate({_id: currentUser?._id})
+    SheetManager.show("deleteUser")      
   }
 
   const onLogout = async () => {
