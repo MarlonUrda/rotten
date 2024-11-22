@@ -11,7 +11,7 @@ export const apiRoutes = {
     // Playlist
     "playlist": () => `${server}/user/playlist`,
     ":id/playlist": (id: string) => `${server}/user/${id}/playlist`,
-    "playlist/:id": (id: string) => `${server}/user/playlist/${id}`, 
+    "playlist/:id": (userId:string, id: string) => `${server}/user/${userId}/playlist/${id}`, 
 
     // Games
     "popular": () => `${server}/games/popular`,

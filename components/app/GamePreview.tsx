@@ -12,17 +12,76 @@ import s from "@/styles/styleValues";
 import { ESRBChip } from "./ESRBChip";
 import { HoldItem } from "react-native-hold-menu";
 
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { PlaylistController } from "@/api/controllers/PlaylistController";
+import myToast from "../toast";
+import { GamesController } from "@/api/controllers/GamesController";
+import { useAtom } from "jotai";
+import { userAtom } from "@/utils/atoms/userAtom";
+
 interface GamePreviewProps {
   title: string;
   game: GamePreview;
+  isListed?: boolean;
 }
 
-export function GamePreview({ game }: GamePreviewProps) {
+export function GamePreview({ title, game, isListed }: GamePreviewProps) {
+
+  const [currentUser] = useAtom(userAtom)
+  const queryClient = useQueryClient()
+
+  const addToPlaylistMutation = useMutation({
+    mutationFn: async (gameId: string) => await PlaylistController.addToPlaylist({ gameId: gameId }),
+    onSuccess: () => {
+      myToast({type: "success", message: "Game added successfully!"})
+    },
+    onError: (error) => {
+      myToast({type: "error", message: error.message})
+    }
+  })
+
   const gameName = useMemo(() => {
     return (game.name.length > 22 ? game.name.slice(0, 20) + "..." : game.name)
       .toUpperCase()
       .replace(/-/g, " ");
   }, [game.name]);
+
+  const getGameQuery = useQuery({
+    queryKey: ["game", game._id],
+    queryFn: () => GamesController.getGame({ id: game._id }),
+  });
+  const handleAdd = () => {
+
+    if (getGameQuery.isLoading) {
+      myToast({type: "info", message: "Agregando el juego..."})
+    }
+    
+    if(getGameQuery.data) {
+      addToPlaylistMutation.mutate(getGameQuery.data._id);
+    }
+  }
+
+  const deleteMutation = useMutation({
+    mutationFn: async (gameId: string) => {
+      if (!currentUser?._id) {
+        throw new Error("User ID is undefined");
+      }
+      await PlaylistController.removeFromPlaylist(currentUser._id, gameId);
+    },
+    onSuccess: () => {
+      myToast({type: "success", message: "Juego eliminado de la lista!"})
+      queryClient.invalidateQueries({ queryKey: ["playlist", currentUser?._id] })
+    },
+    onError: (error) => {
+      myToast({type: "error", message: error.message})
+    },
+  })
+
+  const handleDelete = () => {
+    if (getGameQuery.data?._id) {
+      deleteMutation.mutate(getGameQuery.data._id);
+    }
+  }
   return (
     <Shadow {...mt.shadow.md}>
       <TouchableOpacity onPress={() => router.push(`/games/${game._id}`)}>
@@ -84,10 +143,19 @@ export function GamePreview({ game }: GamePreviewProps) {
             }}
           />
         </View>
-        <Button>
-          <Text>Agregar</Text>
-        </Button>
       </TouchableOpacity>
+      {!isListed ? (
+        <Button onPress={handleAdd}>
+          <Text>Agregar
+
+          </Text>
+        </Button>
+      ): (
+        <Button variant="error" onPress={handleDelete}>
+          <Text>Borrar</Text>
+        </Button>
+      )}
+        
     </Shadow>
   );
 }

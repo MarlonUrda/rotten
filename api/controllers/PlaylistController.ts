@@ -2,7 +2,6 @@ import { SuperFetchError } from "./superFetch";
 import { superFetch } from "./superFetch";
 import {
   getPlaylist,
-  getPlaylistResponse,
   getPlaylistResponseSchema,
   addOrRemoveGameToPlaylist,
   removeFromPlaylistResponseSchema,
@@ -10,11 +9,14 @@ import {
   removeFromPlaylistResponse,
   addToPlaylistResponse
 } from "@/types/api/Playlist";
+import type { getPlaylistResponse } from "@/types/api/Playlist";
+import type { Playlist } from "@/types/Playlist";
+import { playlistSchema } from "@/types/Playlist";
 
 export class PlaylistController {
-  static async getPlaylist(userId: string): Promise<getPlaylistResponse>{
+  static async getPlaylist(userId: string): Promise<Playlist>{
     try {
-      const response = await superFetch<undefined, getPlaylistResponse, ":id/playlist">(
+      const response = await superFetch<undefined, Playlist, ":id/playlist">(
         {
           options: {
             method: "GET",
@@ -22,7 +24,7 @@ export class PlaylistController {
           },
           route: ":id/playlist",
           routeParams: [userId],
-          responseSchema: getPlaylistResponseSchema,
+          responseSchema: playlistSchema,
         }
       )
       console.log(response)
@@ -55,11 +57,11 @@ export class PlaylistController {
       console.log("error");
       const sfError = error as SuperFetchError;
       console.log(sfError.code, sfError.message);
-      throw new Error("Error adding game to your playlist");
+      throw new Error(sfError.message);
     }
   }
 
-  static async removeFromPlaylist(gameId: string): Promise<removeFromPlaylistResponse>{
+  static async removeFromPlaylist(userId:string, gameId: string): Promise<removeFromPlaylistResponse>{
     try {
       const response = await superFetch<undefined, removeFromPlaylistResponse, "playlist/:id">({
         options: {
@@ -67,7 +69,7 @@ export class PlaylistController {
           includeCredentials: true,
         },
         route: "playlist/:id",
-        routeParams: [gameId],
+        routeParams: [userId, gameId],
         responseSchema: removeFromPlaylistResponseSchema,
       })
 

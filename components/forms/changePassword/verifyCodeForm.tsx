@@ -31,7 +31,7 @@ export function VerifyCodeForm({ setTab, fullForm }: VerifyCodeProps) {
   const verifyCodeMutation = useMutation({
     mutationFn: AuthController.verifyCode,
     onError: (error) => {
-      myToast(false, error.message)
+      myToast({type: "error", message: error.message})
     },
     onSuccess: () => {
       fullForm.setValue("code", form.getValues("code"))

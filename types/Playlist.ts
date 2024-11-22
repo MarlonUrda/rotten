@@ -1,9 +1,10 @@
 import z from 'zod'
 import { gamePreview } from './api/games/gamePreview'
+import { gameDetails } from './api/games/gameDetails'
 
 export const playlistSchema = z.object({
   _id: z.string(),
-  gameIds: z.array(gamePreview),
+  gameIds: z.array(gameDetails),
   userId: z.string(),
   user: z.object({
     firstName: z.string(),
