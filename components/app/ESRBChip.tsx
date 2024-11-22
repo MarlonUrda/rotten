@@ -1,4 +1,4 @@
-import { esrbRating } from "@/types/api/games/gamePreview";
+import { esrbRating } from "@/types/api/games/generics";
 import { z } from "zod";
 import { Image, ImageStyle, StyleProp } from "react-native";
 import mt from "@/styles/mtWind";
@@ -32,8 +32,23 @@ export const ESRBChip = ({
   style?: StyleProp<ImageStyle>;
 }) => {
   return (
-    <View style={[mt.border(2), mt.p(1), mt.px(2), ...styles[rating.slug]]}>
-      <Text style={styles[rating.slug]}>{letters[rating.slug]}</Text>
+    <View
+      style={[
+        mt.border(2),
+        mt.p(1),
+        mt.px(2),
+        ...objGetter(styles, rating?.slug ?? "", styles["rating-pending"]),
+      ]}
+    >
+      <Text
+        style={objGetter(styles, rating?.slug ?? "", styles["rating-pending"])}
+      >
+        {objGetter(letters, rating?.slug ?? "", letters["rating-pending"])}
+      </Text>
     </View>
   );
 };
+
+function objGetter(obj: any, key: string, defaultValue: any) {
+  return obj[key] ?? defaultValue;
+}

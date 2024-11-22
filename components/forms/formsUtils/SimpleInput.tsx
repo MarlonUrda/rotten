@@ -24,7 +24,7 @@ interface SimpleInputProps extends TextInputProps {
   placeholder?: string;
   multiline?: boolean;
   inputStyle?: StyleProp<TextStyle>;
-  viewStyle?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
+  viewStyle?: StyleProp<ViewStyle>;
   inputRef?: React.RefObject<Input>;
 }
 
@@ -53,7 +53,8 @@ export function SimpleInput({
 
   return (
     <Shadow {...s.shadow.md}>
-      <View>
+      <View
+      >
         <Animated.View style={[translateStyle]}>
           <Input
             style={[

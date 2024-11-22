@@ -63,7 +63,7 @@ export default function RootLayout() {
               <Stack
                 screenOptions={{
                   headerShown: false,
-                  animation: "simple_push",
+                  animation: "default",
                   contentStyle: {
                     backgroundColor: s.colors.background,
                   },

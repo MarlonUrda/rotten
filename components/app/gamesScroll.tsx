@@ -46,7 +46,7 @@ const GamesScroll = ({ title, gamesQuery }: GamesScrollerProps) => {
         style={[]}
       >
         {gamesQuery.data?.results.map((game) => (
-            <GamePreview game={game} title={game.name} key={game._id} />
+            <GamePreview game={game} title={game.name} key={game.external_id} />
         ))}
       </ScrollView>
     </View>

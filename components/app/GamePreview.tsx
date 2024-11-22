@@ -12,18 +12,16 @@ import s from "@/styles/styleValues";
 import { ESRBChip } from "./ESRBChip";
 import { HoldItem } from "react-native-hold-menu";
 
-
-
 interface GamePreviewProps {
   title: string;
   game: GamePreview;
 }
 
-export function GamePreview({ title, game }: GamePreviewProps) {
+export function GamePreview({ game }: GamePreviewProps) {
   const gameName = useMemo(() => {
-    return (
-      game.name.length > 22 ? game.name.slice(0, 20) + "..." : game.name
-    ).toUpperCase().replace(/-/g, " ");
+    return (game.name.length > 22 ? game.name.slice(0, 20) + "..." : game.name)
+      .toUpperCase()
+      .replace(/-/g, " ");
   }, [game.name]);
   return (
     <Shadow {...mt.shadow.md}>
@@ -85,12 +83,9 @@ export function GamePreview({ title, game }: GamePreviewProps) {
               critic: game.mt_rating_critic ?? 0,
             }}
           />
-
         </View>
         <Button>
-          <Text>Agregar
-
-          </Text>
+          <Text>Agregar</Text>
         </Button>
       </TouchableOpacity>
     </Shadow>
@@ -114,9 +109,9 @@ function ReleaseDate({ released }: { released: string }) {
           mt.backgroundColor("white"),
         ]}
       >
-        <Text size="sm"
-          style={[mt.fontWeight("bold")]}
-        >LANZADO</Text>
+        <Text size="sm" style={[mt.fontWeight("bold")]}>
+          LANZADO
+        </Text>
       </View>
       <View
         style={[
@@ -126,9 +121,7 @@ function ReleaseDate({ released }: { released: string }) {
           mt.backgroundColor("white"),
         ]}
       >
-        <Text size="lg" weight="black"
-          style={[mt.fontWeight("black")]}
-        >
+        <Text size="lg" weight="black" style={[mt.fontWeight("black")]}>
           {released}
         </Text>
       </View>
@@ -136,14 +129,11 @@ function ReleaseDate({ released }: { released: string }) {
   );
 }
 
-
-
-
 const getColor = (score: number): "red" | "orange" | "green" => {
   if (score < 2.5) return "red";
   if (score < 3.5) return "orange";
   return "green";
-}
+};
 
 function Scores({
   score,
@@ -173,9 +163,9 @@ function Scores({
             mt.backgroundColor("white"),
           ]}
         >
-          <Text size="sm"
-            style={[mt.fontWeight("bold")]}
-          >USER SCORE</Text>
+          <Text size="sm" style={[mt.fontWeight("bold")]}>
+            USER SCORE
+          </Text>
         </View>
         <View
           style={[
@@ -189,9 +179,7 @@ function Scores({
             mt.justify("center"),
           ]}
         >
-          <Text size="lg" weight="black"
-            style={[mt.fontWeight("black")]}
-          >
+          <Text size="lg" weight="black" style={[mt.fontWeight("black")]}>
             {score.audience.toFixed(1)}
           </Text>
         </View>
@@ -213,9 +201,9 @@ function Scores({
             mt.backgroundColor("white"),
           ]}
         >
-          <Text size="sm"
-            style={[mt.fontWeight("bold")]}
-          >CRITIC SCORE</Text>
+          <Text size="sm" style={[mt.fontWeight("bold")]}>
+            CRITIC SCORE
+          </Text>
         </View>
 
         <View
@@ -230,9 +218,7 @@ function Scores({
             mt.justify("center"),
           ]}
         >
-          <Text size="lg" weight="black"
-            style={[mt.fontWeight("black")]}
-          >
+          <Text size="lg" weight="black" style={[mt.fontWeight("black")]}>
             {score.critic.toFixed(1)}
           </Text>
         </View>
@@ -241,7 +227,6 @@ function Scores({
   );
 }
 
-
 const MenuItems = [
   { text: "Actions", icon: "home", isTitle: true, onPress: () => {} },
   { text: "Action 1", icon: "edit", onPress: () => {} },
@@ -249,16 +234,10 @@ const MenuItems = [
   { text: "Action 3", icon: "trash", isDestructive: true, onPress: () => {} },
 ];
 
-export function HoldGamePreview(
-  { title, game }: GamePreviewProps
-)
-{
+export function HoldGamePreview({ title, game }: GamePreviewProps) {
   return (
-    <HoldItem
-      items={MenuItems}
-    >
+    <HoldItem items={MenuItems}>
       <GamePreview title={title} game={game} />
     </HoldItem>
-  )
+  );
 }
-
