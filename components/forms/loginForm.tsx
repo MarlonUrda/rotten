@@ -11,6 +11,8 @@ import { FormTextInput } from "./formsUtils/FormTextInput";
 import {  mtForm } from "@/styles/formStyleSheet";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
+import mt from "@/styles/mtWind";
+import { TouchableOpacity } from "react-native";
 
 const loginFormSchema = z.object({
   email: z
@@ -94,7 +96,7 @@ export default function LoginForm() {
       <Animated.View layout={LinearTransition} style={mtForm.sideText}>
         <Link
           href={"/auth/registerPage"}
-          style={mtForm.text}
+          style={[mtForm.text]}
         >
           Create Account
         </Link>
