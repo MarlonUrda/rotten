@@ -8,9 +8,10 @@ export const gamePreview = z.object({
   name: z.string(),
   released: z.string(),
   tba: z.boolean(),
-  background_image: z.string(),
-  metacritic: z.number(),
-  playtime: z.number(),
+  background_image: z
+    .string(),
+  metacritic: z.number().nullable(),
+  playtime: z.number().nullable(),
   esrb_rating: esrbRating,
   platforms: z.array(platformDetails),
   parent_platforms: z.array(parentPlatform),

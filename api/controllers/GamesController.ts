@@ -3,7 +3,7 @@ import {
   StandardGameResponse,
   standardGameResponse,
 } from "@/types/api/games/standardGameResponse";
-import { GetGameRequest, GetGameScreenshotsRequest } from "@/types/api/games/getGameRequest";
+import { GetGameRequest, GetGameScreenshotsRequest, SearchGamesRequest } from "@/types/api/games/getGameRequest";
 import { getGameScreenshotsResponse } from "@/types/api/games/gameScreenshots";
 import type { GetGameScreenshotsResponse } from "@/types/api/games/gameScreenshots";
 import { GameDetails, gameDetails } from "@/types/api/games/gameDetails";
@@ -77,6 +77,33 @@ export class GamesController {
       const sfError = error as SuperFetchError;
       console.log(sfError.code, sfError.message);
       throw new Error("Error fetching game screenshots");
+    }
+  }
+
+  static async searchGames(payload: SearchGamesRequest) {
+    try {
+      const result = await superFetch<
+        undefined,
+        StandardGameResponse,
+        "game/search",
+        SearchGamesRequest
+      >({
+        options: {
+          method: "GET",
+          includeCredentials: true,
+        },
+        route: "game/search",
+        routeParams: [],
+        queryParams: payload,
+        responseSchema: standardGameResponse,
+      });
+
+
+      return result;
+    } catch (error) {
+      const sfError = error as SuperFetchError;
+      console.log(sfError.code, sfError.message);
+      throw new Error("Error searching games");
     }
   }
 }

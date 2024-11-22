@@ -16,7 +16,7 @@ export default function Profile() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: "yellow" },
-          animation: "slide_from_right"
+          animation: "default"
         }}
       ></Stack>
     </SafeAreaView>
