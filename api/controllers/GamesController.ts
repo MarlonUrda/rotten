@@ -43,7 +43,7 @@ export class GamesController {
           includeCredentials: true,
         },
         route: "game/:id",
-        routeParams: [payload.id],
+        routeParams: [payload.id.toString()],
         responseSchema: gameDetails,
       });
       return result;

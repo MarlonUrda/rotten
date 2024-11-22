@@ -107,7 +107,7 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
         <Animated.View layout={LinearTransition} style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}>
           <Title title={"Platforms"} color="green"></Title>
           <View style={[mt.flexRow, mt.gap(2), mt.flexWrap]}>
-            {game.platforms
+            {(game.platforms || [])
               .sort((a, b) => a.platform.name.localeCompare(b.platform.name))
               .map((platform) => (
                 <PlatformChip

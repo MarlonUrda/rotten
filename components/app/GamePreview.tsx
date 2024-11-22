@@ -59,7 +59,7 @@ export function GamePreview({
 
   const getGameQuery = useQuery({
     queryKey: ["game", game._id],
-    queryFn: () => GamesController.getGame({ id: game._id }),
+    queryFn: () => GamesController.getGame({ id: game.external_id }),
   });
   const handleAdd = () => {
     if (getGameQuery.isLoading) {
