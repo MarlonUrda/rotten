@@ -11,7 +11,7 @@ import type { GamePreview } from "@/types/api/games/gamePreview";
 import s from "@/styles/styleValues";
 import { ESRBChip } from "./ESRBChip";
 import { HoldItem } from "react-native-hold-menu";
-
+import { SquarePlus, SquareX } from "lucide-react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PlaylistController } from "@/api/controllers/PlaylistController";
 import myToast from "../toast";
@@ -147,13 +147,17 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
       </TouchableOpacity>
       {!isListed ? (
         <Button onPress={handleAdd}>
-          <Text>Agregar
-
-          </Text>
+          <View style={[mt.flexRow, mt.gap(2)]}>
+            <SquarePlus color={"#000"}/>
+            <Text>Add to my List</Text>
+        </View>
         </Button>
       ): (
         <Button variant="error" onPress={handleDelete}>
-          <Text>Borrar</Text>
+          <View style={[mt.flexRow, mt.gap(2)]}>
+            <SquareX color={"#000"}/>
+            <Text>Remove Game</Text>
+        </View>
         </Button>
       )}
         
