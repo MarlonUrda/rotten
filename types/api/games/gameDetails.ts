@@ -9,7 +9,7 @@ export const gameDetails = z.object({
   name: z.string(),
   slug: z.string(),
   tba: z.boolean(),
-  metacritic: z.number(),
+  metacritic: z.number().nullish(),
   released: z.string(),
   description_raw: z.string(),
   background_image: z.string(),

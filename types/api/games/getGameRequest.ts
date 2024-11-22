@@ -9,8 +9,8 @@ export interface GetGameScreenshotsRequest {
 
 export const searchGameSchema = z.object({
   query: z.string().max(100).optional(),
-  page: z.number({ coerce: true }).int().positive().optional(),
-  external_page: z.number({ coerce: true }).int().optional(),
+  page: z.number({ coerce: true }).int().min(0).optional(),
+  external_page: z.number({ coerce: true }).int().min(0).optional(),
   platforms: z.string().optional(),
 });
 

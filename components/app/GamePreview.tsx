@@ -84,7 +84,7 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
   }
   return (
     <Shadow {...mt.shadow.md}>
-      <TouchableOpacity onPress={() => router.push(`/games/${game._id}`)}>
+      <TouchableOpacity onPress={() => router.push(`/games/${game._id !== "temp" ? game._id : game.external_id}`)}>
         <View
           style={[
             mt.flexCol,
