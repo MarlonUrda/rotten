@@ -119,6 +119,7 @@ export function useReviewEditor({
     onSettled: (_data, _error, variable, _context) => {
       queryClient.invalidateQueries({ queryKey: ["comments"] });
       queryClient.invalidateQueries({ queryKey: ["game", variable.gameId] });
+      queryClient.invalidateQueries({ queryKey: ["games"] });
     },
   });
 
@@ -152,6 +153,8 @@ export function useDeleteReview(id: string, gameId: string) {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["comments"] });
       queryClient.invalidateQueries({ queryKey: ["game", gameId] });
+      queryClient.invalidateQueries({ queryKey: ["games"] });
+
     },
   });
 

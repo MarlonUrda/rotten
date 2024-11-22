@@ -40,6 +40,13 @@ const s = {
     twoThirds: "66.666667%" as DimensionValue,
     third: "33.333333%" as DimensionValue,
   },
+  negativePixels: {
+    "-1": -4,
+    "-2": -8,
+    "-3": -12,
+    "-4": -16,
+
+  },
   borderRadius: {
     none: 0,
     sm: 4,

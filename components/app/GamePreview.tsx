@@ -1,6 +1,7 @@
-import { Button } from "../ui/button";
+import { Button, FlatButton } from "../ui/button";
 import { Text } from "../ui/text";
 import { View } from "react-native";
+import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import { Image } from "react-native-elements";
 import mt from "@/styles/mtWind";
 import { Shadow } from "react-native-shadow-2";
@@ -18,6 +19,7 @@ import myToast from "../toast";
 import { GamesController } from "@/api/controllers/GamesController";
 import { useAtom } from "jotai";
 import { userAtom } from "@/utils/atoms/userAtom";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 interface GamePreviewProps {
   title: string;
@@ -94,105 +96,120 @@ export function GamePreview({
   };
   return (
     <Shadow {...mt.shadow.md}>
-      <TouchableOpacity
-        onPress={() =>
-          router.push(
-            `/games/${game._id !== "temp" ? game._id : game.external_id}`
-          )
-        }
-        style={[mt.w("full")]}
+      <Animated.View entering={ZoomIn} exiting={ZoomOut}
+        style={[mt.position("relative")]}
       >
-        <View
-          style={[
-            direction === "column" ? colStyle : rowStyle,
-            mt.gap(4),
-            mt.rounded("base"),
-            mt.border(4),
-            mt.backgroundColor("white"),
-            mt.p(2),
-            mt.backgroundColor("yellow"),
-          ]}
+        <TouchableOpacity
+          onPress={() =>
+            router.push(
+              `/games/${game._id !== "temp" ? game._id : game.external_id}`
+            )
+          }
+          style={[mt.w("full")]}
         >
           <View
             style={[
-              direction === "row" ? mt.flexColReverse : mt.flexCol,
-              , mt.gap(2), direction === "row" && mt.w("sixty")]}
-          >
-          <View
-            style={[
-              mt.flexRow,
-              mt.gap(2),
-              mt.items("center"),
-              mt.justify("center"),
+              direction === "column" ? colStyle : rowStyle,
+              mt.gap(4),
+              mt.rounded("base"),
+              mt.border(4),
+              mt.backgroundColor("white"),
+              mt.p(2),
+              mt.backgroundColor("yellow"),
             ]}
           >
-            <Text
-              size="md"
-              weight="black"
-              style={[mt.fontWeight("black"), mt.flex1, mt.maxW(56)]}
-            >
-              {gameName}
-            </Text>
-
             <View
               style={[
-                mt.justify("center"),
-                mt.items("center"),
-                mt.flex,
-                // mt.rotate(7),
+                direction === "row" ? mt.flexColReverse : mt.flexCol,
+                ,
+                mt.gap(2),
+                direction === "row" && mt.w("sixty"),
               ]}
             >
-              <ESRBChip
-                rating={game.esrb_rating}
-                style={[mt.h(14), mt.w(10)]}
+              <View
+                style={[
+                  mt.flexRow,
+                  mt.gap(2),
+                  mt.items("center"),
+                  mt.justify("center"),
+                ]}
+              >
+                <Text
+                  size="md"
+                  weight="black"
+                  style={[mt.fontWeight("black"), mt.flex1, mt.maxW(56)]}
+                >
+                  {gameName}
+                </Text>
+
+                <View
+                  style={[
+                    mt.justify("center"),
+                    mt.items("center"),
+                    mt.flex,
+                    // mt.rotate(7),
+                  ]}
+                >
+                  <ESRBChip
+                    rating={game.esrb_rating}
+                    style={[mt.h(14), mt.w(10)]}
+                  />
+                </View>
+              </View>
+              <View style={[direction === "row" && mt.flex1]}>
+                <Image
+                  source={{ uri: game.background_image }}
+                  style={[
+                    mt.h(direction === "column" ? 36 : 36),
+                    mt.w("full"),
+                    mt.border(4),
+                  ]}
+                />
+              </View>
+            </View>
+            <View
+              style={[
+                mt.flexCol,
+                mt.gap(4),
+                mt.justify("center"),
+                mt.items("center"),
+              ]}
+            >
+              <ReleaseDate released={game.released} direction={direction} />
+
+              <Scores
+                score={{
+                  audience: game.mt_rating_user ?? 0,
+                  critic: game.mt_rating_critic ?? 0,
+                }}
+                direction={direction}
               />
             </View>
           </View>
-          <View
-            style={[
-              direction === "row" && mt.flex1,
-            ]}
-          >
-            <Image
-              source={{ uri: game.background_image }}
-              style={[mt.h(
-                direction === "column" ? 36 : 36
-              ), mt.w("full"), mt.border(4)]}
-            />
-          </View>
-          </View>
-          <View
-            style={[
-              mt.flexCol,
-              mt.gap(4),
-              mt.justify("center"),
-              mt.items("center"),
-            ]}
-          >
+        </TouchableOpacity>
+        <View
+          style={[
+            mt.position("absolute"),
+            // mt.right(direction === "column" ? "-2" : 0),
+            direction === "column" ? mt.right("-1") : mt.left("-1"),
+            direction === "column" ? mt.bottom("-1") : mt.top("-1"),
+            mt.flexRow,
+            mt.rotate(direction === "column" ? 10: -10)
+          ]}
+        >
 
-            <ReleaseDate released={game.released}
-              direction={direction}
-            />
-
-            <Scores
-              score={{
-                audience: game.mt_rating_user ?? 0,
-                critic: game.mt_rating_critic ?? 0,
-              }}
-              direction={direction}
-            />
-          </View>
-          </View>
-      </TouchableOpacity>
-      {!isListed ? (
-        <Button onPress={handleAdd}>
-          <Text>Agregar</Text>
-        </Button>
-      ) : (
-        <Button variant="error" onPress={handleDelete}>
-          <Text>Borrar</Text>
-        </Button>
-      )}
+          {!isListed ? (
+            <FlatButton onPress={handleAdd}
+            >
+              <MaterialCommunityIcons name="plus" size={24} color="black" />
+            </FlatButton>
+          ) : (
+            <Button variant="error" onPress={handleDelete}>
+              <MaterialCommunityIcons name="minus" size={24} color="black" />
+            </Button>
+          )}
+        </View>
+      </Animated.View>
     </Shadow>
   );
 }

@@ -5,6 +5,8 @@ import {
   StyleProp,
   ViewStyle,
   View,
+  TouchableOpacity,
+  TouchableOpacityProps,
 } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import s from "@/styles/styleValues";
@@ -120,6 +122,26 @@ export function CPushButton({ isPushed, ...props }: PushButtonProps) {
   );
 }
 
+interface FlatButtonProps extends TouchableOpacityProps {
+  variant?: "primary" | "secondary" | "error" | "success";
+  style?: StyleProp<ViewStyle>;
+  children: React.ReactNode;
+}
+
+export function FlatButton({ ...props }: FlatButtonProps) {
+  return (
+    <TouchableOpacity
+      style={[
+        buttonStyles(props.variant).flatButton,
+        props.style,
+      ]}
+      {...props}
+    >
+      {props.children}
+    </TouchableOpacity>
+  )
+}
+
 const buttonStyles = (variant: ButtonProps["variant"], disabled: boolean = false) => {
   let backgroundColor: string = disabled ? s.colors.gray[500] : s.colors.blue[500];
   let textColor: string = s.colors.white;
@@ -152,5 +174,18 @@ const buttonStyles = (variant: ButtonProps["variant"], disabled: boolean = false
       paddingHorizontal: s.pixels[4],
       backgroundColor: backgroundColor,
     },
+    flatButton: {
+      // same but no borderRadius
+      paddingVertical: s.pixels[2],
+      borderWidth: s.borderWidth[2],
+      borderColor: s.colors.black,
+      borderRadius: s.borderRadius.none,
+      color: textColor,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      paddingHorizontal: s.pixels[2],
+      backgroundColor: backgroundColor,
+    }
   });
 };

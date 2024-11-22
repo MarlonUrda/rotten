@@ -47,6 +47,8 @@ export const generic = StyleSheet.create({
 });
 
 type Pixels = keyof typeof s.pixels;
+type NegativePixels = keyof typeof s.negativePixels;
+type WholePixels = Pixels | NegativePixels;
 type AbsolutePixels = Exclude<Pixels, "full" | "half" | "third" | "twoThirds" | "sixty">;
 type Font = keyof typeof s.font;
 type FontWeight = "bold" | "medium" | "light" | "black";
@@ -90,9 +92,7 @@ const mt = {
   align: (value: "center" | "left" | "right" | "auto") => ({
     textAlign: value,
   }),
-  bottom: (value: Pixels) => ({
-    bottom: s.pixels[value],
-  }),
+
   p: (value: AbsolutePixels) => ({
     padding: s.pixels[value],
   }),
@@ -117,15 +117,22 @@ const mt = {
   px: (value: AbsolutePixels) => ({
     paddingHorizontal: s.pixels[value],
   }),
-  top: (value: Pixels) => ({
-    top: s.pixels[value],
+  top: (value: WholePixels) => ({
+    top: s.pixels[value as Pixels] || s.negativePixels[value as NegativePixels],
   }),
-  left: (value: Pixels) => ({
-    left: s.pixels[value],
+  left: (value: WholePixels) => ({
+    left:
+      s.pixels[value as Pixels] || s.negativePixels[value as NegativePixels],
   }),
-  right: (value: Pixels) => ({
-    right: s.pixels[value],
+  right: (value: WholePixels) => ({
+    right:
+      s.pixels[value as Pixels] || s.negativePixels[value as NegativePixels],
   }),
+  bottom: (value: WholePixels) => ({
+    bottom:
+      s.pixels[value as Pixels] || s.negativePixels[value as NegativePixels],
+  }),
+  
   m: (value: AbsolutePixels) => ({
     margin: s.pixels[value],
   }),
