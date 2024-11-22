@@ -3,9 +3,13 @@ import { Pressable, TouchableOpacity, View } from "react-native";
 import { Image, Dimensions } from "react-native";
 import { Text } from "../ui/text";
 import { GameDetails } from "@/types/api/games/gameDetails";
-import Animated, { SlideInLeft, SlideOutRight, LinearTransition } from "react-native-reanimated";
+import Animated, {
+  SlideInLeft,
+  SlideOutRight,
+  LinearTransition,
+} from "react-native-reanimated";
 import MCIcon from "@expo/vector-icons/MaterialCommunityIcons";
-import { platforms } from "../util/platforms/platforms";
+import { platforms } from "../util/statics/platforms";
 import { GamesController } from "@/api/controllers/GamesController";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import Carousel from "react-native-reanimated-carousel";
@@ -31,7 +35,8 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
 
   const gameScreenshotsQuery = useQuery({
     queryKey: ["game", "screenshots", game.external_id],
-    queryFn: () => GamesController.getGameScreenshots({ external_id: game.external_id }),
+    queryFn: () =>
+      GamesController.getGameScreenshots({ external_id: game.external_id }),
   });
 
   const cutDescription = (description: string, word: string) => {
@@ -56,7 +61,8 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
           mt.w("full"),
         ]}
       >
-        <Animated.View layout={LinearTransition}
+        <Animated.View
+          layout={LinearTransition}
           style={[
             mt.flexCol,
             mt.gap(4),
@@ -79,7 +85,8 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
           </View>
         </Animated.View>
         {/* rating view */}
-        <Animated.View layout={LinearTransition}
+        <Animated.View
+          layout={LinearTransition}
           style={[
             mt.flexCol,
             mt.gap(4),
@@ -96,15 +103,24 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
           ></ReviewPressable>
         </Animated.View>
 
-        {gameScreenshotsQuery.data && gameScreenshotsQuery.data.results.length > 0
-        && <Animated.View layout={LinearTransition} style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}>
-          <Title title={"Screenshots"} color="blue"></Title>
-          <ImageCarousel external_id={game.external_id}
-            gameScreenshotsQuery={gameScreenshotsQuery}
-          ></ImageCarousel>
-        </Animated.View>}
+        {gameScreenshotsQuery.data &&
+          gameScreenshotsQuery.data.results.length > 0 && (
+            <Animated.View
+              layout={LinearTransition}
+              style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}
+            >
+              <Title title={"Screenshots"} color="blue"></Title>
+              <ImageCarousel
+                external_id={game.external_id}
+                gameScreenshotsQuery={gameScreenshotsQuery}
+              ></ImageCarousel>
+            </Animated.View>
+          )}
 
-        <Animated.View layout={LinearTransition} style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}>
+        <Animated.View
+          layout={LinearTransition}
+          style={[mt.flexCol, mt.gap(4), mt.items("flex-start")]}
+        >
           <Title title={"Platforms"} color="green"></Title>
           <View style={[mt.flexRow, mt.gap(2), mt.flexWrap]}>
             {(game.platforms || [])
@@ -118,7 +134,8 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
           </View>
         </Animated.View>
 
-        <Animated.View layout={LinearTransition}
+        <Animated.View
+          layout={LinearTransition}
           style={[
             mt.flexCol,
             mt.gap(4),
@@ -182,17 +199,24 @@ function ImageFrame({ image }: { image: string }) {
   );
 }
 
-function ImageCarousel({ external_id: id, gameScreenshotsQuery }: { external_id: number 
+function ImageCarousel({
+  external_id: id,
+  gameScreenshotsQuery,
+}: {
+  external_id: number;
   gameScreenshotsQuery: UseQueryResult<GetGameScreenshotsResponse>;
-
 }) {
   const width = Dimensions.get("window").width;
 
   return (
-    <Animated.View layout={LinearTransition} style={[mt.w("full"), mt.h(72), mt.overflow("visible")]}>
+    <Animated.View
+      layout={LinearTransition}
+      style={[mt.w("full"), mt.h(72), mt.overflow("visible")]}
+    >
       {/* loading */}
       {gameScreenshotsQuery.isLoading && (
-        <Animated.View layout={LinearTransition}
+        <Animated.View
+          layout={LinearTransition}
           style={[
             mt.w("full"),
             mt.h("full"),
@@ -209,7 +233,8 @@ function ImageCarousel({ external_id: id, gameScreenshotsQuery }: { external_id:
 
       {/* loaded */}
       {gameScreenshotsQuery.data?.results && (
-        <Animated.View layout={LinearTransition}
+        <Animated.View
+          layout={LinearTransition}
           style={[mt.flex1]}
           entering={SlideInLeft}
           exiting={SlideOutRight}

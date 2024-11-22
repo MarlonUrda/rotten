@@ -20,7 +20,7 @@ import { ActivityIndicator } from "react-native";
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface ButtonProps extends PressableProps {
-  variant?: "primary" | "secondary" | "error" | "success";
+  variant?: "primary" | "secondary" | "error" | "success" | "white";
   style?: StyleProp<ViewStyle>;
   loading?: boolean;
   children: React.ReactNode;
@@ -157,6 +157,10 @@ const buttonStyles = (variant: ButtonProps["variant"], disabled: boolean = false
       break;
     case "success":
       backgroundColor = s.colors.green[500];
+      textColor = s.colors.black;
+      break;
+    case "white":
+      backgroundColor = s.colors.white;
       textColor = s.colors.black;
       break;
   }

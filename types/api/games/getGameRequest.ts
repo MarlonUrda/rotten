@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { genres } from "./generics";
 
 export interface GetGameRequest {
   id: string | number;
@@ -12,6 +13,7 @@ export const searchGameSchema = z.object({
   page: z.number({ coerce: true }).int().min(0).optional(),
   external_page: z.number({ coerce: true }).int().min(0).optional(),
   platforms: z.string().optional(),
+  genres: z.string().optional(),
   year: z.number().optional(),
   minYear: z.number().optional(),
   maxYear: z.number().optional(),

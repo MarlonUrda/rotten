@@ -92,7 +92,12 @@ const mt = {
   align: (value: "center" | "left" | "right" | "auto") => ({
     textAlign: value,
   }),
-
+  hidden: {
+    display: "none",
+  },
+  opacity: (value: number) => ({
+    opacity: value,
+  }),
   p: (value: AbsolutePixels) => ({
     padding: s.pixels[value],
   }),

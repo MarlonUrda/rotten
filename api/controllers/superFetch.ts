@@ -53,7 +53,16 @@ export async function superFetch<Request, Response, Route extends ApiRoute = Api
     let realRoute = apiRoutes[route](...routeParams); 
 
     if (queryParams) {
-        const query = new URLSearchParams(queryParams);
+        const query = new URLSearchParams();
+        
+        for (const key in queryParams) {
+            if (queryParams[key] === undefined || !queryParams[key]?.toString) {
+                continue;
+            }
+            query.append(key, queryParams[key].toString());
+        }
+
+
         realRoute += `?${query.toString()}`;
     }
 

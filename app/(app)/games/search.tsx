@@ -34,12 +34,21 @@ export default function Screen() {
     const newFilters = await SheetManager.show("searchFilterSheet", {
       payload: searchQuery,
     })
-    setSearchQuery((prev) => ({ ...prev, ...newFilters }));
+    if (!newFilters) {
+      return;
+    }
+    if (newFilters.clear) {
+      setSearchQuery((prev) => ({ query: prev.query }));
+      return;
+    }
+    setSearchQuery((prev) => ({ ...prev, ...newFilters.filters }));
   }
 
   const searchInfiniteQuery = useInfiniteQuery({
     queryKey: ["games", { searchQuery }],
     queryFn: async ({ pageParam }) => {
+
+      console.log("searchQuery", searchQuery);
 
       console.log("pageParam", pageParam);
       if (!canSearch) {
@@ -49,14 +58,6 @@ export default function Screen() {
           next: undefined,
         };
       }
-
-      const queryCopy: Record<string, string | undefined> = { 
-        ...searchQuery,
-        year: searchQuery.year?.toString() ?? undefined,
-        minYear: searchQuery.minYear?.toString() ?? undefined,
-        maxYear: searchQuery.maxYear?.toString() ?? undefined,
-
-      };
 
       const response = await GamesController.searchGames({
         ...searchQuery,
@@ -147,7 +148,6 @@ export default function Screen() {
             >
               <MaterialCommunityIcons name="magnify" size={24} color="black" />
             </Button>
-            {/* filters */}
             <Button onPress={showFilterSheet}>
               <MaterialCommunityIcons name="filter" size={24} color="black" />
             </Button>
@@ -204,7 +204,8 @@ export default function Screen() {
                 keyExtractor={(item) => item.external_id.toString()}
                 style={[mt.flex1, mt.w("full")]}
                 onEndReached={() => {
-                  searchInfiniteQuery.fetchNextPage();
+                  if (searchInfiniteQuery.hasNextPage)
+                    searchInfiniteQuery.fetchNextPage();
                 }}
                 onEndReachedThreshold={0.5}
                 contentContainerStyle={[mt.gap(4), mt.w("full"), mt.p(2)]}
@@ -246,6 +247,10 @@ function QueryText(
         if (key === "query") {
           return null;
         }
+        if (query[key as keyof SearchGameQuery] === undefined) {
+          return null;
+        }
+
         return (
           <Text key={key}>
             <Text
