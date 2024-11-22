@@ -12,6 +12,7 @@ import { PlaylistController } from "@/api/controllers/PlaylistController";
 import Loader from "@/components/ui/loader";
 import { EmptyPlaylist } from "@/components/app/emptyPlaylist";
 import { Playlist } from "@/types/Playlist";
+import Animated, {LinearTransition} from "react-native-reanimated";
 
 export default function PlaylistScreen() {
   const [currentUser] = useAtom(userAtom)
@@ -26,18 +27,33 @@ export default function PlaylistScreen() {
     console.log(playlistQuery.data)
   }, [playlistQuery])
 
+  const renderGamePreviews = () => {
+    if (!playlistQuery.data?.gameIds) return null;
+
+    const rows = [];
+    for (let i = 0; i < playlistQuery.data.gameIds.length; i += 2) {
+      rows.push(
+        <View key={i} style={[mt.flexRow, mt.justify("space-between"), mt.gap(2)]}>
+          <GamePreview game={{ ...playlistQuery.data.gameIds[i] }} title={playlistQuery.data.gameIds[i].name} isListed />
+          {playlistQuery.data.gameIds[i + 1] && (
+            <GamePreview game={{ ...playlistQuery.data.gameIds[i + 1] }} title={playlistQuery.data.gameIds[i + 1].name} isListed />
+          )}
+        </View> 
+      );
+    }
+    return rows;
+  };
+
   return (
     <View style={[mt.flexCol, mt.gap(4), mt.justify("center"), mt.items("center"), mt.pt(10)]}>
-      {playlistQuery.isLoading && <Loader />}
       <Text size="lg" weight="bold" style={[mt.align("center")]}>
         {currentUser?.firstName}'s Playlist
       </Text>
+      {playlistQuery.isPending && <Loader />}
       {playlistQuery.data?.gameIds && playlistQuery.data?.gameIds.length > 0 ? (
-        <ScrollView showsVerticalScrollIndicator contentContainerStyle={[mt.flexRow, mt.p(4), mt.w("full"), mt.gap(3)]}>
-          {playlistQuery.data.gameIds.map((game, index) => {
-            return <GamePreview game={{ ...game }} key={index} title={game.name} isListed/>
-          })}
-        </ScrollView>
+        <Animated.ScrollView showsVerticalScrollIndicator contentContainerStyle={[mt.flexCol, mt.p(4), mt.w("full"), mt.gap(6)]} layout={LinearTransition}>
+          {renderGamePreviews()}
+        </Animated.ScrollView>
       ): (
         <EmptyPlaylist playlistQuery={playlistQuery}/>
       )}
