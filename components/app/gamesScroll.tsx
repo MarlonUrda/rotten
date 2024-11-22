@@ -7,13 +7,30 @@ import s from "@/styles/styleValues";
 import { StandardGameResponse } from "@/types/api/games/standardGameResponse";
 import { useMemo } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
+import Loader from "../ui/loader";
 
 interface GamesScrollerProps {
   title: string;
   gamesQuery: UseQueryResult<StandardGameResponse>;
+  order?: "date" | "critics"
 }
 
-const GamesScroll = ({ title, gamesQuery }: GamesScrollerProps) => {
+const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
+
+  const sortedGames = useMemo(() => {
+    if (!gamesQuery.data?.results) return [];
+
+    const games = [...gamesQuery.data.results];
+
+    if (order === "date") {
+      return games.sort((a, b) => new Date(b.released ?? "").getTime() - new Date(a.released ?? "").getTime());
+    } else if (order === "critics") {
+      return games.sort((a, b) => (b.mt_rating_user ?? 0) - (a.mt_rating_user ?? 0));
+    }
+
+    return games;
+  }, [gamesQuery.data, order]);
+
   return (
     <View>
       <View style={[mt.p(4), mt.flexRow]}>
@@ -45,7 +62,8 @@ const GamesScroll = ({ title, gamesQuery }: GamesScrollerProps) => {
         ]}
         style={[]}
       >
-        {gamesQuery.data?.results.map((game) => (
+        {gamesQuery.isPending && <Loader />}
+        {sortedGames.map((game) => (
             <GamePreview game={game} title={game.name} key={game.external_id} />
         ))}
       </ScrollView>

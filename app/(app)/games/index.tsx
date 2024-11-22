@@ -1,10 +1,11 @@
 import GamesScroll from "@/components/app/gamesScroll";
 import mt from "@/styles/mtWind";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { GamesController } from "@/api/controllers/GamesController";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navbar } from "@/components/app/navbar";
+import { GamePreview } from "@/types/api/games/gamePreview";
 
 export default function Index() {
   const popularGamesQuery = useQuery({
@@ -12,17 +13,17 @@ export default function Index() {
     queryFn: GamesController.getPopularGames,
   })
 
-  useEffect(() => {
-   console.log(popularGamesQuery.data)
-  }, [popularGamesQuery.data])
-
-
   return (
-    <View style={[mt.pt(12), mt.p(2)]}>
-      <Navbar />
-      <GamesScroll title="Popular Games"
-        gamesQuery={popularGamesQuery}
-      />
-    </View>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      
+      <View style={[mt.pt(12), mt.p(2)]}>
+        <Navbar />
+        <GamesScroll title="Popular Games"
+          gamesQuery={popularGamesQuery}
+        />
+        <GamesScroll title="MTCritics" gamesQuery={popularGamesQuery} order="critics"/>
+        <GamesScroll title="Hot Games" gamesQuery={popularGamesQuery} order="date"/>
+      </View>
+    </ScrollView>
   );
 }
