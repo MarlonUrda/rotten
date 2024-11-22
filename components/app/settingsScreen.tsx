@@ -38,6 +38,9 @@ export default function SettingScreen() {
     <Shadow {...mt.shadow.md}>
       <View style={[mt.flexCol, mt.items("center"), mt.gap(6), mt.backgroundColor("white"), mt.rounded("base"), mt.border(4), mt.p(5), mt.w(72)]}>
         <View style={[mt.flexCol, mt.items("center"), mt.gap(2)]}>
+          <Text size="2xl" weight='bold' style={[mt.align("center")]}>
+            Profile
+          </Text>
           <CircleUserRound size={70} style={[mt.border(4)]} color={"#000"}/>
           <Text size='lg' weight='bold'>
             {currentUser?.firstName + ' ' + currentUser?.lastName}

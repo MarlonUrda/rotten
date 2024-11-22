@@ -8,12 +8,12 @@ export default function ProfileScreen() {
   
   return (
     <View style={[mt.flex1]}>
-    <View style={[mt.position("absolute"), mt.top(0), mt.left(0), mt.z(10)]}>
-      <SimpleNavbar />
-    </View>
-    <View style={[mt.flex1, mt.items("center"), mt.justify("center")]}>
-      <SettingScreen />
-    </View>
+      <View style={[mt.position("absolute"), mt.top(0), mt.left(0), mt.z(10)]}>
+        <SimpleNavbar />
+      </View>
+      <View style={[mt.flex1, mt.items("center"), mt.justify("center")]}>
+        <SettingScreen />
+      </View>
   </View>
   )
 }
