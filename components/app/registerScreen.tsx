@@ -2,10 +2,10 @@ import { View } from 'react-native'
 import { Text } from '@/components/ui/text'
 import { Shadow } from 'react-native-shadow-2'
 import mt from '@/styles/mtWind'
-import LoginForm from '../forms/loginForm'
+import RegisterForm from '../forms/RegisterForms/registerForm'
 
-export default function LoginView(){
-  return(
+export default function RegisterScreen(){
+  return (
     <Shadow {...mt.shadow.md}>
       <View style={[mt.flexCol, mt.items("center"), mt.gap(4), mt.backgroundColor("white"), mt.rounded("base"), mt.border(4), mt.p(5), mt.w(96)]}>
         <View style={[mt.flexCol, mt.gap(3), mt.items("center")]}>
@@ -15,10 +15,10 @@ export default function LoginView(){
             </Text>
           </View>
           <Text size="md" style={[mt.align("center"), mt.fontWeight("bold")]}>
-            Log in to check and review your favorite games!
+            Create your account so you can start exploring and reviewing your favorite games.
           </Text>
         </View>
-        <LoginForm />       
+        <RegisterForm />
       </View>
     </Shadow>
   )

@@ -38,7 +38,7 @@ export default function SendResetForm() {
       myToast({type: "error", message:err.message})
     },
     onSuccess: () => {
-      myToast({type: "success", message: "Email enviado."})
+      myToast({type: "success", message: "Email sent."})
       router.push("/auth/changePasswordPage")
     }
   })
@@ -66,16 +66,16 @@ export default function SendResetForm() {
             <ActivityIndicator size="small" color="#000"/>
           ) : (
             <Text weight="bold">
-              Enviar Email
+              Send Email
             </Text>
           )}
         </Button>
       </Animated.View>
       <Animated.View layout={LinearTransition} style={[mt.flexCol, mt.items("flex-end"), mt.w("full")]}>
-        <Text size="md">
-          Recuerdas tu contraseña?, {" "}
+        <Text size="md" style={[mt.align("center")]}>
+          Do you remember your password? {" "}
           <Link href={"/"} style={[mt.align("center"), mt.color("purple")]}>
-            Inicia sesion
+            Log In
           </Link>
         </Text>
       </Animated.View>
