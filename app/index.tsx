@@ -14,7 +14,7 @@ export default function Screen() {
 
   return (
     <View style={[mt.flex1]}>
-      <View style={[mt.flex1, mt.items("center"), mt.justify("center")]}>
+      <View style={[mt.flex1, mt.items("flex-start"), mt.justify("flex-start"), mt.px(4), mt.mt(16)]}>
         <LoginView />
       </View>
     </View>
