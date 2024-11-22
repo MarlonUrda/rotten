@@ -17,7 +17,7 @@ export const genres = [
   { id: 14, name: "Simulation", icon: "airplane", slug: "simulation" },
   { id: 7, name: "Puzzle", icon: "puzzle", slug: "puzzle" },
   { id: 11, name: "Arcade", icon: "balloon", slug: "arcade" },
-  { id: 83, name: "Platformer", icon: "gamepad-suqre", slug: "platformer" },
+  { id: 83, name: "Platformer", icon: "gamepad-square", slug: "platformer" },
   { id: 1, name: "Racing", icon: "car-sports", slug: "racing" },
   {
     id: 59,

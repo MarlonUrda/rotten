@@ -15,14 +15,14 @@ const images = [smiley1, smiley2, smiley3, smiley4, smiley5]
 const starFilled = require("../../assets/images/stars/filled30px.png")
 const starBase = require("../../assets/images/stars/base30px.png")
 
-interface GameRatingProps {
+export interface GameRatingProps {
   rating: number;
   onChange?: (rating: number) => void;
   size?: number;
   color?: string;
 }
 
-export function GameRating({ rating, onChange, size }: GameRatingProps){
+export function GameRating({ rating, onChange, size}: GameRatingProps){
   return (
     <Rating 
       variant="emoji"
@@ -33,6 +33,7 @@ export function GameRating({ rating, onChange, size }: GameRatingProps){
       fillSymbol={starFilled}
       onChange={onChange}
       maxRating={5}
+      
     />
   )
 }

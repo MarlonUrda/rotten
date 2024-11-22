@@ -6,9 +6,9 @@ import { Image } from "react-native-elements";
 import mt from "@/styles/mtWind";
 import { Shadow } from "react-native-shadow-2";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { router } from "expo-router";
-import type { GamePreview } from "@/types/api/games/gamePreview";
+import type { GamePreviewType } from "@/types/api/games/gamePreview";
 import s from "@/styles/styleValues";
 import { ESRBChip } from "./ESRBChip";
 import { HoldItem } from "react-native-hold-menu";
@@ -23,7 +23,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 interface GamePreviewProps {
   title: string;
-  game: GamePreview;
+  game: GamePreviewType;
   isListed?: boolean;
   direction?: "row" | "column";
 }
@@ -31,178 +31,183 @@ interface GamePreviewProps {
 const colStyle = [mt.w(56), mt.h(96), mt.flexCol];
 const rowStyle = [mt.w("full"), mt.h(56), mt.flexRow];
 
-export function GamePreview({
-  title,
-  game,
-  isListed,
-  direction = "column",
-}: GamePreviewProps) {
-  const [currentUser] = useAtom(userAtom);
-  const queryClient = useQueryClient();
+export const GamePreview = React.memo(
+  ({ title, game, isListed, direction = "column" }: GamePreviewProps) => {
+    const [currentUser] = useAtom(userAtom);
+    const queryClient = useQueryClient();
 
-  const addToPlaylistMutation = useMutation({
-    mutationFn: async (gameId: string) =>
-      await PlaylistController.addToPlaylist({ gameId: gameId }),
-    onSuccess: () => {
-      myToast({ type: "success", message: "Game added successfully!" });
-      queryClient.invalidateQueries({ queryKey: ["games", "popular"] })
-    },
-    onError: (error) => {
-      myToast({ type: "error", message: error.message });
-    },
-  });
+    const addToPlaylistMutation = useMutation({
+      mutationFn: async (gameId: string) =>
+        await PlaylistController.addToPlaylist({ gameId: gameId }),
+      onSuccess: () => {
+        myToast({ type: "success", message: "Game added successfully!" });
+        queryClient.invalidateQueries({ queryKey: ["games", "popular"] });
+      },
+      onError: (error) => {
+        myToast({ type: "error", message: error.message });
+      },
+    });
 
-  const gameName = useMemo(() => {
-    return (game.name.length > 22 ? game.name.slice(0, 20) + "..." : game.name)
-      .toUpperCase()
-      .replace(/-/g, " ");
-  }, [game.name]);
+    const gameName = useMemo(() => {
+      return (
+        game.name.length > 22 ? game.name.slice(0, 20) + "..." : game.name
+      )
+        .toUpperCase()
+        .replace(/-/g, " ");
+    }, [game.name]);
 
-  const handleAdd = () => {
-    addToPlaylistMutation.mutate(game.external_id.toString())
-  };
+    const handleAdd = () => {
+      addToPlaylistMutation.mutate(game.external_id.toString());
+    };
 
-  const deleteMutation = useMutation({
-    mutationFn: async (gameId: string) => {
-      if (!currentUser?._id) {
-        throw new Error("User ID is undefined");
-      }
-      await PlaylistController.removeFromPlaylist(currentUser._id, gameId);
-    },
-    onSuccess: () => {
-      myToast({ type: "success", message: "Juego eliminado de la lista!" });
-      queryClient.invalidateQueries({
-        queryKey: ["playlist", currentUser?._id],
-      });
-    },
-    onError: (error) => {
-      myToast({ type: "error", message: error.message });
-    },
-  });
+    const deleteMutation = useMutation({
+      mutationFn: async (gameId: string) => {
+        if (!currentUser?._id) {
+          throw new Error("User ID is undefined");
+        }
+        await PlaylistController.removeFromPlaylist(currentUser._id, gameId);
+      },
+      onSuccess: () => {
+        myToast({ type: "success", message: "Juego eliminado de la lista!" });
+        queryClient.invalidateQueries({
+          queryKey: ["playlist", currentUser?._id],
+        });
+      },
+      onError: (error) => {
+        myToast({ type: "error", message: error.message });
+      },
+    });
 
-  const handleDelete = () => {
-    deleteMutation.mutate(game._id)
-  };
-  return (
-    <Shadow {...mt.shadow.md}>
-      <Animated.View entering={ZoomIn} exiting={ZoomOut}
-        style={[mt.position("relative")]}
-      >
-        <TouchableOpacity
-          onPress={() =>
-            router.push(
-              `/games/${game._id !== "temp" ? game._id : game.external_id}`
-            )
-          }
-          style={[mt.w("full")]}
+    const handleDelete = () => {
+      deleteMutation.mutate(game._id);
+    };
+    return (
+      <Shadow {...mt.shadow.md}>
+        <Animated.View
+          entering={ZoomIn}
+          exiting={ZoomOut}
+          style={[mt.position("relative")]}
         >
-          <View
-            style={[
-              direction === "column" ? colStyle : rowStyle,
-              mt.gap(4),
-              mt.rounded("base"),
-              mt.border(4),
-              mt.backgroundColor("white"),
-              mt.p(2),
-              mt.backgroundColor("yellow"),
-            ]}
+          <TouchableOpacity
+            onPress={() =>
+              router.push(
+                `/games/${game._id !== "temp" ? game._id : game.external_id}`
+              )
+            }
+            style={[mt.w("full")]}
           >
             <View
               style={[
-                direction === "row" ? mt.flexColReverse : mt.flexCol,
-                ,
-                mt.gap(2),
-                direction === "row" && mt.w("sixty"),
+                direction === "column" ? colStyle : rowStyle,
+                mt.gap(4),
+                mt.rounded("base"),
+                mt.border(4),
+                mt.backgroundColor("white"),
+                mt.p(2),
+                mt.backgroundColor("yellow"),
               ]}
             >
               <View
                 style={[
-                  mt.flexRow,
+                  direction === "row" ? mt.flexColReverse : mt.flexCol,
+                  ,
                   mt.gap(2),
-                  mt.items("center"),
-                  mt.justify("center"),
+                  direction === "row" && mt.w("sixty"),
                 ]}
               >
-                <Text
-                  size="md"
-                  weight="black"
-                  style={[mt.fontWeight("black"), mt.flex1, mt.maxW(56)]}
-                >
-                  {gameName}
-                </Text>
-
                 <View
                   style={[
-                    mt.justify("center"),
+                    mt.flexRow,
+                    mt.gap(2),
                     mt.items("center"),
-                    mt.flex,
-                    // mt.rotate(7),
+                    mt.justify("center"),
                   ]}
                 >
-                  <ESRBChip
-                    rating={game.esrb_rating}
-                    style={[mt.h(14), mt.w(10)]}
+                  <Text
+                    size="md"
+                    weight="black"
+                    style={[mt.fontWeight("black"), mt.flex1, mt.maxW(56)]}
+                  >
+                    {gameName}
+                  </Text>
+
+                  <View
+                    style={[
+                      mt.justify("center"),
+                      mt.items("center"),
+                      mt.flex,
+                      // mt.rotate(7),
+                    ]}
+                  >
+                    <ESRBChip
+                      rating={game.esrb_rating}
+                      style={[mt.h(14), mt.w(10)]}
+                    />
+                  </View>
+                </View>
+                <View style={[direction === "row" && mt.flex1]}>
+                  <Image
+                    source={{ uri: game.background_image }}
+                    style={[
+                      mt.h(direction === "column" ? 36 : 36),
+                      mt.w("full"),
+                      mt.border(4),
+                    ]}
                   />
                 </View>
               </View>
-              <View style={[direction === "row" && mt.flex1]}>
-                <Image
-                  source={{ uri: game.background_image }}
-                  style={[
-                    mt.h(direction === "column" ? 36 : 36),
-                    mt.w("full"),
-                    mt.border(4),
-                  ]}
+              <View
+                style={[
+                  mt.flexCol,
+                  mt.gap(4),
+                  mt.justify("center"),
+                  mt.items("center"),
+                ]}
+              >
+                <ReleaseDate released={game.released} direction={direction} />
+
+                <Scores
+                  score={{
+                    audience: game.mt_rating_user ?? 0,
+                    critic: game.mt_rating_critic ?? 0,
+                  }}
+                  direction={direction}
                 />
               </View>
             </View>
-            <View
-              style={[
-                mt.flexCol,
-                mt.gap(4),
-                mt.justify("center"),
-                mt.items("center"),
-              ]}
-            >
-              <ReleaseDate released={game.released} direction={direction} />
-
-              <Scores
-                score={{
-                  audience: game.mt_rating_user ?? 0,
-                  critic: game.mt_rating_critic ?? 0,
-                }}
-                direction={direction}
-              />
-            </View>
+          </TouchableOpacity>
+          <View
+            style={[
+              mt.position("absolute"),
+              // mt.right(direction === "column" ? "-2" : 0),
+              direction === "column" ? mt.right("-1") : mt.left("-1"),
+              direction === "column" ? mt.bottom("-1") : mt.top("-1"),
+              mt.flexRow,
+              mt.rotate(direction === "column" ? 10 : -10),
+            ]}
+          >
+            {!isListed ? (
+              <FlatButton onPress={handleAdd}>
+                <MaterialCommunityIcons name="plus" size={24} color="black" />
+              </FlatButton>
+            ) : (
+              <Button variant="error" onPress={handleDelete}>
+                <MaterialCommunityIcons name="minus" size={24} color="black" />
+              </Button>
+            )}
           </View>
-        </TouchableOpacity>
-        <View
-          style={[
-            mt.position("absolute"),
-            // mt.right(direction === "column" ? "-2" : 0),
-            direction === "column" ? mt.right("-1") : mt.left("-1"),
-            direction === "column" ? mt.bottom("-1") : mt.top("-1"),
-            mt.flexRow,
-            mt.rotate(direction === "column" ? 10: -10)
-          ]}
-        >
-
-          {!isListed ? (
-            <FlatButton onPress={handleAdd}
-            >
-              <MaterialCommunityIcons name="plus" size={24} color="black" />
-            </FlatButton>
-          ) : (
-            <Button variant="error" onPress={handleDelete}>
-              <MaterialCommunityIcons name="minus" size={24} color="black" />
-            </Button>
-          )}
-        </View>
-      </Animated.View>
-    </Shadow>
-  );
-}
-function ReleaseDate({ released, direction = "column" }: { released: string, direction?: "row" | "column" }) {
+        </Animated.View>
+      </Shadow>
+    );
+  }
+);
+function ReleaseDate({
+  released,
+  direction = "column",
+}: {
+  released: string;
+  direction?: "row" | "column";
+}) {
   return (
     <View
       style={[

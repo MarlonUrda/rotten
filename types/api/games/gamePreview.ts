@@ -8,8 +8,7 @@ export const gamePreview = z.object({
   name: z.string(),
   released: z.string(),
   tba: z.boolean(),
-  background_image: z
-    .string(),
+  background_image: z.string(),
   metacritic: z.number().nullable(),
   playtime: z.number().nullable(),
   esrb_rating: esrbRating,
@@ -21,4 +20,4 @@ export const gamePreview = z.object({
   mt_rating_critic_count: z.number().optional(),
 });
 
-export type GamePreview = z.infer<typeof gamePreview>;
+export type GamePreviewType = z.infer<typeof gamePreview>;

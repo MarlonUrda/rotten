@@ -17,6 +17,8 @@ export const searchGameSchema = z.object({
   year: z.number().optional(),
   minYear: z.number().optional(),
   maxYear: z.number().optional(),
+  minRating: z.number().min(0).max(5).optional(),
+  maxRating: z.number().min(0).max(5).optional(),
 });
 
 export type SearchGamesRequest = z.infer<typeof searchGameSchema>;

@@ -98,6 +98,8 @@ export class GamesController {
         responseSchema: standardGameResponse,
       });
 
+      console.log(result.next, "result.next");
+
 
       return result;
     } catch (error) {

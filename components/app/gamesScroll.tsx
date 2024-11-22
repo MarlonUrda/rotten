@@ -1,7 +1,7 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, FlatList } from "react-native";
 import { Text } from "../ui/text";
 import mt, { generic } from "@/styles/mtWind";
-import { GamePreview, HoldGamePreview } from "./GamePreview";
+import { GamePreview } from "./GamePreview";
 import { Shadow } from "react-native-shadow-2";
 import s from "@/styles/styleValues";
 import { StandardGameResponse } from "@/types/api/games/standardGameResponse";
@@ -12,20 +12,25 @@ import Loader from "../ui/loader";
 interface GamesScrollerProps {
   title: string;
   gamesQuery: UseQueryResult<StandardGameResponse>;
-  order?: "date" | "critics"
+  order?: "date" | "critics";
 }
 
 const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
-
   const sortedGames = useMemo(() => {
     if (!gamesQuery.data?.results) return [];
 
     const games = [...gamesQuery.data.results];
 
     if (order === "date") {
-      return games.sort((a, b) => new Date(b.released ?? "").getTime() - new Date(a.released ?? "").getTime());
+      return games.sort(
+        (a, b) =>
+          new Date(b.released ?? "").getTime() -
+          new Date(a.released ?? "").getTime()
+      );
     } else if (order === "critics") {
-      return games.sort((a, b) => (b.mt_rating_user ?? 0) - (a.mt_rating_user ?? 0));
+      return games.sort(
+        (a, b) => (b.mt_rating_user ?? 0) - (a.mt_rating_user ?? 0)
+      );
     }
 
     return games;
@@ -39,18 +44,15 @@ const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
             mt.p(1),
             mt.border(4),
             mt.rotate(-3),
-            mt.backgroundColor("white")
+            mt.backgroundColor("white"),
           ]}
         >
-
-          <Text size="xl" weight="black"
-            style={[mt.fontWeight("black")]}
-          >
+          <Text size="xl" weight="black" style={[mt.fontWeight("black")]}>
             {title}
           </Text>
         </View>
       </View>
-      <ScrollView
+      <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={[
@@ -60,13 +62,13 @@ const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
           mt.p(4),
           mt.pt(0),
         ]}
-        style={[]}
-      >
-        {gamesQuery.isPending && <Loader />}
-        {sortedGames.map((game) => (
-            <GamePreview game={game} title={game.name} key={game.external_id} />
-        ))}
-      </ScrollView>
+        data={sortedGames}
+        keyExtractor={(game) => game.external_id.toString()}
+        renderItem={({ item: game }) => (
+          <GamePreview game={game} title={game.name} />
+        )}
+        ListHeaderComponent={gamesQuery.isPending ? <Loader /> : null}
+      />
     </View>
   );
 };

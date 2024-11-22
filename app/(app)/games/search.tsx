@@ -15,17 +15,7 @@ import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import { SearchFilterSheet } from "@/components/app/searchFilterSheet";
 import { SearchGameQuery } from "@/types/api/games/getGameRequest";
 import { SheetManager } from "react-native-actions-sheet";
-
-interface SearchQuery {
-  query?: string;
-  year?: number;
-  minYear?: number;
-  maxYear?: number;
-  minRating?: number;
-  maxRating?: number;
-  genres?: number[];
-  platforms?: number[];
-}
+import { removeRawgDuplicates } from "@/hooks/removeRawgDuplicates";
 
 export default function Screen() {
   const [searchQuery, setSearchQuery] = useState<SearchGameQuery>({});
@@ -33,7 +23,7 @@ export default function Screen() {
   const showFilterSheet = async () => {
     const newFilters = await SheetManager.show("searchFilterSheet", {
       payload: searchQuery,
-    })
+    });
     if (!newFilters) {
       return;
     }
@@ -42,15 +32,13 @@ export default function Screen() {
       return;
     }
     setSearchQuery((prev) => ({ ...prev, ...newFilters.filters }));
-  }
+  };
 
   const searchInfiniteQuery = useInfiniteQuery({
     queryKey: ["games", { searchQuery }],
     queryFn: async ({ pageParam }) => {
-
       console.log("searchQuery", searchQuery);
 
-      console.log("pageParam", pageParam);
       if (!canSearch) {
         return {
           results: [],
@@ -66,7 +54,7 @@ export default function Screen() {
       });
       return response;
     },
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
       const { next } = lastPage;
 
       if (!next) {
@@ -87,16 +75,22 @@ export default function Screen() {
   });
 
   const items = useMemo(() => {
-    return (
-      searchInfiniteQuery.data?.pages.map((page) => page.results ?? []).flat() ?? []
+    return removeRawgDuplicates(
+      searchInfiniteQuery.data?.pages
+        .map((page) => page.results ?? [])
+        .flat() ?? []
     );
   }, [searchInfiniteQuery.data]);
 
   const canSearch = useMemo(() => {
     return (
-      (searchQuery.query?.length ?? 0) > 3 && (searchQuery.query?.length ?? 0) < 100
-    ) || Object.keys(searchQuery).some(
-      (key) => key !== "query" && searchQuery[key as keyof SearchGameQuery] !== undefined
+      ((searchQuery.query?.length ?? 0) > 3 &&
+        (searchQuery.query?.length ?? 0) < 100) ||
+      Object.keys(searchQuery).some(
+        (key) =>
+          key !== "query" &&
+          searchQuery[key as keyof SearchGameQuery] !== undefined
+      )
     );
   }, [searchQuery.query]);
 
@@ -121,7 +115,6 @@ export default function Screen() {
             mt.items("center"),
           ]}
         >
-
           <View
             style={[
               mt.flexRow,
@@ -218,9 +211,7 @@ export default function Screen() {
   );
 }
 
-function QueryText(
-  {query}: {query: SearchGameQuery}
-) {
+function QueryText({ query }: { query: SearchGameQuery }) {
   // show the query (minus the query.query) so the user can see what filters are applied
   return (
     <View
@@ -232,16 +223,9 @@ function QueryText(
         mt.justify("flex-start"),
         mt.w("full"),
       ]}
-
     >
-      <Text
-        style={[
-          mt.fontWeight("bold"),
-          mt.color("black"),
-        ]}
-      >
-        {Object.keys(query).length > 1
-         ? "Filters:" : "No filters applied"}
+      <Text style={[mt.fontWeight("bold"), mt.color("black")]}>
+        {Object.keys(query).length > 1 ? "Filters:" : "No filters applied"}
       </Text>
       {Object.keys(query).map((key) => {
         if (key === "query") {
@@ -253,12 +237,10 @@ function QueryText(
 
         return (
           <Text key={key}>
-            <Text
-              style={[
-                mt.fontWeight("bold"),
-                mt.color("black"),
-              ]}
-            >{key.toLocaleUpperCase()}</Text>: {query[key as keyof SearchGameQuery]}
+            <Text style={[mt.fontWeight("bold"), mt.color("black")]}>
+              {key.toLocaleUpperCase()}
+            </Text>
+            : {query[key as keyof SearchGameQuery]}
           </Text>
         );
       })}
