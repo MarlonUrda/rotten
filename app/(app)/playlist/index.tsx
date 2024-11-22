@@ -1,5 +1,5 @@
-import { View, ScrollView } from "react-native";
-import { GamePreviewType } from "@/components/app/GamePreview";
+import { View, ScrollView, FlatList } from "react-native";
+import { GamePreview } from "@/components/app/GamePreview";
 import { useAtom } from "jotai";
 import { userAtom } from "@/utils/atoms/userAtom";
 import { useQuery } from "@tanstack/react-query";
@@ -31,40 +31,26 @@ export default function PlaylistScreen() {
   }, [playlistQuery.data]);
 
   return (
-    <View
-      style={[
-        mt.flexCol,
-        mt.gap(4),
-        mt.justify("center"),
-        mt.items("center"),
-        mt.pt(10),
-      ]}
-    >
+    <View style={[mt.flexCol, mt.gap(4), mt.justify("center"), mt.items("center"), mt.pt(16)]}>
       <SimpleNavbar />
       <Text size="lg" weight="bold" style={[mt.align("center")]}>
         {currentUser?.firstName}'s Playlist
       </Text>
       {playlistQuery.isPending && <Loader />}
       {playlistQuery.data?.gameIds && playlistQuery.data?.gameIds.length > 0 ? (
-        <Animated.ScrollView
-          showsVerticalScrollIndicator
-          contentContainerStyle={[mt.flexCol, mt.p(4), mt.w("full"), mt.gap(6)]}
-          layout={LinearTransition}
-        >
-          {playlistQuery.data?.gameIds.map((game, index) => {
-            return (
-              <GamePreview
-                key={index}
-                game={{ ...game }}
-                title={game.name}
-                isListed
-                direction="row"
-              />
-            );
-          })}
-        </Animated.ScrollView>
-      ) : (
-        <EmptyPlaylist playlistQuery={playlistQuery} />
+        <Animated.View layout={LinearTransition} style={[mt.w("full")]}>
+          <FlatList
+            data={playlistQuery.data.gameIds}
+            keyExtractor={(item) => item._id.toString()}
+            renderItem={({ item }) => {
+              return <GamePreview game={item} title={item.name} key={item.external_id} direction="row" isListed/>
+            }}
+            contentContainerStyle={[mt.flexCol, mt.p(4), mt.w("full"), mt.gap(6)]}
+            showsVerticalScrollIndicator={false}
+          />
+      </Animated.View>
+      ): (
+        <EmptyPlaylist playlistQuery={playlistQuery}/>
       )}
     </View>
   );

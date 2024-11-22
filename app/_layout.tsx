@@ -65,7 +65,7 @@ export default function RootLayout() {
                   headerShown: false,
                   animation: "default",
                   contentStyle: {
-                    backgroundColor: s.colors.background,
+                    backgroundColor: "yellow",
                   },
                 }}
               ></Stack>

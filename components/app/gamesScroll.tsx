@@ -52,7 +52,7 @@ const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
           </Text>
         </View>
       </View>
-      <FlatList
+      <FlatList 
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={[
@@ -60,14 +60,14 @@ const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
           mt.gap(5),
           mt.overflow("hidden"),
           mt.p(4),
-          mt.pt(0),
+          mt.pt(0)
         ]}
         data={sortedGames}
-        keyExtractor={(game) => game.external_id.toString()}
-        renderItem={({ item: game }) => (
-          <GamePreview game={game} title={game.name} />
-        )}
-        ListHeaderComponent={gamesQuery.isPending ? <Loader /> : null}
+        keyExtractor={(item) => item.external_id.toString()}
+        renderItem={({ item }) => {
+          return <GamePreview game={item} title={item.name} key={item.external_id}/>
+        }}
+        ListHeaderComponent={gamesQuery.isPending ? <Loader />: null}
       />
     </View>
   );
