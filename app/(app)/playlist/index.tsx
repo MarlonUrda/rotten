@@ -21,29 +21,11 @@ export default function PlaylistScreen() {
   const playlistQuery = useQuery<Playlist>({
     queryKey: ["playlist", currentUser?._id],
     queryFn: () => currentUser?._id ? PlaylistController.getPlaylist(currentUser._id) : Promise.reject("User ID is undefined"),
-    enabled: !!currentUser?._id
   })
 
   useEffect(() => {
     console.log(playlistQuery.data)
-  }, [playlistQuery])
-
-  const renderGamePreviews = () => {
-    if (!playlistQuery.data?.gameIds) return null;
-
-    const rows = [];
-    for (let i = 0; i < playlistQuery.data.gameIds.length; i += 2) {
-      rows.push(
-        <View key={i} style={[mt.flexRow, mt.justify("space-between"), mt.gap(2)]}>
-          <GamePreview game={{ ...playlistQuery.data.gameIds[i] }} title={playlistQuery.data.gameIds[i].name} isListed />
-          {playlistQuery.data.gameIds[i + 1] && (
-            <GamePreview game={{ ...playlistQuery.data.gameIds[i + 1] }} title={playlistQuery.data.gameIds[i + 1].name} isListed />
-          )}
-        </View> 
-      );
-    }
-    return rows;
-  };
+  }, [playlistQuery.data])
 
   return (
     <View style={[mt.flexCol, mt.gap(4), mt.justify("center"), mt.items("center"), mt.pt(10)]}>
@@ -54,7 +36,11 @@ export default function PlaylistScreen() {
       {playlistQuery.isPending && <Loader />}
       {playlistQuery.data?.gameIds && playlistQuery.data?.gameIds.length > 0 ? (
         <Animated.ScrollView showsVerticalScrollIndicator contentContainerStyle={[mt.flexCol, mt.p(4), mt.w("full"), mt.gap(6)]} layout={LinearTransition}>
-          {renderGamePreviews()}
+          {playlistQuery.data?.gameIds.map((game, index) => {
+            return (
+              <GamePreview key={index} game={{...game }} title={game.name} isListed direction="row"/>
+            );
+          })}
         </Animated.ScrollView>
       ): (
         <EmptyPlaylist playlistQuery={playlistQuery}/>
