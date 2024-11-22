@@ -3,7 +3,6 @@ import { Text } from "@/components/ui/text";
 import { GamePreview } from "@/components/app/GamePreview";
 import { SimpleInput } from "@/components/forms/formsUtils/SimpleInput";
 import { Button } from "@/components/ui/button";
-import { SafeAreaView } from "react-native";
 import { SimpleNavbar } from "@/components/app/simpleNavbar";
 import mt from "@/styles/mtWind";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -22,7 +21,7 @@ export default function Screen() {
     queryFn: async ({ pageParam }) => {
 
       console.log("pageParam", pageParam);
-      if (!query || query.length > 100) {
+      if (!canSearch) {
         return {
           results: [],
           count: 0,
@@ -63,16 +62,19 @@ export default function Screen() {
     );
   }, [searchInfiniteQuery.data]);
 
+  const canSearch = useMemo(() => {
+    return query.length > 3 && query.length < 100;
+  }, [query]);
+
   return (
-    <View
-      style={[
-        mt.flex1,
-        mt.justify("flex-start"),
-        mt.items("center"),
-      ]}
-    >
+    <View style={[mt.flex1, mt.justify("flex-start"), mt.items("center"),
+
+      mt.w("full")
+    ]}>
       <SimpleNavbar />
-      <View style={[mt.p(4), mt.flexCol, mt.flex1, mt.gap(4)]}>
+      <View style={[mt.p(4), mt.flexCol, mt.flex1, mt.gap(4),
+        mt.w("full")
+      ]}>
         <View
           style={[
             mt.flexRow,
@@ -80,6 +82,7 @@ export default function Screen() {
             mt.justify("center"),
             mt.gap(2),
             mt.h(12),
+            mt.w("full"),
           ]}
         >
           <SimpleInput
@@ -92,6 +95,7 @@ export default function Screen() {
             onPress={() => {
               searchInfiniteQuery.refetch();
             }}
+            disabled={!canSearch}
           >
             <MaterialCommunityIcons name="magnify" size={24} color="black" />
           </Button>
@@ -100,13 +104,7 @@ export default function Screen() {
             <MaterialCommunityIcons name="filter" size={24} color="black" />
           </Button>
         </View>
-        <View
-          style={[
-            mt.flex1,
-            mt.justify("center"),
-            mt.items("center"),
-          ]}
-        >
+        <View style={[mt.flex1, mt.w("full"),]}>
           {searchInfiniteQuery.isLoading && (
             <Animated.View
               entering={ZoomIn}
@@ -140,17 +138,24 @@ export default function Screen() {
             <Animated.View
               entering={ZoomIn}
               exiting={ZoomOut}
-              style={[mt.flex1, mt.justify("center"), mt.items("center")]}
+              style={[
+                mt.flex1,
+                mt.justify("center"),
+                mt.items("center"),
+                mt.w("full"),
+                
+              ]}
             >
               <FlatList
                 data={items}
-                renderItem={({ item }) => <GamePreview game={item} title="" />}
+                renderItem={({ item }) => <GamePreview game={item} title="" direction="row" />}
                 keyExtractor={(item) => item.external_id.toString()}
-                style={[mt.flex1]}
+                style={[mt.flex1, mt.w("full"),]}
                 onEndReached={() => {
                   searchInfiniteQuery.fetchNextPage();
                 }}
-                onEndReachedThreshold={0.2}
+                onEndReachedThreshold={0.5}
+                contentContainerStyle={[mt.gap(4), mt.w("full"), mt.p(2)]}
               />
             </Animated.View>
           )}

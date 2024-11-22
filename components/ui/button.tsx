@@ -44,9 +44,8 @@ export function Button({ ...props }: ButtonProps) {
         <Animated.View style={[translateStyle]}>
           <AnimatedPressable
             style={[
-              buttonStyles(props.variant).button,
+              buttonStyles(props.variant, props.disabled ?? false).button,
               props.style,
-              props.disabled ? { opacity: 0.8 } : {},
             ]}
             {...props}
             onPressIn={(e) => {
@@ -100,7 +99,6 @@ export function CPushButton({ isPushed, ...props }: PushButtonProps) {
             style={[
               buttonStyles(props.variant).button,
               props.style,
-              props.disabled ? { opacity: 0.8 } : {},
             ]}
             {...props}
             onPressIn={(e) => {
@@ -122,17 +120,17 @@ export function CPushButton({ isPushed, ...props }: PushButtonProps) {
   );
 }
 
-const buttonStyles = (variant: ButtonProps["variant"]) => {
-  let backgroundColor: string = s.colors.blue[500];
+const buttonStyles = (variant: ButtonProps["variant"], disabled: boolean = false) => {
+  let backgroundColor: string = disabled ? s.colors.gray[500] : s.colors.blue[500];
   let textColor: string = s.colors.white;
 
   switch (variant) {
     case "secondary":
-      backgroundColor = s.colors.orange[500];
+      backgroundColor = disabled ? s.colors.gray[500] : s.colors.orange[500];
       textColor = s.colors.black;
       break;
     case "error":
-      backgroundColor = s.colors.red[500];
+      backgroundColor = disabled ? s.colors.gray[500] : s.colors.red[500];
       textColor = s.colors.black;
       break;
     case "success":

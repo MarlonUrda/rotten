@@ -11,7 +11,7 @@ import type { GamePreview } from "@/types/api/games/gamePreview";
 import s from "@/styles/styleValues";
 import { ESRBChip } from "./ESRBChip";
 import { HoldItem } from "react-native-hold-menu";
-import { SquarePlus, SquareX } from "lucide-react-native";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PlaylistController } from "@/api/controllers/PlaylistController";
 import myToast from "../toast";
@@ -23,22 +23,31 @@ interface GamePreviewProps {
   title: string;
   game: GamePreview;
   isListed?: boolean;
+  direction?: "row" | "column";
 }
 
-export function GamePreview({ title, game, isListed }: GamePreviewProps) {
+const colStyle = [mt.w(56), mt.h(96), mt.flexCol];
+const rowStyle = [mt.w("full"), mt.h(56), mt.flexRow];
 
-  const [currentUser] = useAtom(userAtom)
-  const queryClient = useQueryClient()
+export function GamePreview({
+  title,
+  game,
+  isListed,
+  direction = "column",
+}: GamePreviewProps) {
+  const [currentUser] = useAtom(userAtom);
+  const queryClient = useQueryClient();
 
   const addToPlaylistMutation = useMutation({
-    mutationFn: async (gameId: string) => await PlaylistController.addToPlaylist({ gameId: gameId }),
+    mutationFn: async (gameId: string) =>
+      await PlaylistController.addToPlaylist({ gameId: gameId }),
     onSuccess: () => {
-      myToast({type: "success", message: "Game added successfully!"})
+      myToast({ type: "success", message: "Game added successfully!" });
     },
     onError: (error) => {
-      myToast({type: "error", message: error.message})
-    }
-  })
+      myToast({ type: "error", message: error.message });
+    },
+  });
 
   const gameName = useMemo(() => {
     return (game.name.length > 22 ? game.name.slice(0, 20) + "..." : game.name)
@@ -51,15 +60,14 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
     queryFn: () => GamesController.getGame({ id: game._id }),
   });
   const handleAdd = () => {
-
     if (getGameQuery.isLoading) {
-      myToast({type: "info", message: "Agregando el juego..."})
+      myToast({ type: "info", message: "Agregando el juego..." });
     }
-    
-    if(getGameQuery.data) {
+
+    if (getGameQuery.data) {
       addToPlaylistMutation.mutate(getGameQuery.data._id);
     }
-  }
+  };
 
   const deleteMutation = useMutation({
     mutationFn: async (gameId: string) => {
@@ -69,35 +77,47 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
       await PlaylistController.removeFromPlaylist(currentUser._id, gameId);
     },
     onSuccess: () => {
-      myToast({type: "success", message: "Juego eliminado de la lista!"})
-      queryClient.invalidateQueries({ queryKey: ["playlist", currentUser?._id] })
+      myToast({ type: "success", message: "Juego eliminado de la lista!" });
+      queryClient.invalidateQueries({
+        queryKey: ["playlist", currentUser?._id],
+      });
     },
     onError: (error) => {
-      myToast({type: "error", message: error.message})
+      myToast({ type: "error", message: error.message });
     },
-  })
+  });
 
   const handleDelete = () => {
     if (getGameQuery.data?._id) {
       deleteMutation.mutate(getGameQuery.data._id);
     }
-  }
+  };
   return (
     <Shadow {...mt.shadow.md}>
-      <TouchableOpacity onPress={() => router.push(`/games/${game._id !== "temp" ? game._id : game.external_id}`)}>
+      <TouchableOpacity
+        onPress={() =>
+          router.push(
+            `/games/${game._id !== "temp" ? game._id : game.external_id}`
+          )
+        }
+        style={[mt.w("full")]}
+      >
         <View
           style={[
-            mt.flexCol,
+            direction === "column" ? colStyle : rowStyle,
             mt.gap(4),
             mt.rounded("base"),
             mt.border(4),
             mt.backgroundColor("white"),
-            mt.w(56),
-            mt.h(96),
-            mt.p(4),
+            mt.p(2),
             mt.backgroundColor("yellow"),
           ]}
         >
+          <View
+            style={[
+              direction === "row" ? mt.flexColReverse : mt.flexCol,
+              , mt.gap(2), direction === "row" && mt.w("sixty")]}
+          >
           <View
             style={[
               mt.flexRow,
@@ -109,7 +129,7 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
             <Text
               size="md"
               weight="black"
-              style={[mt.fontWeight("black"), mt.flex1]}
+              style={[mt.fontWeight("black"), mt.flex1, mt.maxW(56)]}
             >
               {gameName}
             </Text>
@@ -128,47 +148,59 @@ export function GamePreview({ title, game, isListed }: GamePreviewProps) {
               />
             </View>
           </View>
-          <View>
+          <View
+            style={[
+              direction === "row" && mt.flex1,
+            ]}
+          >
             <Image
               source={{ uri: game.background_image }}
-              style={[mt.h(32), mt.w("full"), mt.border(4)]}
+              style={[mt.h(
+                direction === "column" ? 36 : 36
+              ), mt.w("full"), mt.border(4)]}
             />
           </View>
-          <ReleaseDate released={game.released} />
+          </View>
+          <View
+            style={[
+              mt.flexCol,
+              mt.gap(4),
+              mt.justify("center"),
+              mt.items("center"),
+            ]}
+          >
 
-          <Scores
-            score={{
-              audience: game.mt_rating_user ?? 0,
-              critic: game.mt_rating_critic ?? 0,
-            }}
-          />
-        </View>
+            <ReleaseDate released={game.released}
+              direction={direction}
+            />
+
+            <Scores
+              score={{
+                audience: game.mt_rating_user ?? 0,
+                critic: game.mt_rating_critic ?? 0,
+              }}
+              direction={direction}
+            />
+          </View>
+          </View>
       </TouchableOpacity>
       {!isListed ? (
         <Button onPress={handleAdd}>
-          <View style={[mt.flexRow, mt.gap(2)]}>
-            <SquarePlus color={"#000"}/>
-            <Text>Add to my List</Text>
-        </View>
+          <Text>Agregar</Text>
         </Button>
-      ): (
+      ) : (
         <Button variant="error" onPress={handleDelete}>
-          <View style={[mt.flexRow, mt.gap(2)]}>
-            <SquareX color={"#000"}/>
-            <Text>Remove Game</Text>
-        </View>
+          <Text>Borrar</Text>
         </Button>
       )}
-        
     </Shadow>
   );
 }
-function ReleaseDate({ released }: { released: string }) {
+function ReleaseDate({ released, direction = "column" }: { released: string, direction?: "row" | "column" }) {
   return (
     <View
       style={[
-        mt.flexRow,
-        mt.w("full"),
+        direction === "row" ? mt.flexCol : mt.flexRow,
         mt.items("center"),
         mt.justify("center"),
       ]}
@@ -182,7 +214,7 @@ function ReleaseDate({ released }: { released: string }) {
         ]}
       >
         <Text size="sm" style={[mt.fontWeight("bold")]}>
-          LANZADO
+          RELEASED
         </Text>
       </View>
       <View
@@ -209,90 +241,108 @@ const getColor = (score: number): "red" | "orange" | "green" => {
 
 function Scores({
   score,
+  direction = "column",
 }: {
   score: {
     audience: number;
     critic: number;
   };
+  direction?: "row" | "column";
 }) {
   return (
     <View
-      style={[mt.flexRow, mt.items("center"), mt.justify("center"), mt.gap(2)]}
+      style={[mt.flexCol, mt.gap(2), mt.items("center"), mt.justify("center")]}
     >
+      {direction === "row" && (
+        <View style={[mt.border(2), mt.p(1), mt.backgroundColor("white")]}>
+          <Text size="sm" style={[mt.fontWeight("bold")]}>
+            SCORES
+          </Text>
+        </View>
+      )}
       <View
         style={[
-          mt.flexCol,
-          mt.gap(1),
-          mt.items("flex-start"),
+          mt.flexRow,
+          mt.items("center"),
           mt.justify("center"),
+          mt.gap(2),
         ]}
       >
         <View
           style={[
-            mt.border(2),
-            mt.p(1),
-            mt.rotate(-3),
-            mt.backgroundColor("white"),
-          ]}
-        >
-          <Text size="sm" style={[mt.fontWeight("bold")]}>
-            USER SCORE
-          </Text>
-        </View>
-        <View
-          style={[
-            mt.border(2),
-            mt.p(2),
-            mt.backgroundColor(getColor(score.audience)),
-            mt.w(14),
-            mt.h(14),
             mt.flexCol,
-            mt.items("center"),
+            mt.gap(1),
+            mt.items("flex-start"),
             mt.justify("center"),
           ]}
         >
-          <Text size="lg" weight="black" style={[mt.fontWeight("black")]}>
-            {score.audience.toFixed(1)}
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={[
-          mt.flexCol,
-          mt.gap(1),
-          mt.items("flex-start"),
-          mt.justify("center"),
-        ]}
-      >
-        <View
-          style={[
-            mt.border(2),
-            mt.p(1),
-            mt.rotate(3),
-            mt.backgroundColor("white"),
-          ]}
-        >
-          <Text size="sm" style={[mt.fontWeight("bold")]}>
-            CRITIC SCORE
-          </Text>
+          <View
+            style={[
+              mt.border(2),
+              mt.p(1),
+              mt.rotate(-3),
+              mt.backgroundColor("white"),
+            ]}
+          >
+            <Text size="sm" style={[mt.fontWeight("bold")]}>
+              USER {direction === "column" && "SCORE"}
+            </Text>
+          </View>
+          <View
+            style={[
+              mt.border(2),
+              mt.p(2),
+              mt.backgroundColor(getColor(score.audience)),
+              mt.w(14),
+              mt.h(14),
+              mt.flexCol,
+              mt.items("center"),
+              mt.justify("center"),
+            ]}
+          >
+            <Text size="lg" weight="black" style={[mt.fontWeight("black")]}>
+              {score.audience.toFixed(1)}
+            </Text>
+          </View>
         </View>
 
         <View
           style={[
-            mt.border(2),
-            mt.p(2),
-            mt.backgroundColor(getColor(score.critic)),
-            mt.w(14),
-            mt.h(14),
             mt.flexCol,
-            mt.items("center"),
+            mt.gap(1),
+            mt.items("flex-start"),
             mt.justify("center"),
           ]}
         >
-          <Text size="lg" weight="black" style={[mt.fontWeight("black")]}>
-            {score.critic.toFixed(1)}
-          </Text>
+          <View
+            style={[
+              mt.border(2),
+              mt.p(1),
+              mt.rotate(3),
+              mt.backgroundColor("white"),
+            ]}
+          >
+            <Text size="sm" style={[mt.fontWeight("bold")]}>
+              CRITIC {direction === "column" && "SCORE"}
+            </Text>
+          </View>
+
+          <View
+            style={[
+              mt.border(2),
+              mt.p(2),
+              mt.backgroundColor(getColor(score.critic)),
+              mt.w(14),
+              mt.h(14),
+              mt.flexCol,
+              mt.items("center"),
+              mt.justify("center"),
+            ]}
+          >
+            <Text size="lg" weight="black" style={[mt.fontWeight("black")]}>
+              {score.critic.toFixed(1)}
+            </Text>
+          </View>
         </View>
       </View>
     </View>
