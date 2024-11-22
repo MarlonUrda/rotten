@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, FlatList } from "react-native";
 import { Text } from "../ui/text";
 import mt, { generic } from "@/styles/mtWind";
 import { GamePreview, HoldGamePreview } from "./GamePreview";
@@ -50,7 +50,7 @@ const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
           </Text>
         </View>
       </View>
-      <ScrollView
+      <FlatList 
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={[
@@ -58,15 +58,15 @@ const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
           mt.gap(5),
           mt.overflow("hidden"),
           mt.p(4),
-          mt.pt(0),
+          mt.pt(0)
         ]}
-        style={[]}
-      >
-        {gamesQuery.isPending && <Loader />}
-        {sortedGames.map((game) => (
-            <GamePreview game={game} title={game.name} key={game.external_id} />
-        ))}
-      </ScrollView>
+        data={sortedGames}
+        keyExtractor={(item) => item.external_id.toString()}
+        renderItem={({ item }) => {
+          return <GamePreview game={item} title={item.name} key={item.external_id}/>
+        }}
+        ListHeaderComponent={gamesQuery.isPending ? <Loader />: null}
+      />
     </View>
   );
 };
