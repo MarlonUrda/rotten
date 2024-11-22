@@ -21,7 +21,7 @@ export default function Screen() {
         <Text style={[generic.h3, {
           fontFamily: s.fontFamily.sans,
         }]}>
-          Inicio de sesion
+          Sign Up
         </Text>
       </View>
 

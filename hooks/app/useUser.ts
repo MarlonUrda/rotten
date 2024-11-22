@@ -15,7 +15,7 @@ export function useUser(
   const updateUserMutation = useMutation({
     mutationFn: UserController.UpdateUser,
     onSuccess: (data) => {
-      myToast({ type:"success", message:"Usuario actualizado"})
+      myToast({ type:"success", message:"User updated successfully!"})
       if(user && data.firstName && data.lastName){
         const udpdatedUser = {
           ...user,

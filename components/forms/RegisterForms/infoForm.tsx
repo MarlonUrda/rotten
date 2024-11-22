@@ -45,14 +45,14 @@ export function EmailForm({ setTab, fullForm }: InfoFormProps) {
   const verifyEmailMutation = useMutation({
     mutationFn: AuthController.verifyEmailAvailability,
     onError: (_) => {
-      myToast({type: "error", message: "Error al verificar el email"});
+      myToast({type: "error", message: "Error verifying your email"});
     },
     onSuccess: (data) => {
       if (!data.available) {
         // set an error in form
         form.setError("email", {
           type: "manual",
-          message: "El email ya esta en uso.",
+          message: "Someone is using this email.",
         });
         return;
       }
@@ -78,8 +78,8 @@ export function EmailForm({ setTab, fullForm }: InfoFormProps) {
       <FormTextInput 
         name="email"
         control={form.control}
-        label="Correo Electronico"
-        placeholder="tucorreo@gmail.com"
+        label="Email"
+        placeholder="rottenminds@gmail.com"
         error={form.formState.errors.email}
       />
       {/* two flex row fields */}
@@ -91,7 +91,7 @@ export function EmailForm({ setTab, fullForm }: InfoFormProps) {
         <FormTextInput 
           name="firstName"
           control={form.control}
-          label="Nombre"
+          label="Name"
           placeholder="James"
           error={form.formState.errors.firstName}
           viewStyle={[mt.flex1]}
@@ -99,7 +99,7 @@ export function EmailForm({ setTab, fullForm }: InfoFormProps) {
         <FormTextInput 
           name="lastName"
           control={form.control}
-          label="Apellido"
+          label="Lastname"
           placeholder="Bond"
           error={form.formState.errors.lastName}
           viewStyle={[mt.flex1]}
@@ -115,12 +115,12 @@ export function EmailForm({ setTab, fullForm }: InfoFormProps) {
           loading={verifyEmailMutation.isPending}
           disabled={verifyEmailMutation.isPending}
         >
-          <Text>Siguiente</Text>
+          <Text>Next</Text>
         </Button>
         </Animated.View>
       <Animated.View style={mtForm.sideText}>
         <Link href="/" style={mtForm.text}>
-          Volver al inicio de sesion
+          Return to Log In
         </Link>
       </Animated.View>
     </Animated.View>

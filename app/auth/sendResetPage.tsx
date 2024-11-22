@@ -14,7 +14,7 @@ export default function SendResetPage() {
             Rotten Minds
           </Text>
           <Text weight="normal" style={generic.h3}>
-            Recuperar contraseña
+            Change Password
           </Text>
         </View>
 

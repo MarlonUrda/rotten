@@ -21,7 +21,7 @@ export default function RegisterPage() {
           Rotten Minds
         </Text>
         <Text style={generic.h3}>
-          Registrarse
+          Sign In
         </Text>
         <RegisterForm />
       </View>
