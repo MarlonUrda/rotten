@@ -122,6 +122,8 @@ export default function Screen() {
               onChangeText={setDebouncedText}
             />
             <Button
+              loading={searchInfiniteQuery.isLoading || searchInfiniteQuery.isFetching} 
+              disabled={searchInfiniteQuery.isFetching || searchInfiniteQuery.isPending}
               onPress={() => {
                 searchInfiniteQuery.refetch();
               }}
