@@ -3,28 +3,34 @@ import {
   StandardGameResponse,
   standardGameResponse,
 } from "@/types/api/games/standardGameResponse";
-import { GetGameRequest, GetGameScreenshotsRequest, SearchGamesRequest } from "@/types/api/games/getGameRequest";
+import {
+  GetGameRequest,
+  GetGameScreenshotsRequest,
+  SearchGamesRequest,
+} from "@/types/api/games/getGameRequest";
 import { getGameScreenshotsResponse } from "@/types/api/games/gameScreenshots";
 import type { GetGameScreenshotsResponse } from "@/types/api/games/gameScreenshots";
 import { GameDetails, gameDetails } from "@/types/api/games/gameDetails";
 
 export class GamesController {
-  static async getPopularGames(): Promise<StandardGameResponse> {
+  static async getPublicCollection(
+
+    collection: "popular" | "new" | "highest-rated" = "popular"
+  ): Promise<StandardGameResponse> {
     try {
       const result = await superFetch<
         undefined,
         StandardGameResponse,
-        "popular"
+        "popular" | "new" | "highest-rated"
       >({
         options: {
           method: "GET",
           includeCredentials: true,
         },
-        route: "popular",
+        route: collection,
         responseSchema: standardGameResponse,
       });
 
-      console.log("result");
 
       return result;
     } catch (error) {
@@ -99,7 +105,6 @@ export class GamesController {
       });
 
       console.log(result.next, "result.next");
-
 
       return result;
     } catch (error) {

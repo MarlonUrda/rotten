@@ -17,7 +17,7 @@ export const passwordSchema = z
   .object({
     password: z
       .string()
-      .min(8, "Se debe ingresar una contraseña.")
+      .min(8, "La contraseña es muy corta.")
       .max(50, "La contraseña es muy larga."),
     // })
     confirmPassword: z

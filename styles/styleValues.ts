@@ -34,6 +34,7 @@ const s = {
     72: 288,
     80: 320,
     96: 384,
+    100: 400,
     full: "100%" as DimensionValue,
     half: "50%" as DimensionValue,
     sixty: "55%" as DimensionValue,

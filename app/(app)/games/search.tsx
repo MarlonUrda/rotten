@@ -19,7 +19,7 @@ import { removeRawgDuplicates } from "@/hooks/removeRawgDuplicates";
 import { useDebouncedInput } from "./useDebouncedInput";
 import { platforms } from "@/components/util/statics/platforms";
 import { genres } from "@/components/util/statics/genres";
-import { FlashList } from "@shopify/flash-list";
+import { EmptySplash } from "@/components/app/emptyComentariesSplash";
 
 export default function Screen() {
   const [searchQuery, setSearchQuery] = useState<SearchGameQuery>({});
@@ -160,18 +160,23 @@ export default function Screen() {
           {searchInfiniteQuery.isSuccess && items.length === 0 && (
             <Animated.View
               layout={LinearTransition}
-              entering={ZoomIn}
-              exiting={ZoomOut}
+              entering={SlideInLeft}
+              exiting={SlideOutRight}
               style={[mt.flex1, mt.justify("center"), mt.items("center")]}
             >
-              <Text>No games found</Text>
+              
+              <EmptySplash
+                title="No games found"
+                subtitle="Let's try another search"
+              />
+
             </Animated.View>
           )}
           {searchInfiniteQuery.isSuccess && items.length > 0 && (
             <Animated.View
               layout={LinearTransition}
-              entering={ZoomIn}
-              exiting={ZoomOut}
+              entering={SlideInLeft}
+              exiting={SlideOutRight}
               style={[
                 mt.flex1,
                 mt.justify("center"),

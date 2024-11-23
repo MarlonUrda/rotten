@@ -16,7 +16,16 @@ export default function RegisterPage() {
 
   return (
     <View style={[mt.flex1]}>
-      <View style={[mt.flex1, mt.items("center"), mt.justify("center")]}>
+      <View
+        style={[
+          mt.flex1,
+          mt.items("flex-start"),
+          mt.justify("flex-start"),
+          mt.mt(16),
+          mt.px(4),
+          mt.overflow("visible")
+        ]}
+      >
         <RegisterScreen />
       </View>
     </View>

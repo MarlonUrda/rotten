@@ -61,20 +61,20 @@ export default function SendResetForm() {
       <Animated.View layout={LinearTransition}>
         <Button
           onPress={form.handleSubmit(onSubmit)}
+          disabled={sendResetMutation.isPending}
+          loading={sendResetMutation.isPending}
         >
-          {sendResetMutation.isPending ? (
-            <ActivityIndicator size="small" color="#000"/>
-          ) : (
+          
             <Text weight="bold">
               Send Email
             </Text>
-          )}
+          
         </Button>
       </Animated.View>
       <Animated.View layout={LinearTransition} style={[mt.flexCol, mt.items("flex-end"), mt.w("full")]}>
         <Text size="md" style={[mt.align("center")]}>
           Do you remember your password? {" "}
-          <Link href={"/"} style={[mt.align("center"), mt.color("purple")]}>
+          <Link href={"/"} style={[mt.align("center"), mt.color("red", 600), mt.fontWeight("black")]}>
             Log In
           </Link>
         </Text>

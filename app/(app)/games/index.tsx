@@ -2,20 +2,27 @@ import GamesScroll from "@/components/app/gamesScroll";
 import mt from "@/styles/mtWind";
 import { ScrollView, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { GamesController } from "@/api/controllers/GamesController";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Navbar } from "@/components/app/navbar";
-import { GamePreviewType } from "@/types/api/games/gamePreview";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/utils/atoms/userAtom";
 import { PlaylistController } from "@/api/controllers/PlaylistController";
-import { Playlist, SimplePlaylist } from "@/types/Playlist";
+import { SimplePlaylist } from "@/types/Playlist";
+import { StandardGameResponse } from "@/types/api/games/standardGameResponse";
 
 export default function Index() {
   const user = useAtomValue(userAtom);
-  const popularGamesQuery = useQuery({
+  const popularGamesQuery = useQuery<StandardGameResponse>({
     queryKey: ["games", "popular"],
-    queryFn: GamesController.getPopularGames,
+    enabled: false,
+  });
+  const newGamesQuery = useQuery<StandardGameResponse>({
+    queryKey: ["games", "new"],
+    enabled: false,
+  });
+  const highestRatedGamesQuery = useQuery<StandardGameResponse>({
+    queryKey: ["games", "highest-rated"],
+    enabled: false,
   });
 
   const simplePlaylistQuery = useQuery<SimplePlaylist>({
@@ -38,16 +45,18 @@ export default function Index() {
           inPlaylist={inPlaylist}
           playlistQuery={simplePlaylistQuery}
         />
-        {/* <GamesScroll
-          title="MTCritics"
-          gamesQuery={popularGamesQuery}
+        <GamesScroll
+          title="MTCritics' Favorites"
+          gamesQuery={highestRatedGamesQuery}
           inPlaylist={inPlaylist}
+          playlistQuery={simplePlaylistQuery}
         />
         <GamesScroll
           title="Newest"
-          gamesQuery={popularGamesQuery}
+          gamesQuery={newGamesQuery}
           inPlaylist={inPlaylist}
-        /> */}
+          playlistQuery={simplePlaylistQuery}
+        />
       </View>
     </ScrollView>
   );

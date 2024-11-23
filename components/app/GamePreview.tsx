@@ -1,7 +1,7 @@
 import { FlatButton } from "../ui/button";
 import { Text } from "../ui/text";
 import { View } from "react-native";
-import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
+import Animated, { LinearTransition, SlideInLeft, SlideOutRight, ZoomIn, ZoomOut } from "react-native-reanimated";
 import { Image } from "react-native-elements";
 import mt from "@/styles/mtWind";
 import { Shadow } from "react-native-shadow-2";
@@ -45,10 +45,13 @@ export const GamePreview = ({ title, game, isListed, direction = "column" }: Gam
       removeFromPlaylistMutation.mutate(game._id);
     };
     return (
+      <Animated.View
+          entering={SlideInLeft}
+          exiting={SlideOutRight}
+      >
       <Shadow {...mt.shadow.md}>
         <Animated.View
-          entering={ZoomIn}
-          exiting={ZoomOut}
+
           style={[mt.position("relative")]}
         >
           <TouchableOpacity
@@ -175,6 +178,7 @@ export const GamePreview = ({ title, game, isListed, direction = "column" }: Gam
           </View>
         </Animated.View>
       </Shadow>
+      </Animated.View>
     );
   }
 

@@ -15,6 +15,40 @@ interface EmptyCommentsSplashProps {
   commentsQuery: UseQueryResult<any>;
 }
 
+export function EmptySplash(
+  { title, subtitle} : { title: string, subtitle: string}
+) {
+  return (
+    <View style={[mt.rotate(7)]}>
+      <Shadow {...s.shadow.mdNoRound}>
+        <View
+          style={[
+            mt.h(48),
+            mt.w(60),
+            mt.backgroundColor("yellow"),
+            mt.items("center"),
+            mt.justify("center"),
+            mt.gap(2),
+            mt.border(2),
+          ]}
+        >
+          <Image source={smiley3} style={[mt.w(20), mt.h(20)]}></Image>
+          <Text size="lg" weight="bold">
+            {title}
+          </Text>
+          <Text
+            size="md"
+            weight="normal"
+            style={[mt.align("center"), mt.w("full")]}
+          >
+            {subtitle}
+          </Text>
+        </View>
+      </Shadow>
+    </View>
+  );
+}
+
 export function EmptyCommentsSplash({
   commentsQuery,
 }: EmptyCommentsSplashProps) {
@@ -46,33 +80,7 @@ export function EmptyCommentsSplash({
           />
         }
       >
-        <View style={[mt.rotate(7)]}>
-          <Shadow {...s.shadow.mdNoRound}>
-            <View
-              style={[
-                mt.h(48),
-                mt.w(60),
-                mt.backgroundColor("yellow"),
-                mt.items("center"),
-                mt.justify("center"),
-                mt.gap(2),
-                mt.border(2),
-              ]}
-            >
-              <Image source={smiley3} style={[mt.w(20), mt.h(20)]}></Image>
-              <Text size="lg" weight="bold">
-                No reviews yet!
-              </Text>
-              <Text
-                size="md"
-                weight="normal"
-                style={[mt.align("center"), mt.w("full")]}
-              >
-                Be the first to review this game!
-              </Text>
-            </View>
-          </Shadow>
-        </View>
+        <EmptySplash title="No reviews yet!" subtitle="Be the first to review this game!" />
       </ScrollView>
     </Animated.View>
   );
