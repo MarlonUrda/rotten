@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { HoldMenuProvider } from "react-native-hold-menu";
-
+import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
 import "@/global.css";
 import LightTheme from "@/assets/theme/LightTheme";
@@ -25,6 +25,9 @@ import {
 import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import s from "@/styles/styleValues";
+import { useEffect } from "react";
+
+SplashScreen.preventAutoHideAsync()
 
 const queryClient = new QueryClient();
 
@@ -42,13 +45,15 @@ export default function RootLayout() {
     Lexend_900Black,
   });
 
+  useEffect(()=> {
+    if(fontsLoaded) {
+      SplashScreen.hideAsync();
+      console.log("Fonts loaded");
+    }
+  }, [fontsLoaded])
+
   if (!fontsLoaded) {
-    console.log("Fonts not loaded");
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return null
   }
 
   return (
