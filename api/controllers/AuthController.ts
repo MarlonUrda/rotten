@@ -138,6 +138,7 @@ export default class AuthController {
   }
 
   static async resetPassword(payload: PasswordResetRequest) {
+    console.log(payload)
     try {
       const res = await superFetch<
         PasswordResetRequest,

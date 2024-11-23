@@ -40,7 +40,7 @@ export function VerifyCodeForm({ setTab, fullForm }: VerifyCodeProps) {
   })
 
   const onSubmit = (data: z.infer<typeof VerifyCodeRequestSchema>) => {
-    // verifyCodeMutation.mutate(data)
+    verifyCodeMutation.mutate(data)
     setTab(1)
   }
 

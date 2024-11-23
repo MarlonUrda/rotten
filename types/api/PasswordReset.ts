@@ -20,7 +20,7 @@ export const SendEmailResetResponseSchema = z.object({
 export type SendEmailResetResponse = z.infer<typeof SendEmailResetResponseSchema>;
 
 export const VerifyCodeRequestSchema = z.object({
-  code: z.string().min(36, "El código de verificación debe tener 36 caracteres").max(36, "El código de verificación debe tener 36 caracteres"),
+  code: z.string().min(6, "El código de verificación debe tener 6 caracteres").max(6, "El código de verificación debe tener 6 caracteres"),
 });
 
 export type VerifyCodeRequest = z.infer<typeof VerifyCodeRequestSchema>;
