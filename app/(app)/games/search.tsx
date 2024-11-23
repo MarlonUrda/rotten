@@ -20,6 +20,7 @@ import { useDebouncedInput } from "./useDebouncedInput";
 import { platforms } from "@/components/util/statics/platforms";
 import { genres } from "@/components/util/statics/genres";
 import { EmptySplash } from "@/components/app/emptyComentariesSplash";
+import Bg from "@/components/app/Bg";
 
 export default function Screen() {
   const [searchQuery, setSearchQuery] = useState<SearchGameQuery>({});

@@ -10,6 +10,7 @@ import { Shadow } from "react-native-shadow-2";
 import LoginView from "@/components/app/loginView";
 import { useQuery } from "@tanstack/react-query";
 import { GamesController } from "@/api/controllers/GamesController";
+import Bg from "@/components/app/Bg";
 
 
 export default function Screen() {
@@ -37,6 +38,7 @@ export default function Screen() {
       <View style={[mt.flex1, mt.items("flex-start"), mt.justify("flex-start"), mt.px(4), mt.mt(16)]}>
         <LoginView />
       </View>
+      <Bg></Bg>
     </View>
   )
 }

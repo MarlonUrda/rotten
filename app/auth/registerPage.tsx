@@ -2,6 +2,7 @@ import { View } from "react-native";
 import mt from "@/styles/mtWind";
 import { useFonts } from "expo-font";
 import RegisterScreen from "@/components/app/registerScreen";
+import Bg from "@/components/app/Bg";
 
 export default function RegisterPage() {
 
@@ -28,6 +29,7 @@ export default function RegisterPage() {
       >
         <RegisterScreen />
       </View>
+      <Bg />
     </View>
   );
 }

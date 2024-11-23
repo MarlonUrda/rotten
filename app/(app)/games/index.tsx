@@ -9,20 +9,18 @@ import { userAtom } from "@/utils/atoms/userAtom";
 import { PlaylistController } from "@/api/controllers/PlaylistController";
 import { SimplePlaylist } from "@/types/Playlist";
 import { StandardGameResponse } from "@/types/api/games/standardGameResponse";
+import Bg from "@/components/app/Bg";
 
 export default function Index() {
   const user = useAtomValue(userAtom);
   const popularGamesQuery = useQuery<StandardGameResponse>({
     queryKey: ["games", "popular"],
-    enabled: false,
   });
   const newGamesQuery = useQuery<StandardGameResponse>({
     queryKey: ["games", "new"],
-    enabled: false,
   });
   const highestRatedGamesQuery = useQuery<StandardGameResponse>({
     queryKey: ["games", "highest-rated"],
-    enabled: false,
   });
 
   const simplePlaylistQuery = useQuery<SimplePlaylist>({
@@ -36,28 +34,33 @@ export default function Index() {
   }, [simplePlaylistQuery.data]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={[mt.pt(12), mt.p(2)]}>
-        <Navbar />
-        <GamesScroll
-          title="Popular Games"
-          gamesQuery={popularGamesQuery}
-          inPlaylist={inPlaylist}
-          playlistQuery={simplePlaylistQuery}
-        />
-        <GamesScroll
-          title="MTCritics' Favorites"
-          gamesQuery={highestRatedGamesQuery}
-          inPlaylist={inPlaylist}
-          playlistQuery={simplePlaylistQuery}
-        />
-        <GamesScroll
-          title="Newest"
-          gamesQuery={newGamesQuery}
-          inPlaylist={inPlaylist}
-          playlistQuery={simplePlaylistQuery}
-        />
-      </View>
-    </ScrollView>
+    <View
+      style={[mt.flex1]}
+    >
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={[mt.pt(12), mt.p(2)]}>
+          <Navbar />
+          <GamesScroll
+            title="Popular Games"
+            gamesQuery={popularGamesQuery}
+            inPlaylist={inPlaylist}
+            playlistQuery={simplePlaylistQuery}
+          />
+          <GamesScroll
+            title="MTCritics' Favorites"
+            gamesQuery={highestRatedGamesQuery}
+            inPlaylist={inPlaylist}
+            playlistQuery={simplePlaylistQuery}
+          />
+          <GamesScroll
+            title="Newest"
+            gamesQuery={newGamesQuery}
+            inPlaylist={inPlaylist}
+            playlistQuery={simplePlaylistQuery}
+          />
+        </View>
+      </ScrollView>
+    </View>
   );
 }
