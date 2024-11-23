@@ -39,7 +39,7 @@ export default function PlaylistScreen() {
       </Text>
       <View style={[mt.flex1, mt.w("full")]}>
         {playlistQuery.isPending && <Loader />}
-        {playlistQuery.data && playlistQuery.data.gameIds.length > 0 ? (
+        {playlistQuery.data && playlistQuery.data.gameIds.length > 0 && (
           <Animated.View layout={LinearTransition} style={[mt.w("full")]}>
             <FlatList
               data={playlistQuery.data.gameIds}
@@ -59,11 +59,15 @@ export default function PlaylistScreen() {
               showsVerticalScrollIndicator={false}
             />
           </Animated.View>
-        ) : (
-          <Animated.View layout={LinearTransition} style={[mt.w("full"), mt.flex1, mt.items("center"), mt.justify("center")]}>
+        )}
+
+        {/* not loading and empty */}
+        {playlistQuery.isSuccess && playlistQuery.data && playlistQuery.data.gameIds.length === 0 && (
+            <Animated.View layout={LinearTransition} style={[mt.w("full"), mt.flex1, mt.items("center"), mt.justify("center")]}>
             <EmptyPlaylist playlistQuery={playlistQuery} />
           </Animated.View>
         )}
+
         
       </View>
 
