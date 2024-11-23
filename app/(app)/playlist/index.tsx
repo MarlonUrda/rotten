@@ -40,10 +40,11 @@ export default function PlaylistScreen() {
       <View style={[mt.flex1, mt.w("full")]}>
         {playlistQuery.isPending && <Loader />}
         {playlistQuery.data && playlistQuery.data.gameIds.length > 0 && (
-          <Animated.View layout={LinearTransition} style={[mt.w("full")]}>
+          <Animated.View style={[mt.w("full"), mt.flex1]}>
             <FlatList
               data={playlistQuery.data.gameIds}
               keyExtractor={(item) => item._id.toString()}
+              
               renderItem={({ item }) => {
                 return (
                   <GamePreview
@@ -55,7 +56,7 @@ export default function PlaylistScreen() {
                   />
                 );
               }}
-              contentContainerStyle={[mt.flexCol, mt.p(4), mt.w("full"), mt.gap(6)]}
+              contentContainerStyle={[mt.flexCol, mt.p(4), mt.w("full"), mt.gap(6), mt.flex1]}
               showsVerticalScrollIndicator={false}
             />
           </Animated.View>
@@ -63,7 +64,7 @@ export default function PlaylistScreen() {
 
         {/* not loading and empty */}
         {playlistQuery.isSuccess && playlistQuery.data && playlistQuery.data.gameIds.length === 0 && (
-            <Animated.View layout={LinearTransition} style={[mt.w("full"), mt.flex1, mt.items("center"), mt.justify("center")]}>
+          <Animated.View style={[mt.w("full"), mt.flex1, mt.items("center"), mt.justify("center")]}>
             <EmptyPlaylist playlistQuery={playlistQuery} />
           </Animated.View>
         )}
