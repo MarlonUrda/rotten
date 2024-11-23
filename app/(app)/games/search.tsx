@@ -200,6 +200,12 @@ export default function Screen() {
                 }}
                 onEndReachedThreshold={0.5}
                 contentContainerStyle={[mt.gap(4), mt.w("full"), mt.p(2)]}
+                // loader at the end (if there are more pages)
+                ListFooterComponent={
+                  searchInfiniteQuery.hasNextPage ? (
+                    <Loader size="small" />
+                  ) : null
+                }
               />
             </Animated.View>
           )}
