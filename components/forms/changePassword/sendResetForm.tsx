@@ -49,12 +49,15 @@ export default function SendResetForm() {
   }
 
   return (
-    <Animated.View layout={LinearTransition} style={[mt.w("full"), mt.p(4), mt.flexCol, mt.gap(4)]}>
-      <FormTextInput 
+    <Animated.View
+      layout={LinearTransition}
+      style={[mt.w("full"), mt.p(4), mt.flexCol, mt.gap(4)]}
+    >
+      <FormTextInput
         name="email"
         control={form.control}
         label="Email"
-        placeholder="rottenminds@gmail.com"
+        placeholder="rotten@minds.com"
         error={form.formState.errors.email}
       />
 
@@ -64,21 +67,46 @@ export default function SendResetForm() {
           disabled={sendResetMutation.isPending}
           loading={sendResetMutation.isPending}
         >
-          
-            <Text weight="bold">
-              Send Email
-            </Text>
-          
+          <Text weight="bold">Send Email</Text>
         </Button>
       </Animated.View>
-      <Animated.View layout={LinearTransition} style={[mt.flexCol, mt.items("flex-end"), mt.w("full")]}>
-        <Text size="md" style={[mt.align("center")]}>
-          Do you remember your password? {" "}
-          <Link href={"/"} style={[mt.align("center"), mt.color("red", 600), mt.fontWeight("black")]}>
+      <Animated.View
+        layout={LinearTransition}
+        style={[mt.flexCol, mt.items("flex-end"), mt.w("full")]}
+      >
+        <Text size="md" style={[mt.align("right")]}>
+          Do you remember your password?{" "}
+          <Link
+            href={"/"}
+            style={[
+              mt.align("center"),
+              mt.color("red", 600),
+              mt.fontWeight("black"),
+            ]}
+          >
             Log In
           </Link>
         </Text>
       </Animated.View>
+      {/* if i have a code */}
+      <Animated.View
+        layout={LinearTransition}
+        style={[mt.flexCol, mt.items("flex-end"), mt.w("full")]}
+      >
+        <Text size="md" style={[mt.align("right")]}>
+          Already have a reset code?{" "}
+          <Link
+            href={"/auth/changePasswordPage"}
+            style={[
+              mt.align("center"),
+              mt.color("red", 600),
+              mt.fontWeight("black"),
+            ]}
+          >
+            Change Password
+          </Link>
+        </Text>
+      </Animated.View>
     </Animated.View>
-  )
+  );
 }

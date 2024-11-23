@@ -45,11 +45,11 @@ export function VerifyCodeForm({ setTab, fullForm }: VerifyCodeProps) {
   }
 
   return (
-    <Animated.View layout={LinearTransition} entering={SlideInRight} exiting={SlideOutLeft} style={[mt.w("full"), mt.flexCol, mt.gap(4), mt.p(8), mt.rounded("md")]}>
+    <Animated.View layout={LinearTransition} entering={SlideInRight} exiting={SlideOutLeft} style={[mt.w("full"), mt.flexCol, mt.gap(4), mt.p(4), mt.rounded("md")]}>
       <FormTextInput 
         name="code"
         control={form.control}
-        label="Codigo de Recuperacion"
+        label="Code"
         error={form.formState.errors.code}
       />
       <Animated.View layout={LinearTransition}>
@@ -60,7 +60,7 @@ export function VerifyCodeForm({ setTab, fullForm }: VerifyCodeProps) {
             <ActivityIndicator size="small" color="#0000ff" />
           ) : (
             <Text weight="bold">
-              Verificar
+              Verify Code
             </Text>
           )}
         </Button>

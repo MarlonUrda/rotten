@@ -59,11 +59,11 @@ export function SetPasswordForm({ setTab, fullForm }: SetPasswordProps) {
   }
 
   return (
-    <Animated.View style={[mt.w("full"), mt.p(8), mt.flexCol, mt.gap(4), mt.rounded("lg")]} entering={SlideInRight} exiting={SlideOutLeft} layout={LinearTransition}>
+    <Animated.View style={[mt.w("full"), mt.p(4), mt.flexCol, mt.gap(4), mt.rounded("lg")]} entering={SlideInRight} exiting={SlideOutLeft} layout={LinearTransition}>
       <FormTextInput 
         name="password"
         control={form.control}
-        label="Nueva Contraseña"
+        label="New Password"
         error={form.formState.errors.password}
         type="password"
       />
@@ -71,7 +71,7 @@ export function SetPasswordForm({ setTab, fullForm }: SetPasswordProps) {
       <FormTextInput 
         name="confirmPassword"
         control={form.control}
-        label="Confirmar Contraseña"
+        label="Confirm Password"
         error={form.formState.errors.confirmPassword}
         type="password"
       />
@@ -83,7 +83,7 @@ export function SetPasswordForm({ setTab, fullForm }: SetPasswordProps) {
           {sendResetMutation.isPending ? (
             <ActivityIndicator size="small" color="#fff" />
           ): (
-            <Text>Cambiar Contraseña</Text>
+            <Text>Change Password</Text>
           )}
         </Button>
       </Animated.View>

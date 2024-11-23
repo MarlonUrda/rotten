@@ -26,7 +26,7 @@ export default function ChangePasswordForm(){
   ]
 
   return (
-    <Animated.View style={[mt.w("full"), mt.p(4)]}>
+    <Animated.View style={[mt.w("full")]}>
       {
         tabs[tab] 
       }

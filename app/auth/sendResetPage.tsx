@@ -9,7 +9,7 @@ export default function SendResetPage() {
       <View
         style={[
           mt.flex1,
-          mt.items("flex-start"),
+          mt.items("center"),
           mt.justify("flex-start"),
           mt.mt(16),
           mt.px(4),
