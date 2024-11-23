@@ -9,7 +9,7 @@ import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Image } from "react-native";
 
-const smiley2 = require("../../assets/images/smiley/3.png");
+const smiley3 = require("../../assets/images/smiley/3.png");
 
 interface EmptyCommentsSplashProps {
   commentsQuery: UseQueryResult<any>;
@@ -59,7 +59,7 @@ export function EmptyCommentsSplash({
                 mt.border(2),
               ]}
             >
-              <Image source={smiley2} style={[mt.w(20), mt.h(20)]}></Image>
+              <Image source={smiley3} style={[mt.w(20), mt.h(20)]}></Image>
               <Text size="lg" weight="bold">
                 No reviews yet!
               </Text>

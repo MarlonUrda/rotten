@@ -126,6 +126,7 @@ interface FlatButtonProps extends TouchableOpacityProps {
   variant?: "primary" | "secondary" | "error" | "success";
   style?: StyleProp<ViewStyle>;
   children: React.ReactNode;
+  loading?: boolean;
 }
 
 export function FlatButton({ ...props }: FlatButtonProps) {
@@ -137,7 +138,11 @@ export function FlatButton({ ...props }: FlatButtonProps) {
       ]}
       {...props}
     >
-      {props.children}
+      {props.loading ? (
+        <ActivityIndicator color={s.colors.white} />
+      ) : (
+        props.children
+      )}
     </TouchableOpacity>
   )
 }

@@ -10,6 +10,7 @@ export const apiRoutes = {
     "user/[id]": (id: string) => `${server}/user/${id}`,  
     // Playlist
     "playlist": () => `${server}/user/playlist`,
+    "playlist/simple": () => `${server}/user/playlist/simple`,
     ":id/playlist": (id: string) => `${server}/user/${id}/playlist`,
     "playlist/:id": (userId:string, id: string) => `${server}/user/${userId}/playlist/${id}`, 
 

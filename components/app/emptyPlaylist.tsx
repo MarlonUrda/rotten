@@ -7,10 +7,14 @@ import mt from "@/styles/mtWind";
 import s from "@/styles/styleValues";
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 import { UseQueryResult } from "@tanstack/react-query";
+import { Image } from "react-native";
 
 interface EmptyPlaylistProps {
   playlistQuery: UseQueryResult<any>;
 }
+
+const smiley3 = require("../../assets/images/smiley/3.png");
+
 
 export function EmptyPlaylist(
   { playlistQuery }: EmptyPlaylistProps
@@ -44,13 +48,11 @@ export function EmptyPlaylist(
           />
         }
       >
-        <View
-          style={[mt.rotate(7)]}
-        >
+        <View style={[mt.rotate(7)]}>
           <Shadow {...s.shadow.mdNoRound}>
             <View
               style={[
-                mt.h(44),
+                mt.h(52),
                 mt.w(60),
                 mt.backgroundColor("yellow"),
                 mt.items("center"),
@@ -59,7 +61,7 @@ export function EmptyPlaylist(
                 mt.border(2),
               ]}
             >
-              <AntDesign name="meh" size={64} color="black" />
+              <Image source={smiley3} style={[mt.w(20), mt.h(20)]}></Image>
               <Text size="lg" weight="bold">
                 No Games in your Playlist yet!
               </Text>

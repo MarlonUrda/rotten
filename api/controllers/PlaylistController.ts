@@ -10,8 +10,8 @@ import {
   addToPlaylistResponse
 } from "@/types/api/Playlist";
 import type { getPlaylistResponse } from "@/types/api/Playlist";
-import type { Playlist } from "@/types/Playlist";
-import { playlistSchema } from "@/types/Playlist";
+import type { Playlist, SimplePlaylist } from "@/types/Playlist";
+import { playlistSchema, simplePlaylistSchema } from "@/types/Playlist";
 
 export class PlaylistController {
   static async getPlaylist(userId: string): Promise<Playlist>{
@@ -37,6 +37,32 @@ export class PlaylistController {
       throw new Error("Error fetching playlist");
     }
   }
+
+  static async getSimplePlaylist(): Promise<SimplePlaylist>{
+    try {
+      const response = await superFetch<undefined, SimplePlaylist, "playlist/simple">(
+        {
+          options: {
+            method: "GET",
+            includeCredentials: true,
+          },
+          route: "playlist/simple",
+          routeParams: [],
+          responseSchema: simplePlaylistSchema,
+        }
+      )
+      console.log(response)
+
+      return response;
+    } catch (error) {
+      console.log("error");
+      const sfError = error as SuperFetchError;
+      console.log(sfError.code, sfError.message);
+      throw new Error("Error fetching playlist");
+    }
+  }
+
+
 
   static async addToPlaylist(payload: addOrRemoveGameToPlaylist): Promise<addToPlaylistResponse>{
     try {

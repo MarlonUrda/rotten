@@ -29,7 +29,6 @@ interface SuperFetchParams<Request, Response, Route extends ApiRoute = ApiRoute,
 export async function superFetch<Request, Response, Route extends ApiRoute = ApiRoute, QueryParams extends Record<string, any> | undefined = undefined>(
     { options, route, routeParams, queryParams, responseSchema, payload }: SuperFetchParams<Request, Response, Route, QueryParams>
 ): Promise<Response> {
-    console.log("executing superFetch");
 
     if (routeParams === undefined) {
         routeParams = [] as ApiRouteParams<Route>;

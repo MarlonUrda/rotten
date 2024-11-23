@@ -1,4 +1,4 @@
-import { Button, FlatButton } from "../ui/button";
+import { FlatButton } from "../ui/button";
 import { Text } from "../ui/text";
 import { View } from "react-native";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
@@ -9,17 +9,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import React, { useMemo } from "react";
 import { router } from "expo-router";
 import type { GamePreviewType } from "@/types/api/games/gamePreview";
-import s from "@/styles/styleValues";
 import { ESRBChip } from "./ESRBChip";
 import { HoldItem } from "react-native-hold-menu";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { PlaylistController } from "@/api/controllers/PlaylistController";
-import myToast from "../toast";
-import { GamesController } from "@/api/controllers/GamesController";
-import { useAtom } from "jotai";
-import { userAtom } from "@/utils/atoms/userAtom";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useMutatePlaylist } from "@/hooks/usePlaylistMutations";
 
 interface GamePreviewProps {
   title: string;
@@ -31,55 +25,24 @@ interface GamePreviewProps {
 const colStyle = [mt.w(56), mt.h(96), mt.flexCol];
 const rowStyle = [mt.w("full"), mt.h(56), mt.flexRow];
 
-export const GamePreview = React.memo(
-  ({ title, game, isListed, direction = "column" }: GamePreviewProps) => {
-    const [currentUser] = useAtom(userAtom);
-    const queryClient = useQueryClient();
+export const GamePreview = ({ title, game, isListed, direction = "column" }: GamePreviewProps) => {
 
-    const addToPlaylistMutation = useMutation({
-      mutationFn: async (gameId: string) =>
-        await PlaylistController.addToPlaylist({ gameId: gameId }),
-      onSuccess: () => {
-        myToast({ type: "success", message: "Game added successfully!" });
-        queryClient.invalidateQueries({ queryKey: ["games", "popular"] });
-      },
-      onError: (error) => {
-        myToast({ type: "error", message: error.message });
-      },
-    });
-
+    const { addToPlaylistMutation, removeFromPlaylistMutation } = useMutatePlaylist();
+    
     const gameName = useMemo(() => {
       return (
         game.name.length > 22 ? game.name.slice(0, 20) + "..." : game.name
       )
         .toUpperCase()
         .replace(/-/g, " ");
-    }, [game.name]);
+      }, [game.name]);
 
     const handleAdd = () => {
       addToPlaylistMutation.mutate(game.external_id.toString());
     };
 
-    const deleteMutation = useMutation({
-      mutationFn: async (gameId: string) => {
-        if (!currentUser?._id) {
-          throw new Error("User ID is undefined");
-        }
-        await PlaylistController.removeFromPlaylist(currentUser._id, gameId);
-      },
-      onSuccess: () => {
-        myToast({ type: "success", message: "Juego eliminado de la lista!" });
-        queryClient.invalidateQueries({
-          queryKey: ["playlist", currentUser?._id],
-        });
-      },
-      onError: (error) => {
-        myToast({ type: "error", message: error.message });
-      },
-    });
-
     const handleDelete = () => {
-      deleteMutation.mutate(game._id);
+      removeFromPlaylistMutation.mutate(game._id);
     };
     return (
       <Shadow {...mt.shadow.md}>
@@ -187,20 +150,34 @@ export const GamePreview = React.memo(
             ]}
           >
             {!isListed ? (
-              <FlatButton onPress={handleAdd}>
+              <Animated.View
+                entering={ZoomIn}
+                exiting={ZoomOut}
+              >
+              <FlatButton onPress={handleAdd}
+                loading={addToPlaylistMutation.isPending}
+              >
                 <MaterialCommunityIcons name="plus" size={24} color="black" />
               </FlatButton>
+              </Animated.View>
             ) : (
-              <Button variant="error" onPress={handleDelete}>
+              <Animated.View
+                entering={ZoomIn}
+                exiting={ZoomOut}
+              >
+              <FlatButton variant="error" onPress={handleDelete}
+                loading={removeFromPlaylistMutation.isPending}
+              >
                 <MaterialCommunityIcons name="minus" size={24} color="black" />
-              </Button>
+              </FlatButton>
+              </Animated.View>
             )}
           </View>
         </Animated.View>
       </Shadow>
     );
   }
-);
+
 function ReleaseDate({
   released,
   direction = "column",

@@ -5,36 +5,22 @@ import { GamePreview } from "./GamePreview";
 import { Shadow } from "react-native-shadow-2";
 import s from "@/styles/styleValues";
 import { StandardGameResponse } from "@/types/api/games/standardGameResponse";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { UseQueryResult } from "@tanstack/react-query";
 import Loader from "../ui/loader";
+import { Playlist, SimplePlaylist } from "@/types/Playlist";
 
 interface GamesScrollerProps {
   title: string;
   gamesQuery: UseQueryResult<StandardGameResponse>;
-  order?: "date" | "critics";
+  inPlaylist: string[];
+  playlistQuery: UseQueryResult<SimplePlaylist>;
 }
 
-const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
-  const sortedGames = useMemo(() => {
-    if (!gamesQuery.data?.results) return [];
-
-    const games = [...gamesQuery.data.results];
-
-    if (order === "date") {
-      return games.sort(
-        (a, b) =>
-          new Date(b.released ?? "").getTime() -
-          new Date(a.released ?? "").getTime()
-      );
-    } else if (order === "critics") {
-      return games.sort(
-        (a, b) => (b.mt_rating_user ?? 0) - (a.mt_rating_user ?? 0)
-      );
-    }
-
-    return games;
-  }, [gamesQuery.data, order]);
+const GamesScroll = ({ title, gamesQuery, inPlaylist}: GamesScrollerProps) => {
+  const isListed = useCallback((gameId: string) => {
+    return inPlaylist.includes(gameId);
+  }, [inPlaylist]);
 
   return (
     <View>
@@ -62,10 +48,15 @@ const GamesScroll = ({ title, gamesQuery, order }: GamesScrollerProps) => {
           mt.p(4),
           mt.pt(0)
         ]}
-        data={sortedGames}
+        data={gamesQuery.data?.results || []}
         keyExtractor={(item) => item.external_id.toString()}
         renderItem={({ item }) => {
-          return <GamePreview game={item} title={item.name} key={item.external_id}/>
+          return <GamePreview game={item} title={item.name} key={item.external_id}
+
+            isListed={isListed(item._id) || isListed(item.external_id.toString())}
+          
+
+          />
         }}
         ListHeaderComponent={gamesQuery.isPending ? <Loader />: null}
       />
