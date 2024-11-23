@@ -115,18 +115,6 @@ export function ScrollSelector({
             </Pressable>
           )}
         </View>
-        {/* clear pressable */}
-        <Pressable
-          onPress={() => {
-            setSelectedItems([])
-            setViewAll(false)
-          }}
-          style={[mt.flexRow, mt.justify("center"), mt.items("center")]}
-        >
-          <Text style={[mt.fontWeight("bold"), mt.color("red", 600)]}>
-            Clear
-          </Text>
-        </Pressable>
       </View>
     </View>
   );

@@ -222,11 +222,18 @@ const mt = {
   maxW: (value: Pixels) => ({
     maxWidth: s.pixels[value],
   }),
+  minW: (value: Pixels) => ({
+    minWidth: s.pixels[value],
+  }),
+
   pxw: (value: number) => ({
     width: value,
   }),
   h: (value: Pixels) => ({
     height: s.pixels[value],
+  }),
+  minH: (value: Pixels) => ({
+    minHeight: s.pixels[value],
   }),
   maxH: (value: Pixels) => ({
     maxHeight: s.pixels[value],

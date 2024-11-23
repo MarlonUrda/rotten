@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Text } from "@/components/ui/text";
 import { GamePreview } from "@/components/app/GamePreview";
 import { SimpleInput } from "@/components/forms/formsUtils/SimpleInput";
@@ -6,19 +6,28 @@ import { Button } from "@/components/ui/button";
 import { SimpleNavbar } from "@/components/app/simpleNavbar";
 import mt from "@/styles/mtWind";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { GamesController } from "@/api/controllers/GamesController";
 import { FlatList } from "react-native";
 import Loader from "@/components/ui/loader";
-import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
+import Animated, { ZoomIn, ZoomOut, LinearTransition, SlideInLeft, SlideOutRight, SlideOutLeft } from "react-native-reanimated";
 import { SearchFilterSheet } from "@/components/app/searchFilterSheet";
 import { SearchGameQuery } from "@/types/api/games/getGameRequest";
 import { SheetManager } from "react-native-actions-sheet";
 import { removeRawgDuplicates } from "@/hooks/removeRawgDuplicates";
+import { useDebouncedInput } from "./useDebouncedInput";
+import { platforms } from "@/components/util/statics/platforms";
+import { genres } from "@/components/util/statics/genres";
+import { FlashList } from "@shopify/flash-list";
 
 export default function Screen() {
   const [searchQuery, setSearchQuery] = useState<SearchGameQuery>({});
+  const [debouncedText, text, setDebouncedText] = useDebouncedInput("", 500);
+
+  useEffect(() => {
+    setSearchQuery((prev) => ({ ...prev, query: debouncedText }));
+  }, [debouncedText]);
 
   const showFilterSheet = async () => {
     const newFilters = await SheetManager.show("searchFilterSheet", {
@@ -38,14 +47,6 @@ export default function Screen() {
     queryKey: ["games", { searchQuery }],
     queryFn: async ({ pageParam }) => {
       console.log("searchQuery", searchQuery);
-
-      if (!canSearch) {
-        return {
-          results: [],
-          count: 0,
-          next: undefined,
-        };
-      }
 
       const response = await GamesController.searchGames({
         ...searchQuery,
@@ -71,7 +72,7 @@ export default function Screen() {
       external_page: 0,
     },
 
-    enabled: false,
+    enabled: true,
   });
 
   const items = useMemo(() => {
@@ -82,20 +83,8 @@ export default function Screen() {
     );
   }, [searchInfiniteQuery.data]);
 
-  const canSearch = useMemo(() => {
-    return (
-      ((searchQuery.query?.length ?? 0) > 3 &&
-        (searchQuery.query?.length ?? 0) < 100) ||
-      Object.keys(searchQuery).some(
-        (key) =>
-          key !== "query" &&
-          searchQuery[key as keyof SearchGameQuery] !== undefined
-      )
-    );
-  }, [searchQuery.query]);
-
   return (
-    <View
+    <Animated.View layout={LinearTransition}
       style={[
         mt.flex1,
         mt.justify("flex-start"),
@@ -105,8 +94,8 @@ export default function Screen() {
       ]}
     >
       <SimpleNavbar />
-      <View style={[mt.p(4), mt.flexCol, mt.flex1, mt.gap(4), mt.w("full")]}>
-        <View
+      <Animated.View layout={LinearTransition} style={[mt.p(4), mt.flexCol, mt.flex1, mt.gap(4), mt.w("full")]}>
+        <Animated.View layout={LinearTransition}
           style={[
             mt.flexCol,
             mt.gap(2),
@@ -115,7 +104,7 @@ export default function Screen() {
             mt.items("center"),
           ]}
         >
-          <View
+          <Animated.View layout={LinearTransition}
             style={[
               mt.flexRow,
               mt.items("center"),
@@ -128,38 +117,37 @@ export default function Screen() {
             <SimpleInput
               placeholder="Search for games"
               inputStyle={[mt.w(56)]}
-              onChangeText={(text) => {
-                setSearchQuery((prev) => ({ ...prev, query: text }));
-              }}
-              value={searchQuery.query ?? ""}
+              value={text}
+              onChangeText={setDebouncedText}
             />
             <Button
               onPress={() => {
                 searchInfiniteQuery.refetch();
               }}
-              disabled={!canSearch}
             >
               <MaterialCommunityIcons name="magnify" size={24} color="black" />
             </Button>
             <Button onPress={showFilterSheet}>
               <MaterialCommunityIcons name="filter" size={24} color="black" />
             </Button>
-          </View>
+          </Animated.View>
           <QueryText query={searchQuery} />
-        </View>
+        </Animated.View>
 
-        <View style={[mt.flex1, mt.w("full"), mt.borderTop(2)]}>
+        <Animated.View layout={LinearTransition} style={[mt.flex1, mt.w("full"), mt.borderTop(2)]}>
           {searchInfiniteQuery.isLoading && (
             <Animated.View
+              layout={LinearTransition}
               entering={ZoomIn}
               exiting={ZoomOut}
               style={[mt.flex1, mt.justify("center"), mt.items("center")]}
             >
-              <Loader />
+              <Loader size="large" />
             </Animated.View>
           )}
           {searchInfiniteQuery.isError && (
             <Animated.View
+              layout={LinearTransition}
               entering={ZoomIn}
               exiting={ZoomOut}
               style={[mt.flex1, mt.justify("center"), mt.items("center")]}
@@ -171,6 +159,7 @@ export default function Screen() {
           )}
           {searchInfiniteQuery.isSuccess && items.length === 0 && (
             <Animated.View
+              layout={LinearTransition}
               entering={ZoomIn}
               exiting={ZoomOut}
               style={[mt.flex1, mt.justify("center"), mt.items("center")]}
@@ -180,6 +169,7 @@ export default function Screen() {
           )}
           {searchInfiniteQuery.isSuccess && items.length > 0 && (
             <Animated.View
+              layout={LinearTransition}
               entering={ZoomIn}
               exiting={ZoomOut}
               style={[
@@ -205,18 +195,19 @@ export default function Screen() {
               />
             </Animated.View>
           )}
-        </View>
-      </View>
-    </View>
+        </Animated.View>
+      </Animated.View>
+    </Animated.View>
   );
 }
 
 function QueryText({ query }: { query: SearchGameQuery }) {
   // show the query (minus the query.query) so the user can see what filters are applied
+  const [viewQuery, setViewQuery] = useState(false)
   return (
-    <View
+    <Animated.View layout={LinearTransition}
       style={[
-        mt.flexRow,
+        mt.flexCol,
         mt.flexWrap,
         mt.gap(2),
         mt.items("flex-start"),
@@ -224,26 +215,63 @@ function QueryText({ query }: { query: SearchGameQuery }) {
         mt.w("full"),
       ]}
     >
-      <Text style={[mt.fontWeight("bold"), mt.color("black")]}>
-        {Object.keys(query).length > 1 ? "Filters:" : "No filters applied"}
-      </Text>
-      {Object.keys(query).map((key) => {
-        if (key === "query") {
-          return null;
-        }
-        if (query[key as keyof SearchGameQuery] === undefined) {
-          return null;
-        }
-
-        return (
-          <Text key={key}>
-            <Text style={[mt.fontWeight("bold"), mt.color("black")]}>
-              {key.toLocaleUpperCase()}
+      <TouchableOpacity>
+        <Text
+          style={[
+            mt.fontWeight("bold"),
+            mt.color("black"),
+            mt.color(viewQuery ? "blue" : "red", 600),
+          ]}
+          onPress={() => setViewQuery((prev) => !prev)}
+        >
+          {viewQuery ? "Hide query" : "Show query"}
+        </Text>
+      </TouchableOpacity>
+      {viewQuery && 
+      <Animated.View layout={LinearTransition} entering={SlideInLeft} exiting={SlideOutLeft}>
+        {query.year && (
+          <Animated.View layout={LinearTransition} entering={SlideInLeft} exiting={SlideOutLeft}>
+            <Text>Year: {query.year}</Text>
+          </Animated.View>
+        )}
+        {(query.minYear || query.maxYear) && (
+          <Animated.View layout={LinearTransition} entering={SlideInLeft} exiting={SlideOutLeft}>
+            <Text>Year range: {query.minYear ?? "1975"} - {query.maxYear ?? "now"}</Text>
+          </Animated.View>
+        )}
+        {query.platforms && (
+          <Animated.View layout={LinearTransition} entering={SlideInLeft} exiting={SlideOutLeft}>
+            <Text>
+              Platforms: {query.platforms.split(",").map((platform) => platforms.find((p) => p.id === parseInt(platform))?.name).join(", ")}
             </Text>
-            : {query[key as keyof SearchGameQuery]}
-          </Text>
-        );
-      })}
-    </View>
+          </Animated.View>
+        )}
+        {query.genres && (
+          <Animated.View layout={LinearTransition} entering={SlideInLeft} exiting={SlideOutLeft}>
+            <Text>
+              Genres: {query.genres.split(",").map((genre) => genres.find((g) => g.id === parseInt(genre))?.name).join(", ")}
+            </Text>
+          </Animated.View>
+        )}
+        {(query.minRating || query.maxRating) && (
+          <Animated.View layout={LinearTransition} entering={SlideInLeft} exiting={SlideOutLeft}>
+            <Text>Rating: {query.minRating ?? 0} - {query.maxRating ?? 5}</Text>
+          </Animated.View>
+        )}
+        {(query.minCriticsRating || query.maxCriticsRating) && (
+          <Animated.View layout={LinearTransition} entering={SlideInLeft} exiting={SlideOutLeft}>
+            <Text>Critics rating: {query.minCriticsRating ?? 0} - {query.maxCriticsRating ?? 5}</Text>
+          </Animated.View>
+        )}
+      </Animated.View>
+      }
+    </Animated.View>
   );
+}
+
+const queryText = {
+  minRating: "Min rating",
+  maxRating: "Max rating",
+  criticsRating: "Critics rating",
+
 }

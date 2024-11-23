@@ -19,8 +19,25 @@ export const searchGameSchema = z.object({
   maxYear: z.number().optional(),
   minRating: z.number().min(0).max(5).optional(),
   maxRating: z.number().min(0).max(5).optional(),
+  minCriticsRating: z
+    .number({
+      coerce: true,
+    })
+    .min(0)
+    .max(5)
+    .optional(),
+  maxCriticsRating: z
+    .number({
+      coerce: true,
+    })
+    .min(0)
+    .max(5)
+    .optional(),
 });
 
 export type SearchGamesRequest = z.infer<typeof searchGameSchema>;
 
-export type SearchGameQuery = Omit<z.infer<typeof searchGameSchema>, "page" | "external_page">;
+export type SearchGameQuery = Omit<
+  z.infer<typeof searchGameSchema>,
+  "page" | "external_page"
+>;

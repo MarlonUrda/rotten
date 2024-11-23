@@ -2,7 +2,7 @@ import ActionSheet, { SheetManager } from "react-native-actions-sheet";
 import { Picker } from "@react-native-picker/picker";
 import s from "@/styles/styleValues";
 import { View, Dimensions } from "react-native";
-import mt from "@/styles/mtWind";
+import mt, { MTTypes } from "@/styles/mtWind";
 import React, { useEffect, useRef, useState } from "react";
 import { SearchGameQuery } from "@/types/api/games/getGameRequest";
 import { Text } from "../ui/text";
@@ -28,13 +28,15 @@ interface SearchFilterSheetProps {
 
 export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
   const { height } = Dimensions.get("window");
-  const { year, minYear, maxYear } = payload;
-  const [selectedYear, setSelectedYear] = useState<number | undefined>(year);
+
+  const [selectedYear, setSelectedYear] = useState<number | undefined>(
+    payload.year
+  );
   const [selectedMinYear, setSelectedMinYear] = useState<number | undefined>(
-    minYear
+    payload.minYear
   );
   const [selectedMaxYear, setSelectedMaxYear] = useState<number | undefined>(
-    maxYear
+    payload.maxYear
   );
   const [selectedPlatforms, setSelectedPlatforms] = useState<
     (number | string)[]
@@ -49,8 +51,36 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
   const [maxRating, setMaxRating] = useState<number | undefined>(
     payload.maxRating
   );
+  const [minCriticsRating, setMinCriticsRating] = useState<number | undefined>(
+    payload.minCriticsRating
+  );
+  const [maxCriticsRating, setMaxCriticsRating] = useState<number | undefined>(
+    payload.maxCriticsRating
+  );
 
   const [yearType, setYearType] = useState<"year" | "range">("year");
+
+  const handleClose = () => {
+    payload.year = yearType === "year" ? selectedYear : undefined;
+    payload.minYear = yearType === "range" ? selectedMinYear : undefined;
+    payload.maxYear = yearType === "range" ? selectedMaxYear : undefined;
+    payload.platforms =
+      selectedPlatforms.length > 0 ? selectedPlatforms.join(",") : undefined;
+    payload.genres =
+      selectedGenres.length > 0 ? selectedGenres.join(",") : undefined;
+    payload.minRating = minRating;
+    payload.maxRating = maxRating;
+    payload.minCriticsRating = minCriticsRating;
+    payload.maxCriticsRating = maxCriticsRating;
+
+    SheetManager.hide("searchFilterSheet", {
+      payload: {
+        filters: payload,
+        clear: false,
+      },
+    });
+  };
+
   return (
     <ActionSheet
       containerStyle={{
@@ -89,7 +119,15 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
               mt.gap(2),
             ]}
           >
-            <Title title="Release year" color="purple"></Title>
+            <TitleWithClearButton
+              clearValue={() => {
+                setSelectedYear(undefined);
+                setSelectedMinYear(undefined);
+                setSelectedMaxYear(undefined);
+              }}
+              title="Year"
+              color="purple"
+            ></TitleWithClearButton>
             <HorizontalTabs tabHeight={24}>
               <Tab
                 name="Year"
@@ -152,7 +190,11 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
               mt.gap(2),
             ]}
           >
-            <Title title="Platforms" color="red"></Title>
+            <TitleWithClearButton
+              clearValue={() => setSelectedPlatforms([])}
+              title="Platforms"
+              color="red"
+            ></TitleWithClearButton>
             <View
               style={[
                 mt.flexRow,
@@ -177,7 +219,11 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
               mt.gap(2),
             ]}
           >
-            <Title title="Genres" color="blue"></Title>
+            <TitleWithClearButton
+              clearValue={() => setSelectedGenres([])}
+              title="Genres"
+              color="blue"
+            ></TitleWithClearButton>
             <View
               style={[
                 mt.flexRow,
@@ -202,7 +248,14 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
               mt.gap(2),
             ]}
           >
-            <Title title="Rating" color="green"></Title>
+            <TitleWithClearButton
+              clearValue={() => {
+                setMinRating(undefined);
+                setMaxRating(undefined);
+              }}
+              title="User Rating"
+              color="green"
+            ></TitleWithClearButton>
             <RatingSelector
               minRating={minRating}
               maxRating={maxRating}
@@ -210,8 +263,40 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
               setMaxRating={setMaxRating}
             />
           </View>
+          {/* critic rating filter */}
+          <View
+            style={[
+              mt.flexCol,
+              mt.justify("flex-start"),
+              mt.items("flex-start"),
+              mt.gap(2),
+            ]}
+          >
+            <TitleWithClearButton
+              clearValue={() => {
+                setMinCriticsRating(undefined);
+                setMaxCriticsRating(undefined);
+              }}
+              title="Critic Rating"
+              color="yellow"
+            ></TitleWithClearButton>
+            <RatingSelector
+              minRating={minCriticsRating}
+              maxRating={maxCriticsRating}
+              setMinRating={setMinCriticsRating}
+              setMaxRating={setMaxCriticsRating}
+            />
+          </View>
         </View>
-        <View style={[mt.w("full"), mt.flexRow, mt.items("flex-end"), mt.justify("flex-end"), mt.gap(2)]}>
+        <View
+          style={[
+            mt.w("full"),
+            mt.flexRow,
+            mt.items("flex-end"),
+            mt.justify("flex-end"),
+            mt.gap(2),
+          ]}
+        >
           <Button
             variant="error"
             onPress={() => {
@@ -223,34 +308,9 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
               });
             }}
           >
-            <Text>Clear</Text>
+            <Text>Clear All</Text>
           </Button>
-          <Button
-            onPress={() => {
-              payload.year = yearType === "year" ? selectedYear : undefined;
-              payload.minYear =
-                yearType === "range" ? selectedMinYear : undefined;
-              payload.maxYear =
-                yearType === "range" ? selectedMaxYear : undefined;
-              payload.platforms =
-                selectedPlatforms.length > 0
-                  ? selectedPlatforms.join(",")
-                  : undefined;
-              payload.genres =
-                selectedGenres.length > 0
-                  ? selectedGenres.join(",")
-                  : undefined;
-              payload.minRating = minRating;
-              payload.maxRating = maxRating;
-
-              SheetManager.hide("searchFilterSheet", {
-                payload: {
-                  filters: payload,
-                  clear: false,
-                },
-              });
-            }}
-          >
+          <Button onPress={handleClose}>
             <Text>Apply</Text>
           </Button>
         </View>
@@ -259,67 +319,89 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
   );
 }
 
-function RatingSelector({ minRating, maxRating, setMinRating, setMaxRating }: { minRating: number | undefined; maxRating: number | undefined; setMinRating: React.Dispatch<React.SetStateAction<number | undefined>>; setMaxRating: React.Dispatch<React.SetStateAction<number | undefined>>; }) {
-  return <View
-    style={[
-      mt.flexCol,
-      mt.gap(2),
-      mt.justify("flex-start"),
-      mt.items("flex-start"),
-    ]}>
+function TitleWithClearButton({
+  clearValue,
+  title,
+  color,
+}: {
+  clearValue: () => void;
+  title: string;
+  color: MTTypes["Color"];
+}) {
+  return (
+    <View style={[mt.flexRow, mt.justify("space-between"), mt.w("full")]}>
+      <Title title={title} color={color}></Title>
+      <FlatButton onPress={clearValue} variant="error">
+        <Text>Clear</Text>
+      </FlatButton>
+    </View>
+  );
+}
+
+function RatingSelector({
+  minRating,
+  maxRating,
+  setMinRating,
+  setMaxRating,
+}: {
+  minRating: number | undefined;
+  maxRating: number | undefined;
+  setMinRating: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setMaxRating: React.Dispatch<React.SetStateAction<number | undefined>>;
+}) {
+  return (
     <View
       style={[
-        mt.flexRow,
+        mt.flexCol,
         mt.gap(2),
-        mt.justify("center"),
-        mt.items("center"),
-        mt.w("full"),
+        mt.justify("flex-start"),
+        mt.items("flex-start"),
       ]}
     >
-      <GameRating
-        rating={minRating ?? 0}
-        onChange={(rating) => {
-          if (maxRating === undefined) {
+      <View
+        style={[
+          mt.flexRow,
+          mt.gap(2),
+          mt.justify("center"),
+          mt.items("center"),
+          mt.w("full"),
+        ]}
+      >
+        <GameRating
+          rating={minRating ?? 0}
+          onChange={(rating) => {
+            if (maxRating === undefined) {
+              setMinRating(rating);
+              return;
+            }
+            if (rating > maxRating) {
+              setMinRating(rating);
+              setMaxRating(rating);
+              return;
+            }
             setMinRating(rating);
-            return;
-          }
-          if (rating > (maxRating)) {
-            setMinRating(rating);
-            setMaxRating(rating);
-            return;
-          }
-          setMinRating(rating);
-        } } />
+          }}
+        />
 
-      <Text>-</Text>
-      <GameRating
-        rating={maxRating ?? 0}
-        onChange={(rating) => {
-          if (minRating === undefined) {
+        <Text>-</Text>
+        <GameRating
+          rating={maxRating ?? 0}
+          onChange={(rating) => {
+            if (minRating === undefined) {
+              setMaxRating(rating);
+              return;
+            }
+            if (rating < minRating) {
+              setMinRating(rating);
+              setMaxRating(rating);
+              return;
+            }
             setMaxRating(rating);
-            return;
-          }
-          if (rating < (minRating)) {
-            setMinRating(rating);
-            setMaxRating(rating);
-            return;
-          }
-          setMaxRating(rating);
-
-        } } />
+          }}
+        />
+      </View>
     </View>
-
-    <FlatButton
-      onPress={() => {
-        setMinRating(undefined);
-        setMaxRating(undefined);
-      } }
-      variant="error"
-    >
-      <Text>Clear</Text>
-    </FlatButton>
-
-  </View>;
+  );
 }
 
 function MTPicker<T extends number | undefined>({
@@ -374,5 +456,3 @@ function MTPicker<T extends number | undefined>({
     </View>
   );
 }
-
-

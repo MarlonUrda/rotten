@@ -144,9 +144,11 @@ export function GameInfo({ game, reviews }: GameInfoProps) {
           ]}
         >
           <Title title={"Synopsis"} color="purple"></Title>
-          <View style={[mt.border(2), mt.p(2)]}>
+          <View style={[mt.border(2), mt.p(2), mt.w("full")]}>
             <Text weight="bold">
-              <Text>{description}</Text>
+              <Text>{description ??
+                "No description available for this game."
+                }</Text>
             </Text>
           </View>
         </Animated.View>
