@@ -10,7 +10,6 @@ import React, { useMemo } from "react";
 import { router } from "expo-router";
 import type { GamePreviewType } from "@/types/api/games/gamePreview";
 import { ESRBChip } from "./ESRBChip";
-import { HoldItem } from "react-native-hold-menu";
 
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useMutatePlaylist } from "@/hooks/usePlaylistMutations";
@@ -341,17 +340,4 @@ function Scores({
   );
 }
 
-const MenuItems = [
-  { text: "Actions", icon: "home", isTitle: true, onPress: () => {} },
-  { text: "Action 1", icon: "edit", onPress: () => {} },
-  { text: "Action 2", icon: "map-pin", withSeparator: true, onPress: () => {} },
-  { text: "Action 3", icon: "trash", isDestructive: true, onPress: () => {} },
-];
 
-export function HoldGamePreview({ title, game }: GamePreviewProps) {
-  return (
-    <HoldItem items={MenuItems}>
-      <GamePreview title={title} game={game} />
-    </HoldItem>
-  );
-}

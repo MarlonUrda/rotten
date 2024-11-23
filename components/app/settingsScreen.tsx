@@ -5,7 +5,6 @@ import UserController from '@/api/controllers/UserController'
 import { Shadow } from 'react-native-shadow-2'
 import mt from '@/styles/mtWind'
 import s from '@/styles/styleValues'
-import { CircleUserRound } from 'lucide-react-native'
 import { useAtom, useSetAtom } from 'jotai'
 import { userAtom } from '@/utils/atoms/userAtom'
 import { UserActions } from '@/components/app/userActionsProfile'
@@ -14,6 +13,9 @@ import AuthController from '@/api/controllers/AuthController'
 import { router } from 'expo-router'
 import myToast from '../toast'
 import { SheetManager } from 'react-native-actions-sheet'
+import { Image } from 'react-native'
+
+const smiley5 = require("../../assets/images/smiley/5.png")
 
 export default function SettingScreen() {
   const [currentUser] = useAtom(userAtom)
@@ -41,7 +43,10 @@ export default function SettingScreen() {
           <Text size="2xl" weight='bold' style={[mt.align("center")]}>
             Profile
           </Text>
-          <CircleUserRound size={70} style={[mt.border(4)]} color={"#000"}/>
+          <Image
+            source={smiley5}
+            style={[mt.w(20), mt.h(20)]}
+          ></Image>
           <Text size='lg' weight='bold'>
             {currentUser?.firstName + ' ' + currentUser?.lastName}
           </Text>

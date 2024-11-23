@@ -3,10 +3,10 @@ import ActionSheet, {
   SheetManager,
 } from "react-native-actions-sheet";
 import { View, Dimensions, Pressable } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import ReviewList from "./reviewList";
 import mt from "@/styles/mtWind";
 import { Button } from "../../ui/button";
-import { X } from "lucide-react-native";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { RefObject, useEffect, useMemo, useRef } from "react";
 import { EmptyCommentsSplash } from "../emptyComentariesSplash";
@@ -55,6 +55,7 @@ export function ReviewSheet({ payload, ref }: ReviewSheetProps) {
 
   return (
     <ActionSheet
+      isModal={false}
       ref={ref}
       onClose={() => SheetManager.hide("reviewInputSheet")}
       zIndex={9990}
@@ -86,9 +87,9 @@ export function ReviewSheet({ payload, ref }: ReviewSheetProps) {
         >
           <Title title="Reviews" color="red" size="2xl" shadow />
 
-          <Button onPress={closeSheet} variant="error">
-            <X size={24} color="#000" />
-          </Button>
+            <Button onPress={closeSheet} variant="error">
+            <MaterialCommunityIcons name="close" size={24} color="#000" />
+            </Button>
         </View>
         <View style={[mt.flexCol, mt.flex1, mt.w("full")]}>
           {commentQueryResult.isLoading && <Loader />}
@@ -137,6 +138,7 @@ export function ReviewInputSheet({
   const { gameId, reviewId, oldContent, oldRating } = payload;
   return (
     <ActionSheet
+      isModal={false}
       ref={ref}
       zIndex={9996}
       containerStyle={{

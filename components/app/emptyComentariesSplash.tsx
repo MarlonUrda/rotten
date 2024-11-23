@@ -1,8 +1,6 @@
 import { View, ScrollView, RefreshControl } from "react-native";
 import { Text } from "../ui/text";
-import { Cat } from "lucide-react-native";
 import { Shadow } from "react-native-shadow-2";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import mt from "@/styles/mtWind";
 import s from "@/styles/styleValues";
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";

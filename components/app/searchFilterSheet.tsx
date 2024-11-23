@@ -83,6 +83,7 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
 
   return (
     <ActionSheet
+      isModal={false}
       containerStyle={{
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
@@ -101,10 +102,10 @@ export function SearchFilterSheet({ payload }: SearchFilterSheetProps) {
           mt.gap(4),
         ]}
       >
-        <Title title="Manage Filters" color="white" size="xl" />
+
         <View
           style={[
-            mt.flex1,
+            // mt.flex1,
             mt.flexCol,
             mt.justify("flex-start"),
             mt.items("flex-start"),

@@ -1,5 +1,5 @@
 import mt from "@/styles/mtWind";
-import { Pressable, TouchableOpacity, View } from "react-native";
+import { Pressable, ScrollView, TouchableOpacity, View } from "react-native";
 import { Image, Dimensions } from "react-native";
 import { Text } from "../ui/text";
 import { GameDetails } from "@/types/api/games/gameDetails";
@@ -14,7 +14,7 @@ import { GamesController } from "@/api/controllers/GamesController";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import Carousel from "react-native-reanimated-carousel";
 import Loader from "../ui/loader";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import s from "@/styles/styleValues";
 import { Title } from "../ui/Title";
 import { GameRatingDisplay } from "./gameRating";
@@ -24,6 +24,7 @@ import { Button } from "../ui/button";
 import { Review } from "@/types/Review";
 import { Shadow } from "react-native-shadow-2";
 import { GetGameScreenshotsResponse } from "@/types/api/games/gameScreenshots";
+import { FlatList } from "react-native";
 
 interface GameInfoProps {
   game: GameDetails;
@@ -187,8 +188,8 @@ function ImageFrame({ image }: { image: string }) {
   return (
     <View
       style={[
-        mt.w(80),
-        mt.h(72),
+        mt.w(72),
+        mt.h(64),
         mt.border(4),
         mt.p(4),
         mt.backgroundColor("white"),
@@ -241,7 +242,7 @@ function ImageCarousel({
           entering={SlideInLeft}
           exiting={SlideOutRight}
         >
-          <Carousel
+          {/* <Carousel
             loop
             width={width - 32}
             height={s.pixels[72]}
@@ -256,6 +257,15 @@ function ImageCarousel({
               stackInterval: 10,
             }}
             customConfig={() => ({ type: "positive", viewCount: 3 })}
+            renderItem={({ item }) => <ImageFrame image={item.image} />}
+          /> */}
+          {/* simple scrollView */}
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={gameScreenshotsQuery.data.results}
+            contentContainerStyle={[mt.p(2), mt.gap(2)]}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => <ImageFrame image={item.image} />}
           />
         </Animated.View>

@@ -9,7 +9,7 @@ export function SimpleNavbar() {
 
   return (
     <View
-      style={[mt.w("full"), mt.mt(10), mt.flexRow, mt.justify("space-between"), mt.px(4)]}
+      style={[mt.w("full"), mt.flexRow, mt.justify("space-between"), mt.px(4)]}
     >
       {/* go back button */}
       <Button onPress={() => router.back()} variant="error">

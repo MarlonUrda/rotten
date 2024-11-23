@@ -9,7 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import UserController from "@/api/controllers/UserController";
 import myToast from "../toast";
 import { router } from "expo-router";
-import { CircleMinus } from "lucide-react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import s from "@/styles/styleValues";
 
 export default function DeleteAccountSheet(){
   const [currentUser, setUser] = useAtom(userAtom)
@@ -35,36 +36,51 @@ export default function DeleteAccountSheet(){
     <ActionSheet
       gestureEnabled
       containerStyle={{
-        position: "relative",
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderTopWidth: s.borderWidth[4],
       }}
+      isModal={false}
     >
       <View style={[mt.p(8), mt.pt(0), mt.w("full")]}>
-        <View style={[mt.flexCol, mt.gap(4), mt.p(4), mt.items("center"), mt.w("full")]}>
+        <View
+          style={[
+            mt.flexCol,
+            mt.gap(4),
+            mt.p(4),
+            mt.items("center"),
+            mt.w("full"),
+          ]}
+        >
           <Text size="2xl" weight="bold" style={[mt.align("center")]}>
             Delete Account
           </Text>
-          <Text size="md" style={[mt.align("center"), mt.mt(4), mt.border(2), mt.p(4)]}>
-            Are you sure you want to delete your account? 
-            This action cannot be undone. This will delete 
-            all your data and you will not be able to recover it.
+          <Text
+            size="md"
+            style={[mt.align("center"), mt.mt(4), mt.border(2), mt.p(4)]}
+          >
+            Are you sure you want to delete your account? This action cannot be
+            undone. This will delete all your data and you will not be able to
+            recover it.
           </Text>
           <Button variant="error" onPress={deleteAccount}>
             {deleteUserMutation.isPending ? (
-              <ActivityIndicator color={"#000"} size={"small"}/>
-            ): (
-              <View style={[mt.flexRow, mt.gap(2)]}>
-                <CircleMinus color={"#000"}/>
+              <ActivityIndicator color={"#000"} size={"small"} />
+            ) : (
+                <View style={[mt.flexRow, mt.gap(2)]}>
+                <MaterialCommunityIcons name="account-remove" color={"#000"} size={20} />
                 <Text>Delete Account</Text>
-              </View>
+                </View>
             )}
           </Button>
-          <Button variant="secondary" onPress={() => SheetManager.hide("deleteUser")}>
-            <Text>
-              Cancel
-            </Text>
+          <Button
+            variant="secondary"
+            onPress={() => SheetManager.hide("deleteUser")}
+          >
+            <Text>Cancel</Text>
           </Button>
         </View>
       </View>
     </ActionSheet>
-  )
+  );
 }

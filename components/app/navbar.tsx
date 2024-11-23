@@ -1,11 +1,8 @@
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { Button } from "../ui/button";
-import { Text } from "../ui/text";
-import { User, UserIcon, UserRound, Search } from "lucide-react-native";
 import mt from "@/styles/mtWind";
 import { useRouter } from "expo-router";
-import { Shadow } from "react-native-shadow-2";
-import { Link } from "expo-router";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export function Navbar(){
 
@@ -15,12 +12,11 @@ export function Navbar(){
         <Button
           onPress={() => router.push("/games/search")}
         >
-          <Search size={24} color={"#000"}/>
+          <MaterialCommunityIcons name="magnify" size={24} color={"#000"} />
         </Button>
         <Button variant="success" onPress={() => router.push("/profile")}>
         <View style={[mt.flexRow, mt.gap(2)]}>
-          <User color={"#000"}/>
-          <Text>Profile</Text>
+          <MaterialCommunityIcons name="account" size={24} color={"#000"} />
         </View>
       </Button>
     </View>

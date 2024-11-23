@@ -39,7 +39,7 @@ export default function Index() {
     >
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={[mt.pt(12), mt.p(2)]}>
+        <View style={[mt.p(2)]}>
           <Navbar />
           <GamesScroll
             title="Popular Games"

@@ -52,7 +52,7 @@ export function useMutatePlaylist() {
       await PlaylistController.removeFromPlaylist(user._id, gameId);
     },
     onSuccess: () => {
-      myToast({ type: "success", message: "Juego eliminado de la lista!" });
+      myToast({ type: "success", message: "Removed game from playlist!" });
     },
     onSettled: () => {
       queryClient.invalidateQueries({

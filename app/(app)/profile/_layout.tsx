@@ -15,7 +15,7 @@ export default function Profile() {
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: "yellow" },
+          contentStyle: { backgroundColor: "transparent" },
           animation: "default"
         }}
       ></Stack>

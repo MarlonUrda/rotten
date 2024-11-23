@@ -8,7 +8,7 @@ export default function PlaylistLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: "white" },
+          contentStyle: { backgroundColor: "transparent" },
           animation: "slide_from_right"
         }}
       ></Stack>

@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import { Button } from "../../ui/button";
-import { SendHorizontal } from "lucide-react-native";
 import mt from "@/styles/mtWind";
 import {
   SimpleInput,
@@ -11,6 +10,7 @@ import { GameRating, GameRatingDisplay } from "../gameRating";
 import { useReviewEditor } from "@/hooks/app/useReview";
 import { SheetManager } from "react-native-actions-sheet";
 import { TextInput } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 interface CommentInputProps {
   gameId: string;
@@ -85,7 +85,7 @@ export function ReviewInput({
           onPress={submitComment}
           loading={reviewMutation.isPending}
         >
-          <SendHorizontal size={24} color="#000" />
+          <MaterialCommunityIcons name="send" size={24} color="#000" />
         </Button>
       </View>
     </View>
@@ -99,7 +99,7 @@ export function DummyReviewInput() {
       <View style={[mt.flexRow, mt.gap(4), mt.items("center")]}>
         <DummySimpleInput inputStyle={[mt.w(72), mt.h(11)]} />
         <Button variant="primary" onPress={() => {}}>
-          <SendHorizontal size={24} color="#000" />
+          <MaterialCommunityIcons name="send" size={24} color="#000" />
         </Button>
       </View>
     </View>

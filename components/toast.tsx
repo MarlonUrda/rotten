@@ -1,5 +1,5 @@
-import mt from "@/styles/mtWind";
-import { toast } from "sonner-native";
+import Toast from "react-native-root-toast";
+import s from "@/styles/styleValues";
 
 interface ToastProps {
   type: "success" | "error" | "info" | "warning";
@@ -11,16 +11,53 @@ const myToast = ({ type, message }: ToastProps) => {
 
   switch (type) {
     case "success":
-      return toast.success(message, toastOptions);
+      return toast.success(message);
     case "error":
-      return toast.error(message, toastOptions);
+      return toast.error(message);
     case "info":
-      return toast.info(message, toastOptions);
+      return toast.info(message);
     case "warning":
-      return toast.warning(message, toastOptions);
+      return toast.warning(message);
     default:
-      return toast(message, toastOptions);
+      return toast.info(message);
   }
 };
+
+const toastOptions = {
+      textColor: "#000000",
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.TOP,
+      opacity: 1
+}
+
+
+const toast = {
+  success: (message: string) => {
+    Toast.show(message, {
+      backgroundColor: s.colors.green[500],
+      ...toastOptions
+    });
+  }
+  ,
+  error: (message: string) => {
+    Toast.show(message, {
+      backgroundColor: s.colors.red[500],
+      ...toastOptions
+    });
+  },
+  info: (message: string) => {
+    Toast.show(message, {
+      backgroundColor: s.colors.blue[500],
+      ...toastOptions
+    });
+  },
+  warning: (message: string) => {
+    Toast.show(message, {
+      backgroundColor: s.colors.yellow[500],
+      ...toastOptions
+    });
+  }
+
+}
 
 export default myToast;
