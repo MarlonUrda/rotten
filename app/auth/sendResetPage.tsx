@@ -1,6 +1,7 @@
 import mt, { generic } from "@/styles/mtWind";
 import { View } from "react-native";
 import ResetScreen from "@/components/app/resetScreen";
+import Bg from "@/components/app/Bg";
 
 export default function SendResetPage() {
   
@@ -17,7 +18,9 @@ export default function SendResetPage() {
         ]}
       >
         <ResetScreen />
+        
       </View>
+      <Bg />
     </View>
   );
 }

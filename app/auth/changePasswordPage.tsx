@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import mt from "@/styles/mtWind";
 import ChangeScreen from "@/components/app/changePasswordScreen";
+import Bg from "@/components/app/Bg";
 
 export default function ChangePasswordPage() {
 
@@ -18,6 +19,7 @@ export default function ChangePasswordPage() {
       >
         <ChangeScreen />
       </View>
+      <Bg />
     </View>
   );
 }

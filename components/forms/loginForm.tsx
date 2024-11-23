@@ -75,7 +75,7 @@ export default function LoginForm() {
       <Animated.View layout={LinearTransition} style={mtForm.sideText}>
         <Link
           href={"/auth/sendResetPage"}
-          style={mtForm.text}
+          style={[mtForm.text]}
         >
           Forgot your password?
         </Link>
@@ -96,7 +96,7 @@ export default function LoginForm() {
       <Animated.View layout={LinearTransition} style={mtForm.sideText}>
         <Link
           href={"/auth/registerPage"}
-          style={[mtForm.text]}
+          style={[mtForm.text, mt.fontWeight("black")]}
         >
           Create Account
         </Link>

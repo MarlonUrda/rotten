@@ -3,6 +3,7 @@ import mt from '@/styles/mtWind'
 import SettingScreen from '@/components/app/settingsScreen'
 import { View } from 'react-native'
 import { SimpleNavbar } from '@/components/app/simpleNavbar'
+import Bg from '@/components/app/Bg'
 
 export default function ProfileScreen() {
   
@@ -14,6 +15,7 @@ export default function ProfileScreen() {
       <View style={[mt.flex1, mt.items("center"), mt.justify("center")]}>
         <SettingScreen />
       </View>
+      <Bg />
   </View>
   )
 }

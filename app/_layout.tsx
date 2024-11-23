@@ -25,6 +25,7 @@ import {
 import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import s from "@/styles/styleValues";
+import Bg from "@/components/app/Bg";
 
 const queryClient = new QueryClient();
 
@@ -68,7 +69,9 @@ export default function RootLayout() {
                     backgroundColor: "yellow",
                   },
                 }}
-              ></Stack>
+              >
+              </Stack>
+              <Bg />
               <Toaster richColors position="top-center" />
             </ThemeProvider>
           </SheetProvider>
