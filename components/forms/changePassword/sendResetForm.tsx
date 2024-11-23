@@ -44,7 +44,7 @@ export default function SendResetForm() {
   })
 
   const onSubmit = (data: z.infer<typeof sendResetFormSchema>) => {
-    // sendResetMutation.mutate(data)
+    sendResetMutation.mutate(data)
     console.log(data);
   }
 
